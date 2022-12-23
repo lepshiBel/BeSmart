@@ -14,6 +14,7 @@ namespace BeSmart.Persistence
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public BeSmartDbContext(DbContextOptions<BeSmartDbContext> options) : base(options) { }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new QuestionConfiguration());

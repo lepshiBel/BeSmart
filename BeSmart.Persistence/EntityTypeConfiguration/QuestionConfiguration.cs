@@ -14,7 +14,10 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Question> builder)
         {
             builder.HasKey(a => a.Id);
-            builder.Property(a => a.Text).IsRequired().HasMaxLength(150).HasColumnName("Question_Text");
+            builder.Property(a => a.Text)
+                .IsRequired()
+                .HasMaxLength(150)
+                .HasColumnName("Question_Text");
         }
     }
 }
