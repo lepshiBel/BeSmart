@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeSmart.Domain.Interfaces
 {
-    public interface IRepository<TEntity> where TEntity : class, IEntity
+    public interface IRepository<TEntity> where TEntity : EntityBase
     {
         Task<List<TEntity>> GetAll();
         Task<TEntity> Get(int id);
@@ -14,6 +14,4 @@ namespace BeSmart.Domain.Interfaces
         Task<TEntity> Update(TEntity entity);
         Task<TEntity> Delete(int id);
     }
-
-
 }

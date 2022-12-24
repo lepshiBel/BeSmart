@@ -14,7 +14,7 @@ namespace BeSmart.Persistence.Repositories
         public QuestionRepository(BeSmartDbContext dbContext)
             : base(dbContext)
         {
+
         }
     }
 }
-

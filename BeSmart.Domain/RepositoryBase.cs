@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 namespace BeSmart.Domain
 {
     public abstract class RepositoryBase<TEntity, TContext> : IRepository<TEntity>
-        where TEntity : class, IEntity
+        where TEntity : EntityBase
         where TContext : DbContext
     {
         private readonly TContext context;
+
         public RepositoryBase(TContext context)
         {
             this.context = context;
@@ -34,6 +35,7 @@ namespace BeSmart.Domain
             await context.SaveChangesAsync();
             return entity;
         }
+
         public async Task<TEntity> Update(TEntity entity)
         {
             context.Entry(entity).State = EntityState.Modified;
@@ -55,5 +57,4 @@ namespace BeSmart.Domain
             return entity;
         }
     }
-
 }

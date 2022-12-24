@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeSmart.Domain.Interfaces
 {
-    public interface IEntity
+    public abstract class EntityBase
     {
         public int Id { get; set; }
     }

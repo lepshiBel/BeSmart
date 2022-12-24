@@ -13,7 +13,9 @@ namespace BeSmart.Persistence
     {
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public BeSmartDbContext(DbContextOptions<BeSmartDbContext> options) : base(options) { }
+
+        public BeSmartDbContext(DbContextOptions<BeSmartDbContext> options) 
+            : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -22,5 +24,4 @@ namespace BeSmart.Persistence
             base.OnModelCreating(builder);
         }
     }
-
 }

@@ -26,5 +26,4 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
                 .HasForeignKey(a => a.QuestionId);
         }
     }
-
 }
