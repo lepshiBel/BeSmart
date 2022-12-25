@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeSmart.Domain.Interfaces
+namespace BeSmart.Domain.Models.Base
 {
     public abstract class EntityBase
     {

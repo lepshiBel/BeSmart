@@ -1,4 +1,5 @@
 ﻿using BeSmart.Domain.Interfaces;
+using BeSmart.Domain.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

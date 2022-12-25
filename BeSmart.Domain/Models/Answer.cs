@@ -1,4 +1,4 @@
-﻿using BeSmart.Domain.Interfaces;
+﻿using BeSmart.Domain.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
