@@ -1,19 +1,15 @@
 ﻿using BeSmart.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BeSmart.Persistence.Data;
 
 namespace BeSmart.Persistence.Repositories
 {
     public class RepositoryManager : IRepositoryManager
     {
-        private BeSmartDbContext dbContext;
+        private DataContext dbContext;
         private IQuestionRepository question;
         private IAnswerRepository answer;
 
-        public RepositoryManager(BeSmartDbContext dbContext)
+        public RepositoryManager(DataContext dbContext)
         {
             this.dbContext = dbContext;
         }

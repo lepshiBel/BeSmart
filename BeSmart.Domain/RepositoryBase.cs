@@ -1,11 +1,6 @@
 ﻿using BeSmart.Domain.Interfaces;
-using BeSmart.Domain.Models.Base;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BeSmart.Domain.Models.Base;
 
 namespace BeSmart.Domain
 {
