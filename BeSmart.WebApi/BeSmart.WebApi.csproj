@@ -19,4 +19,8 @@
     <ProjectReference Include="..\BeSmart.Persistence\BeSmart.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
+  </ItemGroup>
+
 </Project>
