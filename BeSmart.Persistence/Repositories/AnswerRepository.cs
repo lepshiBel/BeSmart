@@ -1,17 +1,13 @@
 ﻿using BeSmart.Domain;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BeSmart.Persistence.Data;
 
 namespace BeSmart.Persistence.Repositories
 {
-    public class AnswerRepository : RepositoryBase<Answer, BeSmartDbContext>, IAnswerRepository
+    public class AnswerRepository : RepositoryBase<Answer, DataContext>, IAnswerRepository
     {
-        public AnswerRepository(BeSmartDbContext dbContext)
+        public AnswerRepository(DataContext dbContext)
             : base(dbContext)
         {
 

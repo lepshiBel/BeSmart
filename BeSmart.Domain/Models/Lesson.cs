@@ -1,4 +1,4 @@
-﻿namespace BeSmart.Persistence.Models;
+﻿namespace BeSmart.Domain.Models;
 
 public class Lesson
 {

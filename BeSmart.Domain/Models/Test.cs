@@ -1,4 +1,4 @@
-﻿namespace BeSmart.Persistence.Models;
+﻿namespace BeSmart.Domain.Models;
 
 public class Test
 {
@@ -12,5 +12,5 @@ public class Test
 
     public Theme Theme { get; set; }
 
-    public ICollection<Questsion> Questsions { get; set; }
+    public ICollection<Question> Questsions { get; set; }
 }
