@@ -10,4 +10,8 @@
     <ProjectReference Include="..\BeSmart.Application\BeSmart.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
+  </ItemGroup>
+
 </Project>
