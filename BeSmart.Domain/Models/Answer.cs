@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BeSmart.Domain.Models
 {
-    public class Answer : EntityBase
+    public class Answer : IEntity
     {
         public int Id { get; set; }
         public string Text { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeSmart.Domain.Models.Base
 {
-    public abstract class EntityBase
+    public abstract class IEntity
     {
         public int Id { get; set; }
     }
