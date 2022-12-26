@@ -7,26 +7,26 @@ namespace BeSmart.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BeSmartDbController<TEntity, TRepositoryBase> : ControllerBase
-        where TEntity : IEntity
+    public class BaseController<TEntity, TRepositoryBase> : ControllerBase
+        where TEntity : EntityBase
         where TRepositoryBase : IRepositoryBase<TEntity>
     {
         private readonly TRepositoryBase repository;
-        public BeSmartDbController(TRepositoryBase repository)
+        public BaseController(TRepositoryBase repository)
         {
             this.repository = repository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TEntity>>> Get()
+        public async Task<ActionResult<IEnumerable<TEntity>>> GetAsync()
         {
-            return await repository.GetAll();
+            return await repository.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TEntity>> Get(int id)
+        public async Task<ActionResult<TEntity>> GetAsync(int id)
         {
-            var entity = await repository.Get(id);
+            var entity = await repository.GetAsync(id);
             if (entity == null)
             {
                 return NotFound();
@@ -35,27 +35,27 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<TEntity>> Put(int id, TEntity entity)
+        public async Task<ActionResult<TEntity>> PutAsync(int id, TEntity entity)
         {
             if (id != entity.Id)
             {
                 return BadRequest();
             }
-            await repository.Update(entity);
+            await repository.UpdateAsync(entity);
             return NoContent();
         }
 
         [HttpPost]
-        public async Task<ActionResult<TEntity>> Post(TEntity entity)
+        public async Task<ActionResult<TEntity>> PostAsync(TEntity entity)
         {
-            await repository.Add(entity);
+            await repository.AddAsync(entity);
             return CreatedAtAction("Get", new { id = entity.Id }, entity);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TEntity>> Delete(int id)
+        public async Task<ActionResult<TEntity>> DeleteAsync(int id)
         {
-            var entity = await repository.Delete(id);
+            var entity = await repository.DeleteAsync(id);
             if (entity == null)
             {
                 return NotFound();
@@ -64,3 +64,4 @@ namespace BeSmart.WebApi.Controllers
         }
     }
 }
+

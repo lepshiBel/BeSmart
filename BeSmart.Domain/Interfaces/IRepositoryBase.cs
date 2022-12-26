@@ -7,12 +7,12 @@ using BeSmart.Domain.Models.Base;
 
 namespace BeSmart.Domain.Interfaces
 {
-    public interface IRepositoryBase<TEntity> where TEntity : IEntity
+    public interface IRepositoryBase<TEntity> where TEntity : EntityBase
     {
-        Task<List<TEntity>> GetAll();
-        Task<TEntity> Get(int id);
-        Task<TEntity> Add(TEntity entity);
-        Task<TEntity> Update(TEntity entity);
-        Task<TEntity> Delete(int id);
+        Task<List<TEntity>> GetAllAsync();
+        Task<TEntity> GetAsync(int id);
+        Task<TEntity> AddAsync(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity entity);
+        Task<TEntity> DeleteAsync(int id);
     }
 }

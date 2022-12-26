@@ -7,7 +7,7 @@ namespace BeSmart.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AnswersController : BeSmartDbController<Answer, AnswerRepository>
+    public class AnswersController : BaseController<Answer, AnswerRepository>
     {
         public AnswersController(AnswerRepository repository) : base(repository)
         {    
