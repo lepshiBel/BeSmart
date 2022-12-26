@@ -7,7 +7,7 @@ using BeSmart.Domain.Models.Base;
 
 namespace BeSmart.Domain.Interfaces
 {
-    public interface IRepository<TEntity> where TEntity : EntityBase
+    public interface IRepositoryBase<TEntity> where TEntity : IEntity
     {
         Task<List<TEntity>> GetAll();
         Task<TEntity> Get(int id);

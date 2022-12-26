@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace BeSmart.Domain
 {
-    public abstract class RepositoryBase<TEntity, TContext> : IRepository<TEntity>
-        where TEntity : EntityBase
+    public abstract class RepositoryBase<TEntity, TContext> : IRepositoryBase<TEntity>
+        where TEntity : IEntity
         where TContext : DbContext
     {
         private readonly TContext context;
@@ -22,12 +22,16 @@ namespace BeSmart.Domain
 
         public async Task<TEntity> Get(int id)
         {
-            return await context.Set<TEntity>().FindAsync(id);
+            return await context
+                .Set<TEntity>()
+                .FindAsync(id);
         }
 
         public async Task<List<TEntity>> GetAll()
         {
-            return await context.Set<TEntity>().ToListAsync();
+            return await context
+                .Set<TEntity>()
+                .ToListAsync();
         }
 
         public async Task<TEntity> Add(TEntity entity)
@@ -46,7 +50,10 @@ namespace BeSmart.Domain
 
         public async Task<TEntity> Delete(int id)
         {
-            var entity = await context.Set<TEntity>().FindAsync(id);
+            var entity = await context
+                .Set<TEntity>()
+                .FindAsync(id);
+
             if (entity == null)
             {
                 return entity;
