@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BeSmart.Domain.Interfaces
 {
-    public interface IQuestionRepository : IRepository<Question>
+    public interface IQuestionRepository : IRepositoryBase<Question>
     {
     }
 }
