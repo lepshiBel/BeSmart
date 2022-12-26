@@ -9,7 +9,6 @@ namespace BeSmart.Domain.Models
 {
     public class Answer : IEntity
     {
-        public int Id { get; set; }
         public string Text { get; set; }
         public bool Fidelity { get; set; }
         public Question Question { get; set; }
