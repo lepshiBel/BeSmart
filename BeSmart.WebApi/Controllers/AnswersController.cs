@@ -10,8 +10,7 @@ namespace BeSmart.WebApi.Controllers
     public class AnswersController : BeSmartDbController<Answer, AnswerRepository>
     {
         public AnswersController(AnswerRepository repository) : base(repository)
-        {
-            
+        {    
         }
     }
 }

@@ -10,7 +10,6 @@ namespace BeSmart.WebApi.Controllers
     {
         public QuestionController(QuestionRepository repository) : base(repository)
         {
-
         }
     }
 }
