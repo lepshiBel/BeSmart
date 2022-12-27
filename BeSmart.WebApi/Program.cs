@@ -1,3 +1,5 @@
+using BeSmart.Application.Interfaces;
+using BeSmart.Application.Service;
 using BeSmart.Domain;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Persistence;
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddScoped<IServiceAnswer, AnswerService>();
 
 builder.Services.AddDbContext<BeSmartDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
