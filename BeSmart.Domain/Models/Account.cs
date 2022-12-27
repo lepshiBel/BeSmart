@@ -1,9 +1,9 @@
-﻿namespace BeSmart.Domain.Models;
+﻿using BeSmart.Domain.Models.Base;
 
-public class Account
+namespace BeSmart.Domain.Models;
+
+public class Account : EntityBase
 {
-    public int Id { get; set; }
-
     public string UserName { get; set; }
 
     public string UserEmail { get; set; }

@@ -3,6 +3,7 @@ using BeSmart.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -14,28 +15,34 @@ namespace BeSmart.WebApi.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Account", b =>
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("BeSmart.Domain.Models.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccountTypeId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -44,72 +51,82 @@ namespace BeSmart.WebApi.Migrations
                     b.ToTable("Account");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.AccountType", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.AccountType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("AccountType");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Anwser", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Answer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
-                    b.Property<bool>("Fidelty")
-                        .HasColumnType("INTEGER");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Fidelity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("Boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("QuestionId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("Answer_text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Anwsers");
+                    b.ToTable("Answers");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Card", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Card", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("LessonId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Transctipt")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Word")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -118,33 +135,37 @@ namespace BeSmart.WebApi.Migrations
                     b.ToTable("Cards");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Category", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Course", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreatedById")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -153,22 +174,24 @@ namespace BeSmart.WebApi.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Lesson", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Lesson", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("ThemeId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -177,41 +200,47 @@ namespace BeSmart.WebApi.Migrations
                     b.ToTable("Lessons");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Questsion", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Question", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("TestId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("Question_Text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TestId");
 
-                    b.ToTable("Questsions");
+                    b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Test", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Test", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("QuestionsCount")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ThemeId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -220,24 +249,26 @@ namespace BeSmart.WebApi.Migrations
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Theme", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Theme", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CountLesson")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("CountTest")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("CourseId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -246,9 +277,9 @@ namespace BeSmart.WebApi.Migrations
                     b.ToTable("Themes");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Account", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Account", b =>
                 {
-                    b.HasOne("BeSmart.Persistence.Models.AccountType", "AccountType")
+                    b.HasOne("BeSmart.Domain.Models.AccountType", "AccountType")
                         .WithMany()
                         .HasForeignKey("AccountTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -257,10 +288,10 @@ namespace BeSmart.WebApi.Migrations
                     b.Navigation("AccountType");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Anwser", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Answer", b =>
                 {
-                    b.HasOne("BeSmart.Persistence.Models.Questsion", "Question")
-                        .WithMany()
+                    b.HasOne("BeSmart.Domain.Models.Question", "Question")
+                        .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -268,9 +299,9 @@ namespace BeSmart.WebApi.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Card", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Card", b =>
                 {
-                    b.HasOne("BeSmart.Persistence.Models.Lesson", "Lesson")
+                    b.HasOne("BeSmart.Domain.Models.Lesson", "Lesson")
                         .WithMany("Cards")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -279,9 +310,9 @@ namespace BeSmart.WebApi.Migrations
                     b.Navigation("Lesson");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Course", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Course", b =>
                 {
-                    b.HasOne("BeSmart.Persistence.Models.Account", "CreatedBy")
+                    b.HasOne("BeSmart.Domain.Models.Account", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -290,9 +321,9 @@ namespace BeSmart.WebApi.Migrations
                     b.Navigation("CreatedBy");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Lesson", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Lesson", b =>
                 {
-                    b.HasOne("BeSmart.Persistence.Models.Theme", "Theme")
+                    b.HasOne("BeSmart.Domain.Models.Theme", "Theme")
                         .WithMany("Lessons")
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -301,20 +332,18 @@ namespace BeSmart.WebApi.Migrations
                     b.Navigation("Theme");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Questsion", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Question", b =>
                 {
-                    b.HasOne("BeSmart.Persistence.Models.Test", "Test")
+                    b.HasOne("BeSmart.Domain.Models.Test", null)
                         .WithMany("Questsions")
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Test");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Test", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Test", b =>
                 {
-                    b.HasOne("BeSmart.Persistence.Models.Theme", "Theme")
+                    b.HasOne("BeSmart.Domain.Models.Theme", "Theme")
                         .WithMany()
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -323,9 +352,9 @@ namespace BeSmart.WebApi.Migrations
                     b.Navigation("Theme");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Theme", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Theme", b =>
                 {
-                    b.HasOne("BeSmart.Persistence.Models.Course", "Course")
+                    b.HasOne("BeSmart.Domain.Models.Course", "Course")
                         .WithMany("CourseThemes")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -334,22 +363,27 @@ namespace BeSmart.WebApi.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Course", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Course", b =>
                 {
                     b.Navigation("CourseThemes");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Lesson", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Lesson", b =>
                 {
                     b.Navigation("Cards");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Test", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Question", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("BeSmart.Domain.Models.Test", b =>
                 {
                     b.Navigation("Questsions");
                 });
 
-            modelBuilder.Entity("BeSmart.Persistence.Models.Theme", b =>
+            modelBuilder.Entity("BeSmart.Domain.Models.Theme", b =>
                 {
                     b.Navigation("Lessons");
                 });
