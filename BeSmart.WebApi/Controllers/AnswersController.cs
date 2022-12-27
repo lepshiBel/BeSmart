@@ -66,8 +66,8 @@ namespace BeSmart.WebApi.Controllers
                     return BadRequest("Answer object is null");
                 }
                 // добавить валидацию
-                var cteatedAnswer = await serviceAnswer.AddAsync(answer);
-                return CreatedAtRoute("OwnerById", new { id = cteatedAnswer.Id }, cteatedAnswer);
+                var createdAnswer = await serviceAnswer.AddAsync(answer);
+                return CreatedAtRoute("OwnerById", new { id = createdAnswer.Id }, createdAnswer);
             }
             catch
             {
