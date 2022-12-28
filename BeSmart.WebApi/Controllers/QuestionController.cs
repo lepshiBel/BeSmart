@@ -21,7 +21,7 @@ namespace BeSmart.WebApi.Controllers
         {
             try
             {
-                var questions = await serviceQuestion.GetAllAsync();
+                var questions = await serviceQuestion.GetAllQuestionsAsync();
                 if (!questions.Any())
                 {
                     return NotFound();
@@ -39,7 +39,7 @@ namespace BeSmart.WebApi.Controllers
         {
             try
             {
-                var question = await serviceQuestion.FindByIdAsync(id);
+                var question = await serviceQuestion.FindQuestionByIdAsync(id);
                 if (question is null)
                 {
                     return NotFound();
@@ -65,7 +65,7 @@ namespace BeSmart.WebApi.Controllers
                     return BadRequest("Question object is null");
                 }
                 // добавить валидацию
-                var createdQuestion = await serviceQuestion.AddAsync(question);
+                var createdQuestion = await serviceQuestion.AddQuestionAsync(question);
                 return CreatedAtRoute("OwnerById", new { id = createdQuestion.Id }, createdQuestion);
             }
             catch
@@ -79,13 +79,13 @@ namespace BeSmart.WebApi.Controllers
         {
             try
             {
-                var questionToUpdate = await serviceQuestion.FindByIdAsync(id);
+                var questionToUpdate = await serviceQuestion.FindQuestionByIdAsync(id);
                 if (questionToUpdate is null)
                 {
                     return NotFound();
                 }
                 // добавить валидацию
-                var updated = await serviceQuestion.UpdateAsync(questionToUpdate);
+                var updated = await serviceQuestion.UpdateQuestionAsync(questionToUpdate);
                 return Ok(updated);
             }
             catch
@@ -99,7 +99,7 @@ namespace BeSmart.WebApi.Controllers
         {
             try
             {
-                var entity = await serviceQuestion.DeleteAsync(id);
+                var entity = await serviceQuestion.DeleteQuestionAsync(id);
                 if (entity == null)
                 {
                     return NotFound();

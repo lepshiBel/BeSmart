@@ -2,6 +2,7 @@ using BeSmart.Application.Interfaces;
 using BeSmart.Application.Service;
 using BeSmart.Domain;
 using BeSmart.Domain.Interfaces;
+using BeSmart.Domain.Models;
 using BeSmart.Persistence;
 using BeSmart.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;

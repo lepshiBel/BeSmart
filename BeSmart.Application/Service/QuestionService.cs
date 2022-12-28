@@ -18,27 +18,27 @@ namespace BeSmart.Application.Service
             this.repoManager = repoManager;
         }
 
-        public async Task<List<Question>> GetAllAsync()
+        public async Task<List<Question>> GetAllQuestionsAsync()
         {
             return await repoManager.Question.GetAllAsync();
         }
 
-        public async Task<Question> FindByIdAsync(int id)
+        public async Task<Question> FindQuestionByIdAsync(int id)
         {
             return await repoManager.Question.GetAsync(id);
         }
 
-        public async Task<Question> AddAsync(Question entity)
+        public async Task<Question> AddQuestionAsync(Question entity)
         {
             return await repoManager.Question.AddAsync(entity);
         }
 
-        public async Task<Question> UpdateAsync(Question entity)
+        public async Task<Question> UpdateQuestionAsync(Question entity)
         {
             return await repoManager.Question.UpdateAsync(entity);
         }
 
-        public async Task<Question> DeleteAsync(int id)
+        public async Task<Question> DeleteQuestionAsync(int id)
         {
             return await repoManager.Question.DeleteAsync(id);
         }

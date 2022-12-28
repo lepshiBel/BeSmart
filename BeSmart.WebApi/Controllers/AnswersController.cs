@@ -22,7 +22,7 @@ namespace BeSmart.WebApi.Controllers
         {
             try
             {
-                var answers = await serviceAnswer.GetAllAsync();
+                var answers = await serviceAnswer.GetAllAnswersAsync();
                 if(!answers.Any())
                 {
                     return NotFound();
@@ -40,7 +40,7 @@ namespace BeSmart.WebApi.Controllers
         {
             try
             {
-                var answer = await serviceAnswer.FindByIdAsync(id);
+                var answer = await serviceAnswer.FindAnswerByIdAsync(id);
                 if (answer is null)
                 {
                     return NotFound();
@@ -66,7 +66,7 @@ namespace BeSmart.WebApi.Controllers
                     return BadRequest("Answer object is null");
                 }
                 // добавить валидацию
-                var createdAnswer = await serviceAnswer.AddAsync(answer);
+                var createdAnswer = await serviceAnswer.AddAnswerAsync(answer);
                 return CreatedAtRoute("OwnerById", new { id = createdAnswer.Id }, createdAnswer);
             }
             catch
@@ -80,13 +80,13 @@ namespace BeSmart.WebApi.Controllers
         {
             try
             {
-                var answerToUpdate = await serviceAnswer.FindByIdAsync(id);
+                var answerToUpdate = await serviceAnswer.FindAnswerByIdAsync(id);
                 if (answerToUpdate is null)
                 {
                     return NotFound();
                 }
                 // добавить валидацию
-                var updated = await serviceAnswer.UpdateAsync(answerToUpdate);
+                var updated = await serviceAnswer.UpdateAnswerAsync(answerToUpdate);
                 return Ok(updated);
             }
             catch
@@ -100,7 +100,7 @@ namespace BeSmart.WebApi.Controllers
         {
             try
             {
-                var entity = await serviceAnswer.DeleteAsync(id);
+                var entity = await serviceAnswer.DeleteAnswerAsync(id);
                 if (entity == null)
                 {
                     return NotFound();

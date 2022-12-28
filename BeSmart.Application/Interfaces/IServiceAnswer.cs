@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace BeSmart.Application.Interfaces
 {
-    public interface IServiceAnswer : IServiceBase<Answer>
+    public interface IServiceAnswer
     {
+        Task<List<Answer>> GetAllAnswersAsync();
+        Task<Answer> FindAnswerByIdAsync(int id);
+        Task<Answer> AddAnswerAsync(Answer entity);
+        Task<Answer> UpdateAnswerAsync(Answer entity);
+        Task<Answer> DeleteAnswerAsync(int id);
     }
 }
