@@ -1,17 +1,22 @@
 using BeSmart.Application.Interfaces;
 using BeSmart.Application.Service;
-using BeSmart.Domain;
 using BeSmart.Domain.Interfaces;
-using BeSmart.Domain.Models;
 using BeSmart.Persistence;
 using BeSmart.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
+using BeSmart.Application.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddValidatorsFromAssemblyContaining<AnswerValidator>();
+
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceAnswer, AnswerService>();

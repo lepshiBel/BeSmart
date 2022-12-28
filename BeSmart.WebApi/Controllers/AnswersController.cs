@@ -20,97 +20,60 @@ namespace BeSmart.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Answer>>> GetAll()
         {
-            try
+            var answers = await serviceAnswer.GetAllAnswersAsync();
+            if (!answers.Any())
             {
-                var answers = await serviceAnswer.GetAllAnswersAsync();
-                if(!answers.Any())
-                {
-                    return NotFound();
-                }
-                return Ok(answers);
+                return NotFound();
             }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }         
+            return Ok(answers);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Answer>> Get(int id)
         {
-            try
+            var answer = await serviceAnswer.FindAnswerByIdAsync(id);
+            if (answer is null)
             {
-                var answer = await serviceAnswer.FindAnswerByIdAsync(id);
-                if (answer is null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return Ok(answer);
-                }
+                return NotFound();
             }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+
+            return Ok(answer);
         }
 
         [HttpPost]
         public async Task<ActionResult<Answer>> Post(Answer answer)
         {
-            try
+            if (answer is null)
             {
-                if (answer is null)
-                {
-                    return BadRequest("Answer object is null");
-                }
-                // добавить валидацию
-                var createdAnswer = await serviceAnswer.AddAnswerAsync(answer);
-                return CreatedAtRoute("OwnerById", new { id = createdAnswer.Id }, createdAnswer);
+                return BadRequest("Answer object is null");
             }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            // добавить валидацию
+            var createdAnswer = await serviceAnswer.AddAnswerAsync(answer);
+            return CreatedAtRoute("OwnerById", new { id = createdAnswer.Id }, createdAnswer);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<Answer>> Update(int id)
         {
-            try
+            var answerToUpdate = await serviceAnswer.FindAnswerByIdAsync(id);
+            if (answerToUpdate is null)
             {
-                var answerToUpdate = await serviceAnswer.FindAnswerByIdAsync(id);
-                if (answerToUpdate is null)
-                {
-                    return NotFound();
-                }
-                // добавить валидацию
-                var updated = await serviceAnswer.UpdateAnswerAsync(answerToUpdate);
-                return Ok(updated);
+                return NotFound();
             }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            // добавить валидацию
+            var updated = await serviceAnswer.UpdateAnswerAsync(answerToUpdate);
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Answer>> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            try
+            var entity = await serviceAnswer.DeleteAnswerAsync(id);
+            if (entity == null)
             {
-                var entity = await serviceAnswer.DeleteAnswerAsync(id);
-                if (entity == null)
-                {
-                    return NotFound();
-                }
-                return NoContent();
+                return NotFound();
             }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            return NoContent();
         }
     }
 }

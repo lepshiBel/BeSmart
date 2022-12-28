@@ -1,6 +1,7 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,11 @@ namespace BeSmart.Application.Service
     public class AnswerService : IServiceAnswer
     {
         private readonly IRepositoryManager repoManager;
-        public AnswerService(IRepositoryManager repoManager)
+        private readonly IValidator<Answer> validator;
+        public AnswerService(IRepositoryManager repoManager, IValidator<Answer> validator)
         {
             this.repoManager = repoManager;
+            this.validator = validator;
         }
 
         public async Task<List<Answer>> GetAllAnswersAsync()

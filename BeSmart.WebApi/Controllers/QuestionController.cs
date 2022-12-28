@@ -19,97 +19,71 @@ namespace BeSmart.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Question>>> GetAll()
         {
-            try
+            var questions = await serviceQuestion.GetAllQuestionsAsync();
+            if (!questions.Any())
             {
-                var questions = await serviceQuestion.GetAllQuestionsAsync();
-                if (!questions.Any())
-                {
-                    return NotFound();
-                }
-                return Ok(questions);
+                return NotFound();
             }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            return Ok(questions);          
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> Get(int id)
         {
-            try
+            var question = await serviceQuestion.FindQuestionByIdAsync(id);
+            if (question is null)
             {
-                var question = await serviceQuestion.FindQuestionByIdAsync(id);
-                if (question is null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return Ok(question);
-                }
+                return NotFound();
             }
-            catch
+            else
             {
-                return StatusCode(500, "Internal server error");
+                return Ok(question);
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult<Question>> Post(Question question)
+        public async Task<ActionResult> Post(Question question)
         {
-            try
+            var createdQuestion = await serviceQuestion.AddQuestionAsync(question);
+            if (createdQuestion is null)
             {
-                if (question is null)
-                {
-                    return BadRequest("Question object is null");
-                }
-                // добавить валидацию
-                var createdQuestion = await serviceQuestion.AddQuestionAsync(question);
-                return CreatedAtRoute("OwnerById", new { id = createdQuestion.Id }, createdQuestion);
+                return BadRequest("Question object is invalid");
             }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            return Ok(createdQuestion);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Question>> Update(int id)
+        public async Task<ActionResult> Update(int id, Question question)
         {
-            try
+            if (id != question.Id)
             {
-                var questionToUpdate = await serviceQuestion.FindQuestionByIdAsync(id);
-                if (questionToUpdate is null)
-                {
-                    return NotFound();
-                }
-                // добавить валидацию
-                var updated = await serviceQuestion.UpdateQuestionAsync(questionToUpdate);
-                return Ok(updated);
+                return BadRequest();
             }
-            catch
+
+            var questionToUpdate = await serviceQuestion.FindQuestionByIdAsync(id);
+            if (questionToUpdate is null)
             {
-                return StatusCode(500, "Internal server error");
+                return NotFound();
             }
+
+            var updated = await serviceQuestion.UpdateQuestionAsync(questionToUpdate);
+            if(updated is null)
+            {
+                return BadRequest("Question object is invalid");
+            }
+
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Question>> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            try
+            var entity = await serviceQuestion.DeleteQuestionAsync(id);
+            if (entity == null)
             {
-                var entity = await serviceQuestion.DeleteQuestionAsync(id);
-                if (entity == null)
-                {
-                    return NotFound();
-                }
-                return NoContent();
+                return NotFound();
             }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            return NoContent();
         }
     }
 }

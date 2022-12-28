@@ -43,7 +43,7 @@ namespace BeSmart.Domain
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            context.Entry(entity).State = EntityState.Modified;
+            context.Set<TEntity>().Update(entity);
             await context.SaveChangesAsync();
             return entity;
         }
@@ -56,7 +56,7 @@ namespace BeSmart.Domain
 
             if (entity == null)
             {
-                return entity;
+                return null;
             }
 
             context.Set<TEntity>().Remove(entity);

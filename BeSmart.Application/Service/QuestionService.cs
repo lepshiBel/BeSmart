@@ -1,6 +1,7 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,12 @@ namespace BeSmart.Application.Service
     public class QuestionService : IServiceQuestion
     {
         private readonly IRepositoryManager repoManager;
-        public QuestionService(IRepositoryManager repoManager)
+        private readonly IValidator<Question> validator;
+
+        public QuestionService(IRepositoryManager repoManager, IValidator<Question> validator)
         {
             this.repoManager = repoManager;
+            this.validator = validator;
         }
 
         public async Task<List<Question>> GetAllQuestionsAsync()
@@ -28,14 +32,24 @@ namespace BeSmart.Application.Service
             return await repoManager.Question.GetAsync(id);
         }
 
-        public async Task<Question> AddQuestionAsync(Question entity)
+        public async Task<Question> AddQuestionAsync(Question question)
         {
-            return await repoManager.Question.AddAsync(entity);
+            var validationResult = validator.Validate(question);
+            if(validationResult.IsValid)
+            {
+                return await repoManager.Question.AddAsync(question);
+            }
+            return null;
         }
 
-        public async Task<Question> UpdateQuestionAsync(Question entity)
+        public async Task<Question> UpdateQuestionAsync(Question question)
         {
-            return await repoManager.Question.UpdateAsync(entity);
+            var validationResult = validator.Validate(question);
+            if (validationResult.IsValid)
+            {
+                return await repoManager.Question.UpdateAsync(question);
+            }
+            return null;      
         }
 
         public async Task<Question> DeleteQuestionAsync(int id)

@@ -11,8 +11,8 @@ namespace BeSmart.Application.Interfaces
     {
         Task<List<Answer>> GetAllAnswersAsync();
         Task<Answer> FindAnswerByIdAsync(int id);
-        Task<Answer> AddAnswerAsync(Answer entity);
-        Task<Answer> UpdateAnswerAsync(Answer entity);
+        Task<Answer> AddAnswerAsync(Answer answer);
+        Task<Answer> UpdateAnswerAsync(Answer answer);
         Task<Answer> DeleteAnswerAsync(int id);
     }
 }
