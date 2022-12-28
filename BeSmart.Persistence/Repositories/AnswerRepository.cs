@@ -10,7 +10,6 @@ namespace BeSmart.Persistence.Repositories
         public AnswerRepository(DataContext dbContext)
             : base(dbContext)
         {
-
         }
     }
 }

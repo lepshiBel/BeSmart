@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeSmart.Domain.Interfaces
+namespace BeSmart.Application.Interfaces
 {
-    public interface IQuestionRepository : IRepositoryBase<Question>
+    public interface IServiceAnswer : IServiceBase<Answer>
     {
     }
 }
