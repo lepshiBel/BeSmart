@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using BeSmart.Application.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using BeSmart.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,8 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceAnswer, AnswerService>();
 builder.Services.AddScoped<IServiceQuestion, QuestionService>();
+
+builder.Services.ConfigureServices(builder.Configuration);
 
 var app = builder.Build();
 
