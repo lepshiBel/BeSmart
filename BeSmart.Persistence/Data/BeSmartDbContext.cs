@@ -28,7 +28,11 @@ public class BeSmartDbContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new QuestionConfiguration());
         modelBuilder.ApplyConfiguration(new AnswerConfiguration());
-        
+        modelBuilder.ApplyConfiguration(new AccountConfiguration());
+        modelBuilder.ApplyConfiguration(new LessonConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new CardConfiguration());
+
         base.OnModelCreating(modelBuilder);
     }
 }
