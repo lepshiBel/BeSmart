@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeSmart.Domain
+namespace BeSmart.Domain.Models.Base
 {
-    internal class Class1
+    public abstract class EntityBase
     {
+        public int Id { get; set; }
     }
 }
