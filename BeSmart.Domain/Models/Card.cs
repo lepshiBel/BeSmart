@@ -1,9 +1,9 @@
-﻿namespace BeSmart.Domain.Models;
+﻿using BeSmart.Domain.Models.Base;
 
-public class Card
+namespace BeSmart.Domain.Models;
+
+public class Card : EntityBase
 {
-    public int Id { get; set; }
-
     public string Word { get; set; }
 
     public string Text { get; set; }

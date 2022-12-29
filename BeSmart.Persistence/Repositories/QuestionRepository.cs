@@ -5,9 +5,9 @@ using BeSmart.Persistence.Data;
 
 namespace BeSmart.Persistence.Repositories
 {
-    public class QuestionRepository : RepositoryBase<Question, DataContext>, IQuestionRepository
+    public class QuestionRepository : RepositoryBase<Question, BeSmartDbContext>, IQuestionRepository
     {
-        public QuestionRepository(DataContext dbContext)
+        public QuestionRepository(BeSmartDbContext dbContext)
             : base(dbContext)
         {
         }

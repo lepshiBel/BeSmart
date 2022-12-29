@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BeSmart.WebApi.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(BeSmartDbContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BeSmart.WebApi.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(BeSmartDbContext))]
     [Migration("20221227152242_Initial migration")]
     partial class Initialmigration
     {

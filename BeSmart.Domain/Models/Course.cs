@@ -1,9 +1,9 @@
-﻿namespace BeSmart.Domain.Models;
+﻿using BeSmart.Domain.Models.Base;
 
-public class Course
+namespace BeSmart.Domain.Models;
+
+public class Course : EntityBase
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 
     public ICollection<Theme> CourseThemes { get; set; } // Todo: Уточнить про CourseTheme
