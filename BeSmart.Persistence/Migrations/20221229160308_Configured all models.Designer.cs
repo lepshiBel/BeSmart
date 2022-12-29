@@ -2,6 +2,7 @@
 using BeSmart.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BeSmart.WebApi.Migrations
 {
     [DbContext(typeof(BeSmartDbContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221229160308_Configured all models")]
+    partial class Configuredallmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,17 +35,23 @@ namespace BeSmart.WebApi.Migrations
                     b.Property<int>("AccountTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("UserEmail")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("Account_userEmail");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("Account_userName");
+
+                    b.Property<string>("UserPassword")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("Account_userPassword");
 
                     b.HasKey("Id");
 
@@ -61,11 +70,15 @@ namespace BeSmart.WebApi.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("AccoutType_Description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("AccountType_Name");
 
                     b.HasKey("Id");
 
@@ -111,22 +124,30 @@ namespace BeSmart.WebApi.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("Card_imageUrl");
 
                     b.Property<int>("LessonId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("Card_text");
 
                     b.Property<string>("Transctipt")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("Card_transcript");
 
                     b.Property<string>("Word")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("Card_word");
 
                     b.HasKey("Id");
 
@@ -145,7 +166,9 @@ namespace BeSmart.WebApi.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("Category_name");
 
                     b.HasKey("Id");
 
@@ -160,14 +183,25 @@ namespace BeSmart.WebApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CountOfThemes")
+                        .HasColumnType("integer")
+                        .HasColumnName("Course_CountOfThemes");
+
                     b.Property<int>("CreatedById")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("Course_Name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("CreatedById");
 
@@ -184,11 +218,15 @@ namespace BeSmart.WebApi.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("Lesson_name");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("Lesson_text");
 
                     b.Property<int>("ThemeId")
                         .HasColumnType("integer");
@@ -234,10 +272,13 @@ namespace BeSmart.WebApi.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("Test_Name");
 
                     b.Property<int>("QuestionsCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("Test_QuestionsCount");
 
                     b.Property<int>("ThemeId")
                         .HasColumnType("integer");
@@ -258,17 +299,21 @@ namespace BeSmart.WebApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CountLesson")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("Theme_CountLesson");
 
                     b.Property<int>("CountTest")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("Theme_CountTest");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("Theme_Name");
 
                     b.HasKey("Id");
 
@@ -280,7 +325,7 @@ namespace BeSmart.WebApi.Migrations
             modelBuilder.Entity("BeSmart.Domain.Models.Account", b =>
                 {
                     b.HasOne("BeSmart.Domain.Models.AccountType", "AccountType")
-                        .WithMany()
+                        .WithMany("Accounts")
                         .HasForeignKey("AccountTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -312,11 +357,19 @@ namespace BeSmart.WebApi.Migrations
 
             modelBuilder.Entity("BeSmart.Domain.Models.Course", b =>
                 {
+                    b.HasOne("BeSmart.Domain.Models.Category", "Category")
+                        .WithMany("Courses")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BeSmart.Domain.Models.Account", "CreatedBy")
-                        .WithMany()
+                        .WithMany("CreatedCourses")
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("CreatedBy");
                 });
@@ -334,17 +387,19 @@ namespace BeSmart.WebApi.Migrations
 
             modelBuilder.Entity("BeSmart.Domain.Models.Question", b =>
                 {
-                    b.HasOne("BeSmart.Domain.Models.Test", null)
+                    b.HasOne("BeSmart.Domain.Models.Test", "Test")
                         .WithMany("Questsions")
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Test", b =>
                 {
                     b.HasOne("BeSmart.Domain.Models.Theme", "Theme")
-                        .WithMany()
+                        .WithMany("Tests")
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -361,6 +416,21 @@ namespace BeSmart.WebApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("BeSmart.Domain.Models.Account", b =>
+                {
+                    b.Navigation("CreatedCourses");
+                });
+
+            modelBuilder.Entity("BeSmart.Domain.Models.AccountType", b =>
+                {
+                    b.Navigation("Accounts");
+                });
+
+            modelBuilder.Entity("BeSmart.Domain.Models.Category", b =>
+                {
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Course", b =>
@@ -386,6 +456,8 @@ namespace BeSmart.WebApi.Migrations
             modelBuilder.Entity("BeSmart.Domain.Models.Theme", b =>
                 {
                     b.Navigation("Lessons");
+
+                    b.Navigation("Tests");
                 });
 #pragma warning restore 612, 618
         }

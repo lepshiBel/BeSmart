@@ -16,7 +16,7 @@ public static class ConfigureServicesExtension
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             options.UseNpgsql(connectionString, opt =>
             {
-                opt.MigrationsAssembly("BeSmart.WebApi");
+                opt.MigrationsAssembly("BeSmart.Persistence");
             });
         });
 
