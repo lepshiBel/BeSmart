@@ -34,9 +34,6 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
             builder.HasOne(x => x.Category)
                 .WithMany(x => x.Courses)
                 .HasForeignKey(x => x.CategoryId);
-
-            builder.HasMany(x => x.CourseThemes)
-                .WithOne(x => x.Course);
         }
     }
 }

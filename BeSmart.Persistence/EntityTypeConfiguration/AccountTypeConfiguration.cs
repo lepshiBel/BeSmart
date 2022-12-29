@@ -27,9 +27,6 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
             builder.Property(x => x.Description)
                 .HasMaxLength(150)
                 .HasColumnName("AccoutType_Description");
-
-            builder.HasMany(x => x.Accounts)
-                .WithOne(x => x.AccountType);
         }
     }
 }

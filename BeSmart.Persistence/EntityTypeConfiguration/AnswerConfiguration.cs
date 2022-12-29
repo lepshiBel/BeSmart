@@ -19,6 +19,7 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
                 .HasColumnName("Answer_text");
 
             builder.Property(a => a.Fidelity)
+                .IsRequired()
                 .HasColumnType("Boolean")
                 .HasDefaultValue(false);
 
