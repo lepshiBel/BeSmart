@@ -2,7 +2,7 @@
 
 namespace BeSmart.Domain.Interfaces
 {
-    public interface IAnswerRepository : IRepository<Answer>
+    public interface IAnswerRepository : IRepositoryBase<Answer>
     {
     }
 }
