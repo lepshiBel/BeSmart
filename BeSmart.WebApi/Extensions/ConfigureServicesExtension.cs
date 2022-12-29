@@ -11,7 +11,7 @@ public static class ConfigureServicesExtension
     {
         services.AddScoped<IRepositoryManager, RepositoryManager>();
 
-        services.AddDbContext<DataContext>(options =>
+        services.AddDbContext<BeSmartDbContext>(options =>
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             options.UseNpgsql(connectionString, opt =>

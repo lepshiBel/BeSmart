@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BeSmart.Persistence.Data;
 
-public class DataContext : DbContext
+public class BeSmartDbContext : DbContext
 {
-    public DataContext(DbContextOptions options) : base(options) {}
+    public BeSmartDbContext(DbContextOptions options) : base(options) {}
 
     public DbSet<Course> Courses { get; set; }
 

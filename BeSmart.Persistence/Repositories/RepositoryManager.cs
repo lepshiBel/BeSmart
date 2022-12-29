@@ -5,11 +5,11 @@ namespace BeSmart.Persistence.Repositories
 {
     public class RepositoryManager : IRepositoryManager
     {
-        private DataContext dbContext;
+        private BeSmartDbContext dbContext;
         private IQuestionRepository question;
         private IAnswerRepository answer;
 
-        public RepositoryManager(DataContext dbContext)
+        public RepositoryManager(BeSmartDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
