@@ -10,9 +10,6 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
         {
             builder.HasKey(a => a.Id);
 
-            builder.HasIndex(a => a.Id)
-                .IsUnique();
-
             builder.Property(a => a.Text)
                 .IsRequired()
                 .HasMaxLength(150)
