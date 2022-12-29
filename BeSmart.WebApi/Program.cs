@@ -1,4 +1,3 @@
-database-setup
 using BeSmart.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
