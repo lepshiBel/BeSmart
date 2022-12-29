@@ -17,6 +17,10 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
                 .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("Question_Text");
+
+            builder.HasOne(x => x.Test)
+                .WithMany(x => x.Questsions)
+                .HasForeignKey(x => x.TestId);
         }
     }
 }
