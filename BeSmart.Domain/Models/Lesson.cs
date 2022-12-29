@@ -1,9 +1,9 @@
-﻿namespace BeSmart.Domain.Models;
+﻿using BeSmart.Domain.Models.Base;
 
-public class Lesson
+namespace BeSmart.Domain.Models;
+
+public class Lesson : EntityBase
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 
     public string Text { get; set; }

@@ -18,8 +18,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Base" />
-  </ItemGroup>
-
 </Project>
