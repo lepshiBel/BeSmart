@@ -6,9 +6,14 @@ public class Course : EntityBase
 {
     public string Name { get; set; }
 
-    public ICollection<Theme> CourseThemes { get; set; } // Todo: Уточнить про CourseTheme
-
+    public int CountOfThemes { get; set; }
     public int CreatedById { get; set; }
 
     public Account CreatedBy { get; set; }
+
+    public int CategoryId { get; set; }
+
+    public Category Category { get; set; }
+    public List<Theme> CourseThemes { get; set; }
+
 }

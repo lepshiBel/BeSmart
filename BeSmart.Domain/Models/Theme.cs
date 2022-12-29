@@ -14,5 +14,6 @@ public class Theme : EntityBase
 
     public Course Course { get; set; }
 
-    public ICollection<Lesson> Lessons { get; set; }
+    public List<Lesson> Lessons { get; set; }
+    public List<Test> Tests { get; set; }
 }

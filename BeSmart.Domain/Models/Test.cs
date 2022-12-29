@@ -12,5 +12,5 @@ public class Test : EntityBase
 
     public Theme Theme { get; set; }
 
-    public ICollection<Question> Questsions { get; set; }
+    public List<Question> Questsions { get; set; }
 }
