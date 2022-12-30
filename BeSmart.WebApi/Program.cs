@@ -28,6 +28,10 @@ app.MapGet("/", () => "Hello World!");
 
 app.UseSwagger();
 
+app.MapControllers();
+
+app.UseRouting();
+
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
