@@ -1,6 +1,5 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.Models;
-using BeSmart.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -22,7 +21,7 @@ namespace BeSmart.WebApi.Controllers
             var questions = await serviceQuestion.GetAllQuestionsAsync();
             if (!questions.Any())
             {
-                return NotFound();
+                return NoContent();
             }
             return Ok(questions);          
         }
@@ -33,7 +32,7 @@ namespace BeSmart.WebApi.Controllers
             var question = await serviceQuestion.FindQuestionByIdAsync(id);
             if (question is null)
             {
-                return NotFound();
+                return NoContent();
             }
             else
             {
@@ -63,7 +62,7 @@ namespace BeSmart.WebApi.Controllers
             var questionToUpdate = await serviceQuestion.FindQuestionByIdAsync(id);
             if (questionToUpdate is null)
             {
-                return NotFound();
+                return NoContent();
             }
 
             var updated = await serviceQuestion.UpdateQuestionAsync(questionToUpdate);
@@ -81,9 +80,9 @@ namespace BeSmart.WebApi.Controllers
             var entity = await serviceQuestion.DeleteQuestionAsync(id);
             if (entity == null)
             {
-                return NotFound();
+                return NoContent();
             }
-            return NoContent();
+            return Ok();
         }
     }
 }

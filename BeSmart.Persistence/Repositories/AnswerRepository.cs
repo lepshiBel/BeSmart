@@ -1,11 +1,7 @@
 ﻿using BeSmart.Domain;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BeSmart.Persistence.Data;
 
 namespace BeSmart.Persistence.Repositories
 {
