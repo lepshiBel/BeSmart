@@ -1,7 +1,5 @@
 ﻿using BeSmart.Application.Interfaces;
-using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
-using BeSmart.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
