@@ -5,6 +5,7 @@ using BeSmart.Persistence.Repositories;
 using BeSmart.Application.Validators;
 using FluentValidation;
 using BeSmart.WebApi.Extensions;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddValidatorsFromAssemblyContaining<AnswerValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
