@@ -8,7 +8,7 @@ namespace BeSmart.Domain
         where TEntity : EntityBase
         where TContext : DbContext
     {
-        private readonly TContext context;
+        protected TContext context;
 
         public RepositoryBase(TContext context)
         {

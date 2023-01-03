@@ -6,8 +6,10 @@ namespace BeSmart.Persistence.Repositories
     public class RepositoryManager : IRepositoryManager
     {
         private BeSmartDbContext dbContext;
+
         private IQuestionRepository question;
         private IAnswerRepository answer;
+        private ICategoryRepository category;
 
         public RepositoryManager(BeSmartDbContext dbContext)
         {
@@ -35,6 +37,17 @@ namespace BeSmart.Persistence.Repositories
                     answer = new AnswerRepository(dbContext);
                 }
                 return answer;
+            }
+        }
+        public ICategoryRepository Category
+        {
+            get
+            {
+                if (category == null)
+                {
+                    category = new CategoryRepository(dbContext);
+                }
+                return category;
             }
         }
 

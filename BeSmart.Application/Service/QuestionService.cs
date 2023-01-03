@@ -23,25 +23,20 @@ namespace BeSmart.Application.Service
         {
             return await repoManager.Question.GetAsync(id);
         }
+        public async Task<Question> GetQuestionWithAnswersAsync(int id)
+        {
+            return await repoManager.Question.GetQuestionWithAnswersAsync(id);
+        }
 
         public async Task<Question> AddQuestionAsync(Question question)
         {
-            var validationResult = validator.Validate(question);
-            if(validationResult.IsValid)
-            {
-                return await repoManager.Question.AddAsync(question);
-            }
-            return null;
+            return await repoManager.Question.AddAsync(question);
         }
 
         public async Task<Question> UpdateQuestionAsync(Question question)
         {
-            var validationResult = validator.Validate(question);
-            if (validationResult.IsValid)
-            {
-                return await repoManager.Question.UpdateAsync(question);
-            }
-            return null;      
+
+            return await repoManager.Question.UpdateAsync(question); 
         }
 
         public async Task<Question> DeleteQuestionAsync(int id)
