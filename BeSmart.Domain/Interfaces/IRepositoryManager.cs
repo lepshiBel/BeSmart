@@ -4,6 +4,7 @@
     {
         IQuestionRepository Question { get; }
         IAnswerRepository Answer { get; }
+        ICategoryRepository Category { get; }
         void Save();
     }
 }
