@@ -15,35 +15,35 @@ namespace BeSmart.Domain
             this.context = context;
         }
 
-        public async Task<List<TEntity>> GetAllAsync()
+        public virtual async Task<List<TEntity>> GetAllAsync()
         {
             return await context
                 .Set<TEntity>()
                 .ToListAsync();
         }
 
-        public async Task<TEntity> GetAsync(int id)
+        public virtual async Task<TEntity> GetAsync(int id)
         {
             return await context
                 .Set<TEntity>()
                 .FindAsync(id);
         }
 
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             context.Set<TEntity>().Add(entity);
             await context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
             context.Set<TEntity>().Update(entity);
             await context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<TEntity> DeleteAsync(int id)
+        public virtual async Task<TEntity> DeleteAsync(int id)
         {
             var entity = await context
                 .Set<TEntity>()
