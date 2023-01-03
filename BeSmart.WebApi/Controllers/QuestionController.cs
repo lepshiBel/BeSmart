@@ -19,10 +19,12 @@ namespace BeSmart.WebApi.Controllers
         public async Task<ActionResult<List<Question>>> GetAll()
         {
             var questions = await serviceQuestion.GetAllQuestionsAsync();
+            
             if (!questions.Any())
             {
                 return NoContent();
             }
+
             return Ok(questions);          
         }
 
@@ -30,6 +32,7 @@ namespace BeSmart.WebApi.Controllers
         public async Task<ActionResult<Question>> Get(int id)
         {
             var question = await serviceQuestion.FindQuestionByIdAsync(id);
+            
             if (question is null)
             {
                 return NoContent();
@@ -44,10 +47,12 @@ namespace BeSmart.WebApi.Controllers
         public async Task<ActionResult> Post(Question question)
         {
             var createdQuestion = await serviceQuestion.AddQuestionAsync(question);
+           
             if (createdQuestion is null)
             {
                 return BadRequest("Question object is invalid");
             }
+            
             return Ok(createdQuestion);
         }
 
@@ -60,12 +65,14 @@ namespace BeSmart.WebApi.Controllers
             }
 
             var questionToUpdate = await serviceQuestion.FindQuestionByIdAsync(id);
+           
             if (questionToUpdate is null)
             {
                 return NoContent();
             }
 
             var updated = await serviceQuestion.UpdateQuestionAsync(questionToUpdate);
+            
             if(updated is null)
             {
                 return BadRequest("Question object is invalid");
@@ -78,10 +85,12 @@ namespace BeSmart.WebApi.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await serviceQuestion.DeleteQuestionAsync(id);
+            
             if (entity == null)
             {
                 return NoContent();
             }
+
             return Ok();
         }
     }

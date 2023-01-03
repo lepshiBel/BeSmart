@@ -8,11 +8,10 @@ namespace BeSmart.Application.Service
     public class CategoryService : IServiceCategory
     {
         private readonly IRepositoryManager repoManager;
-        private readonly IValidator<Category> validator;
-        public CategoryService(IRepositoryManager repoManager, IValidator<Category> validator)
+
+        public CategoryService(IRepositoryManager repoManager)
         {
             this.repoManager = repoManager;
-            this.validator = validator;
         }
 
         public async Task<List<Category>> GetAllCategoriesAsync()

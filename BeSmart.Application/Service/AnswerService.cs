@@ -8,11 +8,10 @@ namespace BeSmart.Application.Service
     public class AnswerService : IServiceAnswer
     {
         private readonly IRepositoryManager repoManager;
-        private readonly IValidator<Answer> validator;
-        public AnswerService(IRepositoryManager repoManager, IValidator<Answer> validator)
+
+        public AnswerService(IRepositoryManager repoManager)
         {
             this.repoManager = repoManager;
-            this.validator = validator;
         }
 
         public async Task<List<Answer>> GetAllAnswersAsync()

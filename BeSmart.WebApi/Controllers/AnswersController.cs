@@ -19,10 +19,12 @@ namespace BeSmart.WebApi.Controllers
         public async Task<ActionResult<List<Answer>>> GetAll()
         {
             var answers = await serviceAnswer.GetAllAnswersAsync();
+            
             if (!answers.Any())
             {
                 return NoContent();
             }
+
             return Ok(answers);
         }
 
@@ -30,6 +32,7 @@ namespace BeSmart.WebApi.Controllers
         public async Task<ActionResult<Answer>> Get(int id)
         {
             var answer = await serviceAnswer.FindAnswerByIdAsync(id);
+            
             if (answer is null)
             {
                 return NoContent();
@@ -45,8 +48,9 @@ namespace BeSmart.WebApi.Controllers
             {
                 return BadRequest("Answer object is null");
             }
-            // добавить валидацию
+            
             var createdAnswer = await serviceAnswer.AddAnswerAsync(answer);
+            
             return CreatedAtRoute("OwnerById", new { id = createdAnswer.Id }, createdAnswer);
         }
 
@@ -54,12 +58,14 @@ namespace BeSmart.WebApi.Controllers
         public async Task<ActionResult<Answer>> Update(int id)
         {
             var answerToUpdate = await serviceAnswer.FindAnswerByIdAsync(id);
+           
             if (answerToUpdate is null)
             {
                 return NoContent();
             }
-            // добавить валидацию
+
             var updated = await serviceAnswer.UpdateAnswerAsync(answerToUpdate);
+            
             return Ok(updated);
         }
 
@@ -67,10 +73,12 @@ namespace BeSmart.WebApi.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await serviceAnswer.DeleteAnswerAsync(id);
+            
             if (entity == null)
             {
                 return NoContent();
             }
+
             return Ok();
         }
     }
