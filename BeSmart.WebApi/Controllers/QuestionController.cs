@@ -28,25 +28,25 @@ namespace BeSmart.WebApi.Controllers
             return Ok(questions);          
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Question>> Get(int id)
-        //{
-        //    var question = await serviceQuestion.FindQuestionByIdAsync(id);
-
-        //    if (question is null)
-        //    {
-        //        return NoContent();
-        //    }
-        //    else
-        //    {
-        //        return Ok(question);
-        //    }
-        //}
-
-        [HttpGet("{id2}")]
-        public async Task<ActionResult<Question>> GetQuestionWithAnswers(int id2)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Question>> Get(int id)
         {
-            var question = await serviceQuestion.GetQuestionWithAnswersAsync(id2);
+            var question = await serviceQuestion.FindQuestionByIdAsync(id);
+
+            if (question is null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(question);
+            }
+        }
+
+        [HttpGet("withAnswers/{id}")]
+        public async Task<ActionResult<Question>> GetQuestionWithAnswers(int id)
+        {
+            var question = await serviceQuestion.GetQuestionWithAnswersAsync(id);
 
             if (question is null)
             {
