@@ -9,6 +9,8 @@ namespace BeSmart.Application.Validators
         {
             RuleFor(a => a.Text).NotEmpty().MaximumLength(150);
             RuleFor(a => a.Fidelity).NotEmpty();
+            RuleFor(a=>a.QuestionId).NotNull();
+            RuleFor(a=>a.Question).SetValidator(new QuestionValidator());
         }
     }
 }
