@@ -1,4 +1,6 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.Question;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,14 +11,16 @@ namespace BeSmart.WebApi.Controllers
     public class QuestionController : ControllerBase
     {
         private readonly IServiceQuestion serviceQuestion;
+        private readonly IMapper mapper;
 
-        public QuestionController(IServiceQuestion serviceQuestion)
+        public QuestionController(IServiceQuestion serviceQuestion, IMapper mapper)
         {
             this.serviceQuestion = serviceQuestion;
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Question>>> GetAll()
+        public async Task<ActionResult<List<QuestionDTO>>> GetAll()
         {
             var questions = await serviceQuestion.GetAllQuestionsAsync();
             
@@ -25,11 +29,11 @@ namespace BeSmart.WebApi.Controllers
                 return NoContent();
             }
 
-            return Ok(questions);          
+            return Ok(questions.Select(c => mapper.Map<QuestionDTO>(c)));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Question>> Get(int id)
+        public async Task<ActionResult<QuestionDTO>> Get(int id)
         {
             var question = await serviceQuestion.FindQuestionByIdAsync(id);
 
@@ -37,10 +41,10 @@ namespace BeSmart.WebApi.Controllers
             {
                 return NoContent();
             }
-            else
-            {
-                return Ok(question);
-            }
+
+            var questionDto = mapper.Map<QuestionDTO>(question);
+
+            return Ok(questionDto);
         }
 
         [HttpGet("withAnswers/{id}")]
@@ -59,9 +63,10 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Question question)
+        public async Task<ActionResult> Post(QuestionCreationDTO questionCreationDto)
         {
-            var createdQuestion = await serviceQuestion.AddQuestionAsync(question);
+            Question questionToCreate = mapper.Map<Question>(questionCreationDto);
+            var createdQuestion = await serviceQuestion.AddQuestionAsync(questionToCreate);
            
             if (createdQuestion is null)
             {
