@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using BeSmart.Application.Interfaces;
-using BeSmart.Domain.DTOs;
 using BeSmart.Domain.DTOs.Answer;
-using BeSmart.Domain.DTOs.Category;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 

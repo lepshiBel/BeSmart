@@ -1,4 +1,5 @@
-﻿using BeSmart.Domain.Models;
+﻿using BeSmart.Domain.DTOs.Answer;
+using BeSmart.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace BeSmart.Domain.DTOs.Question
     {
         public int Id { get; set; } 
         public string Text { get; set; }
-        public List<Answer> Answers { get; set; }
+        public List<AnswerDTO> Answers { get; set; }
     }
 }

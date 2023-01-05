@@ -48,18 +48,18 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpGet("withAnswers/{id}")]
-        public async Task<ActionResult<Question>> GetQuestionWithAnswers(int id)
+        public async Task<ActionResult<QuestionWithAnswersDTO>> GetQuestionWithAnswers(int id)
         {
-            var question = await serviceQuestion.GetQuestionWithAnswersAsync(id);
+            var questionsWithAnswers = await serviceQuestion.GetQuestionWithAnswersAsync(id);
 
-            if (question is null)
+            if (questionsWithAnswers is null)
             {
                 return NoContent();
             }
-            else
-            {
-                return Ok(question);
-            }
+
+            var questionsWithAnswersDto = mapper.Map<QuestionWithAnswersDTO>(questionsWithAnswers);
+
+            return Ok(questionsWithAnswersDto);
         }
 
         [HttpPost]

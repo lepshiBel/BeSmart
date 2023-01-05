@@ -4,9 +4,6 @@ using BeSmart.Domain.DTOs.Answer;
 using BeSmart.Domain.DTOs.Category;
 using BeSmart.Domain.DTOs;
 using BeSmart.Domain.DTOs.Question;
-using BeSmart.Domain.DTOs.Answer;
-using BeSmart.Domain.DTOs.Category;
-using BeSmart.Domain.DTOs.Question;
 
 namespace BeSmart.Persistence
 {
