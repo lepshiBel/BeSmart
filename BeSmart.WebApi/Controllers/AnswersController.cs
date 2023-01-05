@@ -2,6 +2,7 @@
 using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs;
 using BeSmart.Domain.DTOs.Answer;
+using BeSmart.Domain.DTOs.Category;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,16 +48,17 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Answer>> Post(Answer answer)
+        public async Task<ActionResult<Answer>> Post(AnswerCreationDTO answerdto)
         {
-            if (answer is null)
+            var answerToAdd = mapper.Map<Answer>(answerdto);
+            var createdAnswer = await serviceAnswer.AddAnswerAsync(answerToAdd);
+
+            if (createdAnswer is null)
             {
-                return BadRequest("Answer object is null");
+                return BadRequest("Answer object is invalid");
             }
-            
-            var createdAnswer = await serviceAnswer.AddAnswerAsync(answer);
-            
-            return CreatedAtRoute("OwnerById", new { id = createdAnswer.Id }, createdAnswer);
+
+            return Ok(createdAnswer);
         }
 
         [HttpPut("{id}")]
