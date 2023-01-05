@@ -1,4 +1,6 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,14 +11,16 @@ namespace BeSmart.WebApi.Controllers
     public class TestController : ControllerBase
     {
         private readonly IServiceTest serviceTest;
+        private readonly IMapper mapper;
 
-        public TestController(IServiceTest serviceTest)
+        public TestController(IServiceTest serviceTest, IMapper mapper)
         {
             this.serviceTest = serviceTest;
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Test>>> GetAll()
+        public async Task<ActionResult<List<TestDTO>>> GetAll()
         {
             var tests = await serviceTest.GetAllTestsAsync();
 
@@ -25,11 +29,11 @@ namespace BeSmart.WebApi.Controllers
                 return NoContent();
             }
 
-            return Ok(tests);
+            return Ok(tests.Select(t => mapper.Map<TestDTO>(t)));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Test>> Get(int id)
+        public async Task<ActionResult<TestDTO>> Get(int id)
         {
             var test = await serviceTest.FindTestByIdAsync(id);
 
@@ -37,14 +41,14 @@ namespace BeSmart.WebApi.Controllers
             {
                 return NoContent();
             }
-            else
-            {
-                return Ok(test);
-            }
+            
+            var testDto = mapper.Map<TestDTO>(test);
+            
+            return Ok(testDto);
         }
 
         [HttpGet("withQuestions/{id}")]
-        public async Task<ActionResult<Test>> GetTestWithQuestions(int id)
+        public async Task<ActionResult<TestWithQuestionsDTO>> GetTestWithQuestions(int id)
         {
             var test = await serviceTest.GetTestWithQuestionsAsync(id);
 
@@ -52,16 +56,17 @@ namespace BeSmart.WebApi.Controllers
             {
                 return NoContent();
             }
-            else
-            {
-                return Ok(test);
-            }
+
+            var testWithAnswersDto = mapper.Map<TestWithQuestionsDTO>(test);
+
+            return Ok(testWithAnswersDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Test test)
+        public async Task<ActionResult<Test>> Post(TestDTO testDto)
         {
-            var createdTest = await serviceTest.AddTestAsync(test);
+            var testToAdd = mapper.Map<Test>(testDto);
+            var createdTest = await serviceTest.AddTestAsync(testToAdd);
 
             if (createdTest is null)
             {
@@ -71,30 +76,30 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdTest);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, Test test)
-        {
-            if (id != test.Id)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult> Update(int id, Test test)
+        //{
+        //    if (id != test.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var testToUpdate = await serviceTest.FindTestByIdAsync(id);
+        //    var testToUpdate = await serviceTest.FindTestByIdAsync(id);
 
-            if (testToUpdate is null)
-            {
-                return NoContent();
-            }
+        //    if (testToUpdate is null)
+        //    {
+        //        return NoContent();
+        //    }
 
-            var updated = await serviceTest.UpdateTestAsync(testToUpdate);
+        //    var updated = await serviceTest.UpdateTestAsync(testToUpdate);
 
-            if (updated is null)
-            {
-                return BadRequest("Test object is invalid");
-            }
+        //    if (updated is null)
+        //    {
+        //        return BadRequest("Test object is invalid");
+        //    }
 
-            return Ok(updated);
-        }
+        //    return Ok(updated);
+        //}
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)

@@ -10,6 +10,9 @@ namespace BeSmart.Persistence
         {
             CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<Category, CategoryCreationDTO>().ReverseMap();
+
+            CreateMap<Test, TestDTO>().ReverseMap();
+            CreateMap<Test, TestCreationDTO>().ReverseMap();
         }
     }
 }
