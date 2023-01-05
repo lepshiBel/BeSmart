@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using BeSmart.Application.Interfaces;
-using BeSmart.Domain.DTOs;
+using BeSmart.Domain.DTOs.Category;
 using BeSmart.Domain.Models;
-using BeSmart.Persistence;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers

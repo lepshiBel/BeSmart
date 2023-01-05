@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeSmart.Domain.DTOs
+namespace BeSmart.Domain.DTOs.Category
 {
     public class CategoryCreationDTO
     {
