@@ -7,6 +7,7 @@ using FluentValidation;
 using BeSmart.WebApi.Extensions;
 using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
+using BeSmart.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +15,12 @@ builder.Services.AddControllers()
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
 builder.Services.AddValidatorsFromAssemblyContaining<AnswerValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceAnswer, AnswerService>();
 builder.Services.AddScoped<IServiceCategory, CategoryService>();

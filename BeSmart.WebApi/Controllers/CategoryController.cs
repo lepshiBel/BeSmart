@@ -1,5 +1,8 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs;
 using BeSmart.Domain.Models;
+using BeSmart.Persistence;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -9,10 +12,12 @@ namespace BeSmart.WebApi.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly IServiceCategory serviceCategory;
+        private readonly IMapper mapper;
 
-        public CategoryController(IServiceCategory serviceCategory)
+        public CategoryController(IServiceCategory serviceCategory, IMapper mapper)
         {
             this.serviceCategory = serviceCategory;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -25,7 +30,7 @@ namespace BeSmart.WebApi.Controllers
                 return NoContent();
             }
 
-            return Ok(categories);
+            return Ok(categories.Select(c => mapper.Map<CategoryDTO>(c)));
         }
 
         [HttpGet("{id}")]
