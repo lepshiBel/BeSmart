@@ -8,7 +8,8 @@ namespace BeSmart.Persistence
     {
         public AutoMapperProfile()
         {
-            CreateMap<Category, CategoryDTO>();
+            CreateMap<Category, CategoryDTO>().ReverseMap();
+            CreateMap<Category, CategoryCreationDTO>().ReverseMap();
         }
     }
 }
