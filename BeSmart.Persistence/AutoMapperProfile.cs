@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BeSmart.Domain.Models;
 using BeSmart.Domain.DTOs;
+using BeSmart.Domain.DTOs.Answer;
 
 namespace BeSmart.Persistence
 {
@@ -9,6 +10,7 @@ namespace BeSmart.Persistence
         public AutoMapperProfile()
         {
             CreateMap<Category, CategoryDTO>();
+            CreateMap<Answer, AnswerDTO>();
         }
     }
 }
