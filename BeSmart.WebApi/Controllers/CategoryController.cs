@@ -21,7 +21,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Category>>> GetAll()
+        public async Task<ActionResult<List<CategoryDTO>>> GetAll()
         {
             var categories = await serviceCategory.GetAllCategoriesAsync();
             
@@ -34,22 +34,25 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> Get(int id)
+        public async Task<ActionResult<CategoryDTO>> Get(int id)
         {
             var category = await serviceCategory.FindCategoryByIdAsync(id);
-            
+          
             if (category is null)
             {
                 return NoContent();
             }
 
-            return Ok(category);
+            var categoryDto = mapper.Map<CategoryDTO>(category);
+
+            return Ok(categoryDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> Post(Category category)
+        public async Task<ActionResult<Category>> Post(CategoryCreationDTO categorydto)
         {
-            var createdCategory = await serviceCategory.AddCategoryAsync(category);
+            var categoryToAdd = mapper.Map<Category>(categorydto);
+            var createdCategory = await serviceCategory.AddCategoryAsync(categoryToAdd);
 
             if (createdCategory is null)
             {
