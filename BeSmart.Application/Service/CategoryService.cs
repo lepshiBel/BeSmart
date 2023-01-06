@@ -1,32 +1,38 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.Category;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
-using FluentValidation;
 
 namespace BeSmart.Application.Service
 {
     public class CategoryService : IServiceCategory
     {
         private readonly IRepositoryManager repoManager;
+        private readonly IMapper mapper;
 
-        public CategoryService(IRepositoryManager repoManager)
+        public CategoryService(IRepositoryManager repoManager, IMapper mapper)
         {
             this.repoManager = repoManager;
+            this.mapper = mapper;
         }
 
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        public async Task<List<CategoryDTO>>? GetAllCategoriesAsync()
         {
-            return await repoManager.Category.GetAllAsync();
+            var categories = await repoManager.Category.GetAllAsync();
+            return categories == null ? null : mapper.Map<List<CategoryDTO>>(categories);
         }
 
-        public async Task<Category> FindCategoryByIdAsync(int id)
+        public async Task<CategoryDTO> FindCategoryByIdAsync(int id)
         {
-            return await repoManager.Category.GetAsync(id);
+            var category = await repoManager.Category.GetAsync(id);
+            return category == null ? null : mapper.Map<CategoryDTO>(category);
         }
-
-        public async Task<Category> AddCategoryAsync(Category entity)
+        public async Task<CategoryDTO> AddCategoryAsync(CategoryCreationDTO categoryDto)
         {
-            return await repoManager.Category.AddAsync(entity);
+            var category = mapper.Map<Category>(categoryDto);
+            var created = await repoManager.Category.AddAsync(category);
+            return mapper.Map<CategoryDTO>(created);
         }
     }
 }

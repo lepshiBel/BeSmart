@@ -1,37 +1,44 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.Answer;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
-using FluentValidation;
 
 namespace BeSmart.Application.Service
 {
     public class AnswerService : IServiceAnswer
     {
         private readonly IRepositoryManager repoManager;
+        private readonly IMapper mapper;
 
-        public AnswerService(IRepositoryManager repoManager)
+        public AnswerService(IRepositoryManager repoManager, IMapper mapper)
         {
             this.repoManager = repoManager;
+            this.mapper = mapper;
         }
 
-        public async Task<List<Answer>> GetAllAnswersAsync()
+        public async Task<List<AnswerDTO>>? GetAllAnswersAsync()
         {
-            return await repoManager.Answer.GetAllAsync();
+            var answers = await repoManager.Answer.GetAllAsync();
+            return answers == null ? null : mapper.Map<List<AnswerDTO>>(answers);
         }
 
-        public async Task<Answer> FindAnswerByIdAsync(int id)
+        public async Task<AnswerDTO>? FindAnswerByIdAsync(int id)
         {
-            return await repoManager.Answer.GetAsync(id);
+            var answer = await repoManager.Answer.GetAsync(id);
+            return answer == null ? null : mapper.Map<AnswerDTO>(answer);
         }
 
-        public async Task<Answer> AddAnswerAsync(Answer entity)
+        public async Task<AnswerDTO> AddAnswerAsync(AnswerCreationDTO answerDto)
         {
-             return await repoManager.Answer.AddAsync(entity);
+            var answerToCreate = mapper.Map<Answer>(answerDto);
+            var createdAnswer = await repoManager.Answer.AddAsync(answerToCreate);
+            return mapper.Map<AnswerDTO>(createdAnswer);
         }
 
-        public async Task<Answer> UpdateAnswerAsync(Answer entity)
+        public async Task<Answer> UpdateAnswerAsync(Answer answer)
         {
-            return await repoManager.Answer.UpdateAsync(entity);
+            return await repoManager.Answer.UpdateAsync(answer);
         }
 
         public async Task<Answer> DeleteAnswerAsync(int id)

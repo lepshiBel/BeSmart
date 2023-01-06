@@ -1,11 +1,12 @@
-﻿using BeSmart.Domain.Models;
+﻿using BeSmart.Domain.DTOs.Category;
+using BeSmart.Domain.Models;
 
 namespace BeSmart.Application.Interfaces
 {
     public interface IServiceCategory
     {
-        Task<List<Category>> GetAllCategoriesAsync();
-        Task<Category> FindCategoryByIdAsync(int id);
-        Task<Category> AddCategoryAsync(Category category);
+        Task<List<CategoryDTO>>? GetAllCategoriesAsync();
+        Task<CategoryDTO>? FindCategoryByIdAsync(int id);
+        Task<CategoryDTO>? AddCategoryAsync(CategoryCreationDTO categoryDto);
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BeSmart.Application.Interfaces;
+﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Category;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,54 +10,49 @@ namespace BeSmart.WebApi.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly IServiceCategory serviceCategory;
-        private readonly IMapper mapper;
 
-        public CategoryController(IServiceCategory serviceCategory, IMapper mapper)
+        public CategoryController(IServiceCategory serviceCategory)
         {
             this.serviceCategory = serviceCategory;
-            this.mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<CategoryDTO>>> GetAll()
         {
-            var categories = await serviceCategory.GetAllCategoriesAsync();
+            var categoriesDto = await serviceCategory.GetAllCategoriesAsync();
             
-            if (!categories.Any())
+            if (!categoriesDto.Any())
             {
                 return NoContent();
             }
 
-            return Ok(categories.Select(c => mapper.Map<CategoryDTO>(c)));
+            return Ok(categoriesDto);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDTO>> Get(int id)
         {
-            var category = await serviceCategory.FindCategoryByIdAsync(id);
+            var categoryDto = await serviceCategory.FindCategoryByIdAsync(id);
           
-            if (category is null)
+            if (categoryDto is null)
             {
                 return NoContent();
             }
 
-            var categoryDto = mapper.Map<CategoryDTO>(category);
-
             return Ok(categoryDto);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Category>> Post(CategoryCreationDTO categorydto)
+        [HttpPost("Create/{categoryDto}")]
+        public async Task<ActionResult> Post(CategoryCreationDTO categoryDto)
         {
-            var categoryToAdd = mapper.Map<Category>(categorydto);
-            var createdCategory = await serviceCategory.AddCategoryAsync(categoryToAdd);
+            var createdCategory = await serviceCategory.AddCategoryAsync(categoryDto);
 
             if (createdCategory is null)
             {
                 return BadRequest("Category object is invalid");
             }
 
-            return Ok(createdCategory);
+            return RedirectToAction("Get", "Category", createdCategory.Id);
         }
     }
 }

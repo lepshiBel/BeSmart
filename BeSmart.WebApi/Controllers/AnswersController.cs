@@ -20,68 +20,68 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Answer>>> GetAll()
+        public async Task<ActionResult<List<AnswerDTO>>> GetAll()
         {
-            var answers = await serviceAnswer.GetAllAnswersAsync();
+            var answersDto = await serviceAnswer.GetAllAnswersAsync();
             
-            if (!answers.Any())
+            if (answersDto == null)
             {
                 return NoContent();
             }
 
-            return Ok(answers.Select(x => mapper.Map<AnswerDTO>(x)));
+            return Ok(answersDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Answer>> Get(int id)
+        public async Task<ActionResult<AnswerDTO>> Get(int id)
         {
-            var answer = await serviceAnswer.FindAnswerByIdAsync(id);
+            var answerDto = await serviceAnswer.FindAnswerByIdAsync(id);
             
-            if (answer is null)
+            if (answerDto is null)
             {
                 return NoContent();
             }
 
-            return Ok(mapper.Map<AnswerDTO>(answer));
+            return Ok(answerDto);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Answer>> Post(AnswerCreationDTO answerdto)
+        [HttpPost("Create/{answerDto}")]
+        public async Task<ActionResult> Post(AnswerCreationDTO answerDto)
         {
-            var answerToAdd = mapper.Map<Answer>(answerdto);
-            var createdAnswer = await serviceAnswer.AddAnswerAsync(answerToAdd);
+            var createdAnswer = await serviceAnswer.AddAnswerAsync(answerDto);
 
             if (createdAnswer is null)
             {
                 return BadRequest("Answer object is invalid");
             }
 
-            return Ok(createdAnswer);
+            return RedirectToAction("Get", "Answers", createdAnswer.Id);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Answer>> Update(int id)
-        {
-            var answerToUpdate = await serviceAnswer.FindAnswerByIdAsync(id);
+        //[HttpPost("Update/{id}")]
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult<Answer>> Update(int id, AnswerCreationDTO answerCreationDTO)
+        //{
+        //    var answerToUpdate = await serviceAnswer.FindAnswerByIdAsync(id);
            
-            if (answerToUpdate is null)
-            {
-                return NoContent();
-            }
+        //    if (answerToUpdate is null)
+        //    {
+        //        return NoContent();
+        //    }
 
-            var updated = await serviceAnswer.UpdateAnswerAsync(answerToUpdate);
-            
-            return Ok(updated);
-        }
+        //    var updated = await serviceAnswer.UpdateAnswerAsync(answerToUpdate, answerCreationDTO);
 
-        [HttpDelete("{id}")]
+        //    return RedirectToAction("Get", "Answers", updated.Id);
+        //}
+
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await serviceAnswer.DeleteAnswerAsync(id);
             
             if (entity == null)
             {
-                return NoContent();
+                return BadRequest();
             }
 
             return Ok();
