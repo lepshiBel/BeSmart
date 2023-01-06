@@ -12,6 +12,6 @@ namespace BeSmart.Domain.DTOs.Question
     {
         public int Id { get; set; } 
         public string Text { get; set; }
-        public List<AnswerDTO> Answers { get; set; }
+        public ICollection<AnswerDTO> Answers { get; set; }
     }
 }

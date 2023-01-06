@@ -1,4 +1,5 @@
 ﻿using BeSmart.Domain.DTOs.Answer;
+using BeSmart.Domain.DTOs.Question;
 
 namespace BeSmart.Domain.DTOs
 {
@@ -6,6 +7,6 @@ namespace BeSmart.Domain.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<AnswerDTO> Answers { get; set; }
+        public ICollection<QuestionDTO> Questions { get; set; }
     }
 }
