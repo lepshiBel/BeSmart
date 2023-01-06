@@ -68,7 +68,7 @@ namespace BeSmart.WebApi.Controllers
             return RedirectToAction("Get", "Answers", createdQuestion.Id);
         }
 
-        //[HttpPost("Update/{id}")]
+        //[HttpPut("Update/{id}")]
         //public async Task<ActionResult> Update(int id, Question question)
         //{
         //    if (id != question.Id)

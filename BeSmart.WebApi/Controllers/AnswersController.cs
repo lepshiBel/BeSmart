@@ -54,8 +54,7 @@ namespace BeSmart.WebApi.Controllers
             return RedirectToAction("Get", "Answers", createdAnswer.Id);
         }
 
-        //[HttpPost("Update/{id}")]
-        //[HttpPut("{id}")]
+        //[HttpPut("Update/{id}")]
         //public async Task<ActionResult<Answer>> Update(int id, AnswerCreationDTO answerCreationDTO)
         //{
         //    var answerToUpdate = await serviceAnswer.FindAnswerByIdAsync(id);

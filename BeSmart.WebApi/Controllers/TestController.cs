@@ -11,38 +11,34 @@ namespace BeSmart.WebApi.Controllers
     public class TestController : ControllerBase
     {
         private readonly IServiceTest serviceTest;
-        private readonly IMapper mapper;
 
-        public TestController(IServiceTest serviceTest, IMapper mapper)
+        public TestController(IServiceTest serviceTest)
         {
             this.serviceTest = serviceTest;
-            this.mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<TestDTO>>> GetAll()
         {
-            var tests = await serviceTest.GetAllTestsAsync();
+            var testsDto = await serviceTest.GetAllTestsAsync();
 
-            if (!tests.Any())
+            if (!testsDto.Any())
             {
                 return NoContent();
             }
 
-            return Ok(tests.Select(t => mapper.Map<TestDTO>(t)));
+            return Ok(testsDto);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TestDTO>> Get(int id)
         {
-            var test = await serviceTest.FindTestByIdAsync(id);
+            var testDto = await serviceTest.FindTestByIdAsync(id);
 
-            if (test is null)
+            if (testDto is null)
             {
                 return NoContent();
             }
-            
-            var testDto = mapper.Map<TestDTO>(test);
             
             return Ok(testDto);
         }
@@ -50,33 +46,30 @@ namespace BeSmart.WebApi.Controllers
         [HttpGet("withQuestions/{id}")]
         public async Task<ActionResult<TestWithQuestionsDTO>> GetTestWithQuestions(int id)
         {
-            var test = await serviceTest.GetTestWithQuestionsAsync(id);
+            var testWithQuestionsDto = await serviceTest.GetTestWithQuestionsAsync(id);
 
-            if (test is null)
+            if (testWithQuestionsDto is null)
             {
                 return NoContent();
             }
 
-            var testWithAnswersDto = mapper.Map<TestWithQuestionsDTO>(test);
-
-            return Ok(testWithAnswersDto);
+            return Ok(testWithQuestionsDto);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Test>> Post(TestDTO testDto)
+        [HttpPost("Create/{testCreationDto}")]
+        public async Task<ActionResult<Test>> Post(TestCreationDTO testCreationDto)
         {
-            var testToAdd = mapper.Map<Test>(testDto);
-            var createdTest = await serviceTest.AddTestAsync(testToAdd);
+            var createdTest = await serviceTest.AddTestAsync(testCreationDto);
 
             if (createdTest is null)
             {
                 return BadRequest("Test object is invalid");
             }
 
-            return Ok(createdTest);
+            return RedirectToAction("Get", "Test", createdTest.Id);
         }
 
-        //[HttpPut("{id}")]
+        //[HttpPut("Update/{id}")]
         //public async Task<ActionResult> Update(int id, Test test)
         //{
         //    if (id != test.Id)
@@ -101,7 +94,7 @@ namespace BeSmart.WebApi.Controllers
         //    return Ok(updated);
         //}
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await serviceTest.DeleteTestAsync(id);

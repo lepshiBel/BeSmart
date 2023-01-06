@@ -1,4 +1,6 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 
@@ -7,36 +9,44 @@ namespace BeSmart.Application.Service
     public class TestService : IServiceTest
     {
         private readonly IRepositoryManager repoManager;
+        private readonly IMapper mapper;
 
-        public TestService(IRepositoryManager repoManager)
+        public TestService(IRepositoryManager repoManager, IMapper mapper)
         {
             this.repoManager = repoManager;
+            this.mapper = mapper;
         }
 
-        public async Task<List<Test>> GetAllTestsAsync()
+        public async Task<List<TestDTO>> GetAllTestsAsync()
         {
-            return await repoManager.Test.GetAllAsync();
+            var tests = await repoManager.Test.GetAllAsync();
+            return tests == null ? null : mapper.Map<List<TestDTO>>(tests);   
         }
 
-        public async Task<Test> FindTestByIdAsync(int id)
+        public async Task<TestDTO> FindTestByIdAsync(int id)
         {
-            return await repoManager.Test.GetAsync(id);
-        }
-        public async Task<Test> GetTestWithQuestionsAsync(int id)
-        {
-            return await repoManager.Test.GetTestWithQuestionsAsync(id);
+            var test = await repoManager.Test.GetAllAsync();
+            return test == null ? null : mapper.Map<TestDTO>(test);
         }
 
-        public async Task<Test> AddTestAsync(Test test)
+        public async Task<TestWithQuestionsDTO> GetTestWithQuestionsAsync(int id)
         {
-            return await repoManager.Test.AddAsync(test);
+            var testWithQuestions = await repoManager.Test.GetTestWithQuestionsAsync(id);
+            return testWithQuestions == null ? null :mapper.Map<TestWithQuestionsDTO>(testWithQuestions);
         }
 
-        public async Task<Test> UpdateTestAsync(Test test)
+        public async Task<TestDTO> AddTestAsync(TestCreationDTO testCreationDto)
         {
-
-            return await repoManager.Test.UpdateAsync(test);
+            var testToCreate = mapper.Map<Test>(testCreationDto);
+            var createdTest = await repoManager.Test.AddAsync(testToCreate);
+            return createdTest == null ? null : mapper.Map<TestDTO>(createdTest);
         }
+
+        //public async Task<Test> UpdateTestAsync(Test test)
+        //{
+
+        //    return await repoManager.Test.UpdateAsync(test);
+        //}
 
         public async Task<Test> DeleteTestAsync(int id)
         {
