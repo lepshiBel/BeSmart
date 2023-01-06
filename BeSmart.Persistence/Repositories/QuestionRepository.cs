@@ -16,5 +16,12 @@ namespace BeSmart.Persistence.Repositories
             await context.Entry(question).Collection(q => q.Answers).LoadAsync();
             return question;
         }
+
+        //public async Task<List<Question>> GetAllQuestionsWithAnswersAsync()
+        //{
+        //    var questions = await context.Questions.ToListAsync();
+        //    await context.Entry(questions).Collection(q => q.Answers).LoadAsync();
+        //    return questions;
+        //}
     }
 }

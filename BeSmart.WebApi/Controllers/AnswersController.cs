@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using BeSmart.Application.Interfaces;
+﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Answer;
-using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -11,12 +9,10 @@ namespace BeSmart.WebApi.Controllers
     public class AnswersController : ControllerBase
     {
         private readonly IServiceAnswer serviceAnswer;
-        private readonly IMapper mapper;
 
-        public AnswersController(IServiceAnswer serviceAnswer, IMapper mapper)
+        public AnswersController(IServiceAnswer serviceAnswer)
         {
             this.serviceAnswer = serviceAnswer;
-            this.mapper = mapper;
         }
 
         [HttpGet]

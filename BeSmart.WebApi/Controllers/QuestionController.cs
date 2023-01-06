@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BeSmart.Application.Interfaces;
+﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Question;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +10,10 @@ namespace BeSmart.WebApi.Controllers
     public class QuestionController : ControllerBase
     {
         private readonly IServiceQuestion serviceQuestion;
-        private readonly IMapper mapper;
 
-        public QuestionController(IServiceQuestion serviceQuestion, IMapper mapper)
+        public QuestionController(IServiceQuestion serviceQuestion)
         {
             this.serviceQuestion = serviceQuestion;
-            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -29,20 +26,18 @@ namespace BeSmart.WebApi.Controllers
                 return NoContent();
             }
 
-            return Ok(questions.Select(c => mapper.Map<QuestionDTO>(c)));
+            return Ok(questions);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<QuestionDTO>> Get(int id)
         {
-            var question = await serviceQuestion.FindQuestionByIdAsync(id);
+            var questionDto = await serviceQuestion.FindQuestionByIdAsync(id);
 
-            if (question is null)
+            if (questionDto is null)
             {
                 return NoContent();
             }
-
-            var questionDto = mapper.Map<QuestionDTO>(question);
 
             return Ok(questionDto);
         }
@@ -50,58 +45,55 @@ namespace BeSmart.WebApi.Controllers
         [HttpGet("withAnswers/{id}")]
         public async Task<ActionResult<QuestionWithAnswersDTO>> GetQuestionWithAnswers(int id)
         {
-            var questionsWithAnswers = await serviceQuestion.GetQuestionWithAnswersAsync(id);
+            var questionsWithAnswersDto = await serviceQuestion.GetQuestionWithAnswersAsync(id);
 
-            if (questionsWithAnswers is null)
+            if (questionsWithAnswersDto is null)
             {
                 return NoContent();
             }
 
-            var questionsWithAnswersDto = mapper.Map<QuestionWithAnswersDTO>(questionsWithAnswers);
-
             return Ok(questionsWithAnswersDto);
         }
 
-        [HttpPost]
+        [HttpPost("Create/{questionCreationDto}")]
         public async Task<ActionResult> Post(QuestionCreationDTO questionCreationDto)
         {
-            Question questionToCreate = mapper.Map<Question>(questionCreationDto);
-            var createdQuestion = await serviceQuestion.AddQuestionAsync(questionToCreate);
+            var createdQuestion = await serviceQuestion.AddQuestionAsync(questionCreationDto);
            
             if (createdQuestion is null)
             {
                 return BadRequest("Question object is invalid");
             }
-            
-            return Ok(createdQuestion);
+
+            return RedirectToAction("Get", "Answers", createdQuestion.Id);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, Question question)
-        {
-            if (id != question.Id)
-            {
-                return BadRequest();
-            }
+        //[HttpPost("Update/{id}")]
+        //public async Task<ActionResult> Update(int id, Question question)
+        //{
+        //    if (id != question.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var questionToUpdate = await serviceQuestion.FindQuestionByIdAsync(id);
-           
-            if (questionToUpdate is null)
-            {
-                return NoContent();
-            }
+        //    var questionToUpdate = await serviceQuestion.FindQuestionByIdAsync(id);
 
-            var updated = await serviceQuestion.UpdateQuestionAsync(questionToUpdate);
-            
-            if(updated is null)
-            {
-                return BadRequest("Question object is invalid");
-            }
+        //    if (questionToUpdate is null)
+        //    {
+        //        return NoContent();
+        //    }
 
-            return Ok(updated);
-        }
+        //    var updated = await serviceQuestion.UpdateQuestionAsync(questionToUpdate);
 
-        [HttpDelete("{id}")]
+        //    if(updated is null)
+        //    {
+        //        return BadRequest("Question object is invalid");
+        //    }
+
+        //    return Ok(updated);
+        //}
+
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await serviceQuestion.DeleteQuestionAsync(id);
