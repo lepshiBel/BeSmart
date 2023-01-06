@@ -8,7 +8,7 @@ namespace BeSmart.Application.Interfaces
         Task<List<AnswerDTO>> GetAllAnswersAsync();
         Task<AnswerDTO> FindAnswerByIdAsync(int id);
         Task<AnswerDTO> AddAnswerAsync(AnswerCreationDTO answer);
-        //Task<AnswerDTO> UpdateAnswerAsync(Answer answer);
+        Task<AnswerDTO> UpdateAnswerAsync(int id, AnswerUpdateDTO answerUpdateDto);
         Task<Answer> DeleteAnswerAsync(int id);
     }
 }

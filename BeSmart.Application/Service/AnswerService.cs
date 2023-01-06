@@ -36,9 +36,11 @@ namespace BeSmart.Application.Service
             return mapper.Map<AnswerDTO>(createdAnswer);
         }
 
-        public async Task<Answer> UpdateAnswerAsync(Answer answer)
+        public async Task<AnswerDTO> UpdateAnswerAsync(int id, AnswerUpdateDTO answerUpdateDto)
         {
-            return await repoManager.Answer.UpdateAsync(answer);
+            var answerToUpdate = mapper.Map<Answer>(answerUpdateDto);
+            var updated = await repoManager.Answer.UpdateAsync(id, answerToUpdate);
+            return updated == null ? null : mapper.Map<AnswerDTO>(updated);
         }
 
         public async Task<Answer> DeleteAnswerAsync(int id)

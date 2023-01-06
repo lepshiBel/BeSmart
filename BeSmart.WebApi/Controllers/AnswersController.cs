@@ -42,8 +42,9 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpPost("Create/{answerDto}")]
-        public async Task<ActionResult> Post(AnswerCreationDTO answerDto)
+        public async Task<ActionResult> Post(int questionId, AnswerCreationDTO answerDto)
         {
+            answerDto.QuestionId = questionId;
             var createdAnswer = await serviceAnswer.AddAnswerAsync(answerDto);
 
             if (createdAnswer is null)
@@ -54,20 +55,18 @@ namespace BeSmart.WebApi.Controllers
             return RedirectToAction("Get", "Answers", createdAnswer.Id);
         }
 
-        //[HttpPut("Update/{id}")]
-        //public async Task<ActionResult<Answer>> Update(int id, AnswerCreationDTO answerCreationDTO)
-        //{
-        //    var answerToUpdate = await serviceAnswer.FindAnswerByIdAsync(id);
-           
-        //    if (answerToUpdate is null)
-        //    {
-        //        return NoContent();
-        //    }
+        [HttpPut("Update/{id}")]
+        public async Task<ActionResult<AnswerDTO>> Update(int id, AnswerUpdateDTO answerUpdateDTO)
+        {
+            var updated = await serviceAnswer.UpdateAnswerAsync(id, answerUpdateDTO);
 
-        //    var updated = await serviceAnswer.UpdateAnswerAsync(answerToUpdate, answerCreationDTO);
+            if (updated is null)
+            {
+                return NoContent();
+            }
 
-        //    return RedirectToAction("Get", "Answers", updated.Id);
-        //}
+            return RedirectToAction("Get", "Answers", updated.Id);
+        }
 
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
