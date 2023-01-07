@@ -9,5 +9,7 @@
         public string? ImageUrl { get; set; }
 
         public string? Transctipt { get; set; }
+
+        public int? LessonId { get; set; }
     }
 }
