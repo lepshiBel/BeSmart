@@ -17,6 +17,7 @@ namespace BeSmart.Persistence
 
             CreateMap<Card, CardDTO>().ReverseMap();
             CreateMap<Card, CardCreationDTO>().ReverseMap();
+            CreateMap<Card, CardUpdateDTO>().ReverseMap();
 
             CreateMap<Test, TestDTO>().ReverseMap();
             CreateMap<Test, TestCreationDTO>().ReverseMap();

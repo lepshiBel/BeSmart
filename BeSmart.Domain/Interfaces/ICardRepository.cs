@@ -2,7 +2,7 @@
 
 namespace BeSmart.Domain.Interfaces
 {
-    public interface ICardRepository : IRepositoryBase<Category>
+    public interface ICardRepository : IRepositoryBase<Card>
     {
     }
 }

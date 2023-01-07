@@ -8,7 +8,7 @@ namespace BeSmart.Application.Interfaces
         Task<List<CardDTO>> GetAllCardsAsync();
         Task<CardDTO> FindCardByIdAsync(int id);
         Task<CardDTO> AddCardAsync(CardCreationDTO card);
-        Task<CardDTO> UpdateCardAsync(int id, CardCreationDTO card);
+        Task<CardDTO> UpdateCardAsync(int id, CardUpdateDTO card);
         Task<Card> DeleteCardAsync(int id);
     }
 }
