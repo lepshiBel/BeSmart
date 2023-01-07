@@ -4,6 +4,7 @@ using BeSmart.Domain.DTOs.Answer;
 using BeSmart.Domain.DTOs.Category;
 using BeSmart.Domain.DTOs;
 using BeSmart.Domain.DTOs.Question;
+using BeSmart.Domain.DTOs.Card;
 
 namespace BeSmart.Persistence
 {
@@ -13,6 +14,9 @@ namespace BeSmart.Persistence
         {
             CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<Category, CategoryCreationDTO>().ReverseMap();
+
+            CreateMap<Card, CardDTO>().ReverseMap();
+            CreateMap<Card, CardCreationDTO>().ReverseMap();
 
             CreateMap<Test, TestDTO>().ReverseMap();
             CreateMap<Test, TestCreationDTO>().ReverseMap();
