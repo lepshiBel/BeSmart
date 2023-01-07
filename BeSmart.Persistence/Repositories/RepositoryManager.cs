@@ -11,6 +11,7 @@ namespace BeSmart.Persistence.Repositories
         private IAnswerRepository answer;
         private ICategoryRepository category;
         private ITestRepository test;
+        private ICardRepository card;
 
         public RepositoryManager(BeSmartDbContext dbContext)
         {
@@ -65,6 +66,19 @@ namespace BeSmart.Persistence.Repositories
                 }
 
                 return test;
+            }
+        }
+
+        public ICardRepository Card
+        {
+            get
+            {
+                if (card == null)
+                {
+                    card = new CardRepository(dbContext);
+                }
+
+                return card;
             }
         }
 
