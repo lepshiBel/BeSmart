@@ -20,6 +20,7 @@ namespace BeSmart.Persistence
 
             CreateMap<Answer, AnswerDTO>().ReverseMap();
             CreateMap<Answer, AnswerCreationDTO>().ReverseMap();
+            CreateMap<Answer, AnswerUpdateDTO>().ReverseMap();
 
             CreateMap<Question, QuestionCreationDTO>().ReverseMap();
             CreateMap<Question, QuestionDTO>().ReverseMap();

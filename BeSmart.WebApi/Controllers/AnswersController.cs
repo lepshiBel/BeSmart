@@ -52,7 +52,7 @@ namespace BeSmart.WebApi.Controllers
                 return BadRequest("Answer object is invalid");
             }
 
-            return RedirectToAction("Get", "Answers", createdAnswer.Id);
+            return Ok(createdAnswer);
         }
 
         [HttpPut("Update/{id}")]
