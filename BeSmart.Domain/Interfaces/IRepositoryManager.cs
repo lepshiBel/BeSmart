@@ -6,6 +6,7 @@
         IAnswerRepository Answer { get; }
         ICategoryRepository Category { get; }
         ITestRepository Test { get; }
+        ICardRepository Card { get; }
         void Save();
     }
 }
