@@ -1,13 +1,14 @@
-﻿using BeSmart.Domain.Models;
+﻿using BeSmart.Domain.DTOs.Card;
+using BeSmart.Domain.Models;
 
 namespace BeSmart.Application.Interfaces
 {
     public interface IServiceCard
     {
-        Task<List<Card>> GetAllCardsAsync();
-        Task<Card> FindCardByIdAsync(int id);
-        Task<Card> AddCardAsync(Card card);
-        Task<Card> UpdateCardAsync(int id, Card card);
+        Task<List<CardDTO>> GetAllCardsAsync();
+        Task<CardDTO> FindCardByIdAsync(int id);
+        Task<CardDTO> AddCardAsync(CardCreationDTO card);
+        Task<CardDTO> UpdateCardAsync(int id, CardCreationDTO card);
         Task<Card> DeleteCardAsync(int id);
     }
 }
