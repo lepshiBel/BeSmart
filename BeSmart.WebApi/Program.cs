@@ -26,6 +26,7 @@ builder.Services.AddScoped<IServiceAnswer, AnswerService>();
 builder.Services.AddScoped<IServiceCategory, CategoryService>();
 builder.Services.AddScoped<IServiceTest, TestService>();
 builder.Services.AddScoped<IServiceQuestion, QuestionService>();
+builder.Services.AddScoped<IServiceCard, CardService>();
 
 builder.Services.ConfigureServices(builder.Configuration);
 
