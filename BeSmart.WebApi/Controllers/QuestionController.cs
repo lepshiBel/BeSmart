@@ -55,9 +55,10 @@ namespace BeSmart.WebApi.Controllers
             return Ok(questionsWithAnswersDto);
         }
 
-        [HttpPost("Create/{questionCreationDto}")]
-        public async Task<ActionResult> Post(QuestionCreationDTO questionCreationDto)
+        [HttpPost("Create/{testId}")]
+        public async Task<ActionResult> Post(int testId, [FromBody]QuestionCreationDTO questionCreationDto)
         {
+            questionCreationDto.TestId = testId;
             var createdQuestion = await serviceQuestion.AddQuestionAsync(questionCreationDto);
            
             if (createdQuestion is null)
@@ -65,33 +66,9 @@ namespace BeSmart.WebApi.Controllers
                 return BadRequest("Question object is invalid");
             }
 
-            return RedirectToAction("Get", "Answers", createdQuestion.Id);
+            return Ok(createdQuestion);
         }
 
-        //[HttpPut("Update/{id}")]
-        //public async Task<ActionResult> Update(int id, Question question)
-        //{
-        //    if (id != question.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var questionToUpdate = await serviceQuestion.FindQuestionByIdAsync(id);
-
-        //    if (questionToUpdate is null)
-        //    {
-        //        return NoContent();
-        //    }
-
-        //    var updated = await serviceQuestion.UpdateQuestionAsync(questionToUpdate);
-
-        //    if(updated is null)
-        //    {
-        //        return BadRequest("Question object is invalid");
-        //    }
-
-        //    return Ok(updated);
-        //}
 
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)

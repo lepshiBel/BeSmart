@@ -42,8 +42,8 @@ namespace BeSmart.WebApi.Controllers
             return Ok(categoryDto);
         }
 
-        [HttpPost("Create/{categoryDto}")]
-        public async Task<ActionResult> Post(CategoryCreationDTO categoryDto)
+        [HttpPost("Create")]
+        public async Task<ActionResult> Post([FromBody]CategoryCreationDTO categoryDto)
         {
             var createdCategory = await serviceCategory.AddCategoryAsync(categoryDto);
 
@@ -52,7 +52,7 @@ namespace BeSmart.WebApi.Controllers
                 return BadRequest("Category object is invalid");
             }
 
-            return RedirectToAction("Get", "Category", createdCategory.Id);
+            return Ok(createdCategory);
         }
     }
 }

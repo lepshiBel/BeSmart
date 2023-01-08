@@ -41,8 +41,8 @@ namespace BeSmart.WebApi.Controllers
             return Ok(answerDto);
         }
 
-        [HttpPost("Create/{answerDto}")]
-        public async Task<ActionResult> Post(int questionId, AnswerCreationDTO answerDto)
+        [HttpPost("Create/{questionId}")]
+        public async Task<ActionResult> Post(int questionId, [FromBody]AnswerCreationDTO answerDto)
         {
             answerDto.QuestionId = questionId;
             var createdAnswer = await serviceAnswer.AddAnswerAsync(answerDto);
@@ -56,7 +56,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult<AnswerDTO>> Update(int id, AnswerUpdateDTO answerUpdateDTO)
+        public async Task<ActionResult<AnswerDTO>> Update(int id, [FromBody]AnswerUpdateDTO answerUpdateDTO)
         {
             var updated = await serviceAnswer.UpdateAnswerAsync(id, answerUpdateDTO);
 
@@ -65,7 +65,7 @@ namespace BeSmart.WebApi.Controllers
                 return NoContent();
             }
 
-            return RedirectToAction("Get", "Answers", updated.Id);
+            return Ok(updated);
         }
 
         [HttpDelete("Delete/{id}")]

@@ -56,9 +56,10 @@ namespace BeSmart.WebApi.Controllers
             return Ok(testWithQuestionsDto);
         }
 
-        [HttpPost("Create/{testCreationDto}")]
-        public async Task<ActionResult<Test>> Post(TestCreationDTO testCreationDto)
+        [HttpPost("Create/{themeId}")]
+        public async Task<ActionResult<Test>> Post(int themeId, TestCreationDTO testCreationDto)
         {
+            testCreationDto.ThemeId = themeId;
             var createdTest = await serviceTest.AddTestAsync(testCreationDto);
 
             if (createdTest is null)
@@ -66,33 +67,8 @@ namespace BeSmart.WebApi.Controllers
                 return BadRequest("Test object is invalid");
             }
 
-            return RedirectToAction("Get", "Test", createdTest.Id);
+            return Ok(createdTest);
         }
-
-        //[HttpPut("Update/{id}")]
-        //public async Task<ActionResult> Update(int id, Test test)
-        //{
-        //    if (id != test.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var testToUpdate = await serviceTest.FindTestByIdAsync(id);
-
-        //    if (testToUpdate is null)
-        //    {
-        //        return NoContent();
-        //    }
-
-        //    var updated = await serviceTest.UpdateTestAsync(testToUpdate);
-
-        //    if (updated is null)
-        //    {
-        //        return BadRequest("Test object is invalid");
-        //    }
-
-        //    return Ok(updated);
-        //}
 
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)

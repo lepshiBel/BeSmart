@@ -41,8 +41,8 @@ namespace BeSmart.WebApi.Controllers
             return Ok(cardDto);
         }
 
-        [HttpPost("Create/{answerDto}")]
-        public async Task<ActionResult> Post(int lessonId, CardCreationDTO cardDto)
+        [HttpPost("Create/{lessonId}")]
+        public async Task<ActionResult> Post(int lessonId, [FromBody]CardCreationDTO cardDto)
         {
             cardDto.LessonId = lessonId;
             var createdCard = await serviceCard.AddCardAsync(cardDto);
@@ -56,7 +56,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult<CardDTO>> Update(int id, CardUpdateDTO cardUpdateDTO)
+        public async Task<ActionResult<CardDTO>> Update(int id, [FromBody]CardUpdateDTO cardUpdateDTO)
         {
             var updated = await serviceCard.UpdateCardAsync(id, cardUpdateDTO);
 
