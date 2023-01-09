@@ -38,20 +38,20 @@ namespace BeSmart.Domain
 
         public virtual async Task<TEntity> UpdateAsync(int id, TEntity entity)
         {
-            //context.Set<TEntity>().Update(entity);
-            //await context.SaveChangesAsync();
-            //return entity;
-
-            var old = context.Set<TEntity>().FirstOrDefault(o => o.Id == id);
-
-            if(old == null)
-            {
-                return null;
-            }
-
-            context.Entry(old).CurrentValues.SetValues(entity);
+            context.Set<TEntity>().Update(entity);
             await context.SaveChangesAsync();
             return entity;
+
+            //var old = context.Set<TEntity>().FirstOrDefault(o => o.Id == id);
+
+            //if(old == null)
+            //{
+            //    return null;
+            //}
+
+            //context.Entry(old).CurrentValues.SetValues(entity);
+            //await context.SaveChangesAsync();
+            //return entity;
         }
 
         public virtual async Task<TEntity> DeleteAsync(int id)
