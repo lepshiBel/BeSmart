@@ -26,7 +26,7 @@ namespace BeSmart.WebApi.Controllers
                 return NoContent();
             }
 
-            return Ok(categoriesDto);
+            return Ok(categoriesDto.OrderBy(a => a.Id));
         }
 
         [HttpGet("{id}")]
