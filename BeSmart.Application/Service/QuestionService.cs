@@ -34,12 +34,6 @@ namespace BeSmart.Application.Service
             return questionsWithAnswers == null ? null : mapper.Map<QuestionWithAnswersDTO>(questionsWithAnswers);
         }
 
-        //public async Task<List<QuestionWithAnswersDTO>> GetAllQuestionsWithAnswersAsync(int id)
-        //{
-        //    var questionsWithAnswers = await repoManager.Question.GetQuestionWithAnswersAsync(id);
-        //    return questionsWithAnswers == null ? null : mapper.Map<QuestionWithAnswersDTO>(questionsWithAnswers);
-        //}
-
         public async Task<QuestionDTO> AddQuestionAsync(QuestionCreationDTO questionDto)
         {
             var questionToCreate = mapper.Map<Question>(questionDto);
@@ -47,11 +41,12 @@ namespace BeSmart.Application.Service
             return mapper.Map<QuestionDTO>(createdAnswer);
         }
 
-        //public async Task<Question> UpdateQuestionAsync(Question question)
-        //{
-
-        //    return await repoManager.Question.UpdateAsync(question); 
-        //}
+        public async Task<QuestionDTO> UpdateQuestionAsync(int id, QuestionUpdateDTO questionUpdateDto)
+        {
+            var questionToUpdate = mapper.Map<Question>(questionUpdateDto);
+            var updated = await repoManager.Question.UpdateAsync(id, questionToUpdate);
+            return updated == null ? null : mapper.Map<QuestionDTO>(updated);
+        }
 
         public async Task<Question> DeleteQuestionAsync(int id)
         {

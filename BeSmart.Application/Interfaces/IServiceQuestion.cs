@@ -9,7 +9,7 @@ namespace BeSmart.Application.Interfaces
         Task<QuestionDTO> FindQuestionByIdAsync(int id);
         Task<QuestionWithAnswersDTO> GetQuestionWithAnswersAsync(int id);
         Task<QuestionDTO> AddQuestionAsync(QuestionCreationDTO questionDto);
-        //Task<Question> UpdateQuestionAsync(Question question);
+        Task<QuestionDTO> UpdateQuestionAsync(int id, QuestionUpdateDTO question);
         Task<Question> DeleteQuestionAsync(int id);
     }
 }

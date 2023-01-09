@@ -62,11 +62,12 @@ namespace BeSmart.WebApi.Controllers
             {
                 return BadRequest("Answer object is invalid");
             }
+
             var updated = await serviceAnswer.UpdateAnswerAsync(id, answerUpdateDTO);
 
             if (updated is null)
             {
-                return NoContent();
+                return BadRequest("Answer object is invalid");
             }
 
             return Ok(updated);

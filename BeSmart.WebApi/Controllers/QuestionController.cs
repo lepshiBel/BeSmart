@@ -69,6 +69,23 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdQuestion);
         }
 
+        [HttpPut("Update/{id}")]
+        public async Task<ActionResult<QuestionDTO>> Update(int id, [FromBody] QuestionUpdateDTO questionUpdateDTO)
+        {
+            if (id != questionUpdateDTO.Id)
+            {
+                return BadRequest("Question object is invalid");
+            }
+
+            var updated = await serviceQuestion.UpdateQuestionAsync(id, questionUpdateDTO);
+
+            if (updated is null)
+            {
+                return BadRequest("Question object is invalid");
+            }
+
+            return Ok(updated);
+        }
 
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)

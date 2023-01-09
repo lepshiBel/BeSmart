@@ -58,11 +58,16 @@ namespace BeSmart.WebApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<ActionResult<CardDTO>> Update(int id, [FromBody]CardUpdateDTO cardUpdateDTO)
         {
+            if (id != cardUpdateDTO.Id)
+            {
+                return BadRequest("Card object is invalid");
+            }
+
             var updated = await serviceCard.UpdateCardAsync(id, cardUpdateDTO);
 
             if (updated is null)
             {
-                return NoContent();
+                return BadRequest("Card object is invalid");
             }
 
             return RedirectToAction("Get", "Cards", updated.Id);

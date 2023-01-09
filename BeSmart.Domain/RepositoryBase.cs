@@ -19,6 +19,7 @@ namespace BeSmart.Domain
         {
             return await context
                 .Set<TEntity>()
+                .OrderBy(x => x.Id)
                 .ToListAsync();
         }
 
