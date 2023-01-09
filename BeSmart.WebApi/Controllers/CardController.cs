@@ -49,7 +49,7 @@ namespace BeSmart.WebApi.Controllers
 
             if (createdCard is null)
             {
-                return BadRequest("Answer object is invalid");
+                return BadRequest("Card object is invalid");
             }
 
             return Ok(createdCard);
