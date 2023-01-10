@@ -25,7 +25,7 @@ namespace BeSmart.Application.Service
 
         public async Task<LessonDTO> FindLessonByIdAsync(int id)
         {
-            var lesson = await repoManager.Lesson.GetAllAsync();
+            var lesson = await repoManager.Lesson.GetAsync(id);
             return lesson == null ? null : mapper.Map<LessonDTO>(lesson);
         }
 

@@ -25,7 +25,7 @@ namespace BeSmart.Application.Service
 
         public async Task<TestDTO> FindTestByIdAsync(int id)
         {
-            var test = await repoManager.Test.GetAllAsync();
+            var test = await repoManager.Test.GetAsync(id);
             return test == null ? null : mapper.Map<TestDTO>(test);
         }
 
