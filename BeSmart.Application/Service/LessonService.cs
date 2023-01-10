@@ -42,11 +42,12 @@ namespace BeSmart.Application.Service
             return createdLesson == null ? null : mapper.Map<LessonDTO>(createdLesson);
         }
 
-        //public async Task<Lesson> UpdateLessonAsync(Lesson lesson)
-        //{
-
-        //    return await repoManager.Lesson.UpdateAsync(lesson);
-        //}
+        public async Task<LessonDTO> UpdateLessonAsync(int id, LessonDTO lessonDto)
+        {
+            var lesson = mapper.Map<Lesson>(lessonDto);
+            var updated = await repoManager.Lesson.UpdateAsync(id, lesson);
+            return updated == null ? null : mapper.Map<LessonDTO>(updated);
+        }
 
         public async Task<Lesson> DeleteLessonAsync(int id)
         {

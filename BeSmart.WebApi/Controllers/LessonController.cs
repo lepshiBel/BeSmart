@@ -55,6 +55,25 @@ namespace BeSmart.WebApi.Controllers
             return Ok(lessonWithCardsDto);
         }
 
+        [HttpPut("Update/{id}")]
+        public async Task<ActionResult<Lesson>> Update(int id, LessonDTO lessonDto)
+        {
+            if (id != lessonDto.Id)
+            {
+                return BadRequest("Lesson object is invalid");
+            }
+
+            var updated = await serviceLesson.UpdateLessonAsync(id, lessonDto);
+
+            if (updated is null)
+            {
+                return BadRequest("Lesson object is invalid");
+            }
+
+            return Ok(updated);
+        }
+
+
         [HttpPost("Create/{themeId}")]
         public async Task<ActionResult<Lesson>> Post(int themeId, LessonCreationDTO lessonCreationDto)
         {

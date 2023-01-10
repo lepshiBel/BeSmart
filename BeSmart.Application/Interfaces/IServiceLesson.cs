@@ -9,7 +9,7 @@ namespace BeSmart.Application.Interfaces
         Task<LessonDTO> FindLessonByIdAsync(int id);
         Task<LessonWithCardsDTO> GetLessonWithCardsAsync(int id);
         Task<LessonDTO> AddLessonAsync(LessonCreationDTO lessonCreationDto);
-        //Task<Lesson> UpdateLessonAsync(Lesson lesson);
+        Task<LessonDTO> UpdateLessonAsync(int id, LessonDTO lessonDto);
         Task<Lesson> DeleteLessonAsync(int id);
     }
 }
