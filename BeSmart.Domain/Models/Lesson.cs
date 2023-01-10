@@ -8,8 +8,6 @@ public class Lesson : EntityBase
 
     public string Text { get; set; }
 
-    public int CardsCount { get; set; }
-
     public int ThemeId { get; set; }
 
     public Theme Theme { get; set; }
