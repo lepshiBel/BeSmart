@@ -1,4 +1,5 @@
 ﻿using BeSmart.Domain.DTOs;
+using BeSmart.Domain.DTOs.Test;
 using BeSmart.Domain.Models;
 
 namespace BeSmart.Application.Interfaces
@@ -9,7 +10,7 @@ namespace BeSmart.Application.Interfaces
         Task<TestDTO> FindTestByIdAsync(int id);
         Task<TestWithQuestionsDTO> GetTestWithQuestionsAsync(int id);
         Task<TestDTO> AddTestAsync(TestCreationDTO testCreationDto);
-        //Task<Test> UpdateTestAsync(Test test);
+        Task<TestDTO> UpdateTestAsync(int id, TestUpdateDTO testUpdateDto);
         Task<Test> DeleteTestAsync(int id);
     }
 }

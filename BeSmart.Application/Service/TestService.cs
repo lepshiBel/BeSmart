@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs;
+using BeSmart.Domain.DTOs.Test;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 
@@ -42,11 +43,13 @@ namespace BeSmart.Application.Service
             return createdTest == null ? null : mapper.Map<TestDTO>(createdTest);
         }
 
-        //public async Task<Test> UpdateTestAsync(Test test)
-        //{
+        public async Task<TestDTO> UpdateTestAsync(int id, TestUpdateDTO testDto)
+        {
+            var test = mapper.Map<Test>(testDto);
+            var updated = await repoManager.Test.UpdateAsync(id, test);
+            return updated == null ? null : mapper.Map<TestDTO>(updated);
+        }
 
-        //    return await repoManager.Test.UpdateAsync(test);
-        //}
 
         public async Task<Test> DeleteTestAsync(int id)
         {

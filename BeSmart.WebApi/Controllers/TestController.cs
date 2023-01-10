@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs;
+using BeSmart.Domain.DTOs.Test;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -68,6 +69,19 @@ namespace BeSmart.WebApi.Controllers
             }
 
             return Ok(createdTest);
+        }
+
+        [HttpPost("Update/{id}")]
+        public async Task<ActionResult<Test>> Update(int id, TestUpdateDTO testUpdateDto)
+        {
+            var updatedTest = await serviceTest.UpdateTestAsync(id, testUpdateDto);
+
+            if (updatedTest is null)
+            {
+                return BadRequest("Test object is invalid");
+            }
+
+            return Ok(updatedTest);
         }
 
         [HttpDelete("Delete/{id}")]

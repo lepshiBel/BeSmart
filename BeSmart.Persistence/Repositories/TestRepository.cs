@@ -15,5 +15,19 @@ namespace BeSmart.Persistence.Repositories
             await context.Entry(test).Collection(q => q.Questsions).LoadAsync();
             return test;
         }
+        public override async Task<Test> UpdateAsync(int id, Test test)
+        {
+            var old = context.Tests.FirstOrDefault(l => l.Id == id);
+
+            if (old == null)
+            {
+                return null;
+            }
+
+            old.Name = test.Name;
+            old.QuestionsCount = test.QuestionsCount;
+            var updated = await base.UpdateAsync(id, old);
+            return updated;
+        }
     }
 }
