@@ -5,6 +5,7 @@ using BeSmart.Domain.DTOs.Category;
 using BeSmart.Domain.DTOs;
 using BeSmart.Domain.DTOs.Question;
 using BeSmart.Domain.DTOs.Card;
+using BeSmart.Domain.DTOs.Lesson;
 
 namespace BeSmart.Persistence
 {
@@ -31,6 +32,10 @@ namespace BeSmart.Persistence
             CreateMap<Question, QuestionDTO>().ReverseMap();
             CreateMap<Question, QuestionUpdateDTO>().ReverseMap();
             CreateMap<Question, QuestionWithAnswersDTO>().ForMember(d => d.Answers, s => s.MapFrom((s => s.Answers)));
+
+            CreateMap<Lesson, LessonDTO>().ReverseMap();
+            CreateMap<Lesson, LessonCreationDTO>().ReverseMap();
+            CreateMap<Lesson, LessonWithCardsDTO>().ForMember(d => d.Cards, s => s.MapFrom(s => s.Cards));
         }
     }
 }
