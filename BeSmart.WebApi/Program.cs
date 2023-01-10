@@ -21,6 +21,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<AnswerValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceAnswer, AnswerService>();
 builder.Services.AddScoped<IServiceCategory, CategoryService>();
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IServiceTest, TestService>();
 builder.Services.AddScoped<IServiceQuestion, QuestionService>();
 builder.Services.AddScoped<IServiceCard, CardService>();
 builder.Services.AddScoped<IServiceLesson, LessonService>();
+builder.Services.AddScoped<IServiceCourse, CourseService>();
 
 builder.Services.ConfigureServices(builder.Configuration);
 

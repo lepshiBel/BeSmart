@@ -13,6 +13,7 @@ namespace BeSmart.Persistence.Repositories
         private ITestRepository test;
         private ICardRepository card;
         private ILessonRepository lesson;
+        private ICourseRepository course;
 
         public RepositoryManager(BeSmartDbContext dbContext)
         {
@@ -93,6 +94,19 @@ namespace BeSmart.Persistence.Repositories
                 }
 
                 return lesson;
+            }
+        }
+
+        public ICourseRepository Course
+        {
+            get
+            {
+                if (course == null)
+                {
+                    course = new CourseRepository(dbContext);
+                }
+
+                return course;
             }
         }
 

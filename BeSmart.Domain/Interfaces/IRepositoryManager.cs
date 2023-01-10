@@ -8,6 +8,7 @@
         ITestRepository Test { get; }
         ICardRepository Card { get; }
         ILessonRepository Lesson { get; }
+        ICourseRepository Course { get; }
         void Save();
     }
 }
