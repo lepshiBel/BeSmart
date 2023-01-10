@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CourseController : ControllerBase
     {
         private readonly IServiceCourse serviceCourse;

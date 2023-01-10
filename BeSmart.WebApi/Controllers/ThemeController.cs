@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ThemeController : ControllerBase
     {
         private readonly IServiceTheme serviceTheme;

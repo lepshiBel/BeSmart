@@ -30,6 +30,7 @@ builder.Services.AddScoped<IServiceQuestion, QuestionService>();
 builder.Services.AddScoped<IServiceCard, CardService>();
 builder.Services.AddScoped<IServiceLesson, LessonService>();
 builder.Services.AddScoped<IServiceCourse, CourseService>();
+builder.Services.AddScoped<IServiceTheme, ThemeService>();
 
 builder.Services.ConfigureServices(builder.Configuration);
 
