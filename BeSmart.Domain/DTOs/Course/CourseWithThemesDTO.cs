@@ -1,4 +1,6 @@
-﻿namespace BeSmart.Domain.DTOs.Course
+﻿using BeSmart.Domain.DTOs.Theme;
+
+namespace BeSmart.Domain.DTOs.Course
 {
     public class CourseWithThemesDTO
     {

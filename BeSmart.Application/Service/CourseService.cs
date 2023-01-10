@@ -37,8 +37,6 @@ namespace BeSmart.Application.Service
             var createdCourse = await repoManager.Course.AddAsync(courseToCreate);
 
             return mapper.Map<CourseDTO>(createdCourse);
-
-
         }
 
         public async Task<Course> DeleteCourseAsync(int id)

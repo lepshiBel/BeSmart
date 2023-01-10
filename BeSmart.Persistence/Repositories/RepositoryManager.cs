@@ -14,6 +14,7 @@ namespace BeSmart.Persistence.Repositories
         private ICardRepository card;
         private ILessonRepository lesson;
         private ICourseRepository course;
+        private IThemeRepository theme;
 
         public RepositoryManager(BeSmartDbContext dbContext)
         {
@@ -107,6 +108,19 @@ namespace BeSmart.Persistence.Repositories
                 }
 
                 return course;
+            }
+        }
+
+        public IThemeRepository Theme
+        {
+            get
+            {
+                if (theme == null)
+                {
+                    theme = new ThemeRepository(dbContext);
+                }
+
+                return theme;
             }
         }
 

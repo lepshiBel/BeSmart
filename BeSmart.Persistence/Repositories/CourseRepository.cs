@@ -12,7 +12,7 @@ namespace BeSmart.Persistence.Repositories
         public async Task<Course> GetCourseWithThemesAsync(int id)
         {
             var course = await context.Courses.FindAsync(id);
-            await context.Entry(course).Collection(q => q.Themes).LoadAsync();
+            await context.Entry(course).Collection(q => q.CourseThemes).LoadAsync();
             return course;
         }
         public override async Task<Course> UpdateAsync(int id, Course course)

@@ -9,6 +9,7 @@
         ICardRepository Card { get; }
         ILessonRepository Lesson { get; }
         ICourseRepository Course { get; }
+        IThemeRepository Theme { get; }
         void Save();
     }
 }
