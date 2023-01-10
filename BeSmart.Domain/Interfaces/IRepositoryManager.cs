@@ -7,6 +7,7 @@
         ICategoryRepository Category { get; }
         ITestRepository Test { get; }
         ICardRepository Card { get; }
+        ILessonRepository Lesson { get; }
         void Save();
     }
 }
