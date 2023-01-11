@@ -3,16 +3,16 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:33196",
-      "sslPort": 44349
+      "applicationUrl": "http://localhost:34731",
+      "sslPort": 44348
     }
   },
   "profiles": {
-    "BeSmart.WebApi": {
+    "BeSmart.Server": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5443;http://localhost:5000",
+      "applicationUrl": "https://localhost:7088;http://localhost:5280",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
