@@ -2,7 +2,7 @@
 using BeSmart.Server.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BeSmart.Persistence.Data;
+namespace BeSmart.Server.Persistence.Data;
 
 public class BeSmartDbContext : DbContext
 {
