@@ -1,4 +1,5 @@
 ﻿using BeSmart.Server.Application.Interfaces;
+using BeSmart.Server.Domain.DTOs;
 using BeSmart.Server.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,11 @@ namespace BeSmart.Server.Controllers
 
         [AllowAnonymous]
         [HttpPost(nameof(Login))]
-        public IActionResult Login([FromBody]User user)
+        public IActionResult Login([FromBody] UserLoginRequestDTO user)
         {
             var authRes = tokenService.Authenticate(user);
 
-            return Ok(authRes);
+            return authRes ==null? BadRequest("") : Ok(authRes);
         }
     }
 }

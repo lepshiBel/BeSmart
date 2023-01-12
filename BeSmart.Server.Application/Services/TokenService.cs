@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BeSmart.Server.Application.Interfaces;
+﻿using BeSmart.Server.Application.Interfaces;
 using BeSmart.Server.Domain.DTOs;
 using BeSmart.Server.Domain.Models;
 using BeSmart.Server.Persistence;
@@ -11,12 +10,12 @@ namespace BeSmart.Server.Application.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly IMapper mapper;
+        //private readonly IMapper mapper;
 
-        public TokenService(IMapper mapper)
-        {
-            this.mapper = mapper;
-        }
+        //public TokenService(IMapper mapper)
+        //{
+        //    this.mapper = mapper;
+        //}
 
         private List<User> users = new List<User> {
             new User {
@@ -27,21 +26,18 @@ namespace BeSmart.Server.Application.Services
             }
         };
 
-        public UserLoginResponseDTO Authenticate(User user)
+        public UserLoginResponseDTO Authenticate(UserLoginRequestDTO userDto)
         {
+            var user = users.SingleOrDefault(x => x.Username == userDto.Username && x.Password == userDto.Password);
 
-            var userLoginReqDto = mapper.Map<UserLoginRequestDTO>(user);
-
-            var existionUser = users.SingleOrDefault(x => x.Username == userLoginReqDto.Username && x.Password == userLoginReqDto.Password);
-
-            if (existionUser == null)
+            if (user == null)
             {
                 return null;
             }
 
-            var token = GenerateToken(existionUser);
+            var token = GenerateToken(user);
 
-            return new UserLoginResponseDTO(existionUser, token);
+            return new UserLoginResponseDTO(user, token);
         }
 
         public string GenerateToken(User user)

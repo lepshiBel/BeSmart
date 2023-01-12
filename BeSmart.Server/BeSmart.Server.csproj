@@ -23,4 +23,8 @@
     <ProjectReference Include="..\BeSmart.Server.Persistence\BeSmart.Server.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middleware\" />
+  </ItemGroup>
+
 </Project>
