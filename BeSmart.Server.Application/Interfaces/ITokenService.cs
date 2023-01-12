@@ -1,10 +1,11 @@
-﻿using BeSmart.Server.Domain.Models;
+﻿using BeSmart.Server.Domain.DTOs;
+using BeSmart.Server.Domain.Models;
 
 namespace BeSmart.Server.Application.Interfaces
 {
     public interface ITokenService
     {
-        AuthenticateResponse Authenticate(AuthenticateRequest model);
+        UserLoginResponseDTO Authenticate(UserLoginRequestDTO model);
         public string GenerateToken(User user);
     }
 }

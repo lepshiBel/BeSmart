@@ -1,4 +1,5 @@
 ﻿using BeSmart.Server.Application.Interfaces;
+using BeSmart.Server.Domain.DTOs;
 using BeSmart.Server.Domain.Models;
 using BeSmart.Server.Persistence;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +16,7 @@ namespace BeSmart.Server.Application.Services
             }
         };
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        public UserLoginResponseDTO Authenticate(UserLoginRequestDTO model)
         {
             var user = users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
 
@@ -26,7 +27,7 @@ namespace BeSmart.Server.Application.Services
 
             var token = GenerateToken(user);
 
-            return new AuthenticateResponse(user, token);
+            return new UserLoginResponseDTO(user, token);
         }
 
         public string GenerateToken(User user)

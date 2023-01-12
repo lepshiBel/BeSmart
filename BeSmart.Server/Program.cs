@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var key = SomeOptions.GenerateBytes();
 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<ITokenService, TokenService>();

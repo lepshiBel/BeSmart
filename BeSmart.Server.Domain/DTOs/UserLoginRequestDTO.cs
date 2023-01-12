@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BeSmart.Server.Domain.Models
+namespace BeSmart.Server.Domain.DTOs
 {
-    public class AuthenticateRequest
+    public class UserLoginRequestDTO
     {
         [Required]
         public string? Username { get; set; }
