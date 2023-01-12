@@ -1,5 +1,6 @@
 ﻿using BeSmart.Server.Application.Interfaces;
 using BeSmart.Server.Domain.Models;
+using BeSmart.Server.Persistence;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -12,12 +13,12 @@ namespace BeSmart.Server.Application.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var key = AuthOptions.GetSymmetricSecurityKey();
+            var key = SomeOptions.GenerateBytes();
 
             var tokenDescriptor = new SecurityTokenDescriptor // класс для создания всех атрибутов, передаваемых в токене
             {
-                Issuer = Options.Issuer,
-                Audience = Options.Audience,
+                Issuer = SomeOptions.Issuer,
+                Audience = SomeOptions.Audience,
 
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 // SigningCredentials - для определения ключа и алгоритма шифрования

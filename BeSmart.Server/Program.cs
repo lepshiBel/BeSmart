@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var key = SomeOptions.GenerateBytes();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -20,11 +22,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     config.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuer = false,
-        ValidIssuer = Options.Issuer,
+        ValidIssuer = SomeOptions.Issuer,
         ValidateAudience = false,
-        ValidAudience = Options.Audience,
+        ValidAudience = SomeOptions.Audience,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = Options.GetSymmetricSecurityKey()
+        IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
 
