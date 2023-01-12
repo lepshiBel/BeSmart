@@ -9,6 +9,26 @@ namespace BeSmart.Server.Application.Services
 {
     public class TokenService : ITokenService
     {
+        private List<User> users = new List<User> {
+            new User {
+                Id = 1, Username = "mytestuser", Email = "somemail@gmail.com", Password = "12345", Role = "user"
+            }
+        };
+
+        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        {
+            var user = users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var token = GenerateToken(user);
+
+            return new AuthenticateResponse(user, token);
+        }
+
         public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
