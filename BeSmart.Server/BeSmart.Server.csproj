@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BeSmart.Server.Domain\BeSmart.Server.Domain.csproj" />
     <ProjectReference Include="..\BeSmart.Server.Persistence\BeSmart.Server.Persistence.csproj" />
   </ItemGroup>

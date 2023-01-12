@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Text;
+﻿using System.Text;
 
 namespace BeSmart.Server.Persistence
 {

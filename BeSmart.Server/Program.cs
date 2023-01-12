@@ -19,7 +19,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 {
     config.RequireHttpsMetadata = false;
     config.SaveToken = true;
-    config.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    config.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = false,
         ValidIssuer = SomeOptions.Issuer,

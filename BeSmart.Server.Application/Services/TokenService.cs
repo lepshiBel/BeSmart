@@ -15,17 +15,17 @@ namespace BeSmart.Server.Application.Services
 
             var key = SomeOptions.GenerateBytes();
 
-            var tokenDescriptor = new SecurityTokenDescriptor // класс для создания всех атрибутов, передаваемых в токене
+            var tokenDescriptor = new SecurityTokenDescriptor 
             {
                 Issuer = SomeOptions.Issuer,
                 Audience = SomeOptions.Audience,
 
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                // SigningCredentials - для определения ключа и алгоритма шифрования
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),              
+                
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                new Claim(ClaimTypes.Name, user.Username.ToString()),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim(ClaimTypes.Name, user.Username.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.ToString()),
                 }),
 
                 Expires = DateTime.UtcNow.AddHours(1),
