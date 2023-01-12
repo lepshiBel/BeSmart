@@ -1,6 +1,7 @@
 using BeSmart.Server.Application.Interfaces;
 using BeSmart.Server.Application.Services;
 using BeSmart.Server.Domain.Interfaces;
+using BeSmart.Server.Middleware;
 using BeSmart.Server.Persistence;
 using BeSmart.Server.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -53,6 +54,7 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
@@ -84,6 +86,8 @@ app.UseSwagger();
 app.MapControllers();
 
 app.UseRouting();
+
+app.UseMiddleware<TokenValidationMiddleware>();
 
 app.UseSwaggerUI(options =>
 {

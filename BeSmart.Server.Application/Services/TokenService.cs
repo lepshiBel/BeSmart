@@ -55,6 +55,7 @@ namespace BeSmart.Server.Application.Services
                 
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim("id", user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Username.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString()),
                 }),
