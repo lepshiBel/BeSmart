@@ -1,4 +1,5 @@
-﻿using BeSmart.Server.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Server.Application.Interfaces;
 using BeSmart.Server.Domain.DTOs;
 using BeSmart.Server.Domain.Models;
 using BeSmart.Server.Persistence;
@@ -10,24 +11,37 @@ namespace BeSmart.Server.Application.Services
 {
     public class TokenService : ITokenService
     {
+        private readonly IMapper mapper;
+
+        public TokenService(IMapper mapper)
+        {
+            this.mapper = mapper;
+        }
+
         private List<User> users = new List<User> {
             new User {
-                Id = 1, Username = "mytestuser", Email = "somemail@gmail.com", Password = "12345", Role = "user"
+                Id = 1, Username = "test1", Email = "somemail@gmail.com", Password = "12345", Role = "user"
+            },
+            new User {
+                Id = 2, Username = "test2", Email = "somemail@gmail.com", Password = "12345", Role = "user"
             }
         };
 
-        public UserLoginResponseDTO Authenticate(UserLoginRequestDTO model)
+        public UserLoginResponseDTO Authenticate(User user)
         {
-            var user = users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
 
-            if (user == null)
+            var userLoginReqDto = mapper.Map<UserLoginRequestDTO>(user);
+
+            var existionUser = users.SingleOrDefault(x => x.Username == userLoginReqDto.Username && x.Password == userLoginReqDto.Password);
+
+            if (existionUser == null)
             {
                 return null;
             }
 
-            var token = GenerateToken(user);
+            var token = GenerateToken(existionUser);
 
-            return new UserLoginResponseDTO(user, token);
+            return new UserLoginResponseDTO(existionUser, token);
         }
 
         public string GenerateToken(User user)
