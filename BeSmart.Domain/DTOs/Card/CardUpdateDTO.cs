@@ -2,7 +2,6 @@
 {
     public class CardUpdateDTO
     {
-        public int Id { get; set; }
         public string Word { get; set; }
 
         public string? Text { get; set; }
