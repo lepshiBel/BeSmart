@@ -32,7 +32,6 @@ namespace BeSmart.Persistence
 
             CreateMap<Question, QuestionCreationDTO>().ReverseMap();
             CreateMap<Question, QuestionDTO>().ReverseMap();
-            CreateMap<Question, QuestionUpdateDTO>().ReverseMap();
             CreateMap<Question, QuestionWithAnswersDTO>().ForMember(d => d.Answers, s => s.MapFrom((s => s.Answers)));
 
             CreateMap<Lesson, LessonDTO>().ReverseMap();
@@ -46,7 +45,6 @@ namespace BeSmart.Persistence
 
             CreateMap<Theme, ThemeDTO>().ReverseMap();
             CreateMap<Theme, ThemeCreationDTO>().ReverseMap();
-            CreateMap<Theme, ThemeUpdateDTO>().ReverseMap();
             CreateMap<Theme, ThemeWithLessonsDTO>().ForMember(d => d.Lessons, s => s.MapFrom((s => s.Lessons)));
             CreateMap<Theme, ThemeWithTestsDTO>().ForMember(d => d.Tests, s => s.MapFrom((s => s.Tests)));
         }

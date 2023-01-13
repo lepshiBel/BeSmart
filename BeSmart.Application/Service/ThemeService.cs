@@ -42,7 +42,7 @@ namespace BeSmart.Application.Service
             return mapper.Map<ThemeDTO>(created);
         }
 
-        public async Task<ThemeDTO> UpdateThemeAsync(int id, ThemeUpdateDTO themeUpdateDto)
+        public async Task<ThemeDTO> UpdateThemeAsync(int id, ThemeCreationDTO themeUpdateDto)
         {
             var theme = mapper.Map<Theme>(themeUpdateDto);
             var updated = await repoManager.Theme.UpdateAsync(id, theme);

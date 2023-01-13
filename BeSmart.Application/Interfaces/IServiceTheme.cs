@@ -10,7 +10,7 @@ namespace BeSmart.Application.Interfaces
         Task<ThemeWithLessonsDTO> GetThemeWithLessonsAsync(int id);
         Task<ThemeWithTestsDTO> GetThemeWithTestsAsync(int id);
         Task<ThemeDTO> AddThemeAsync(ThemeCreationDTO themeCreationDto);
-        Task<ThemeDTO> UpdateThemeAsync(int id, ThemeUpdateDTO themeUpdateDto);
+        Task<ThemeDTO> UpdateThemeAsync(int id, ThemeCreationDTO themeUpdateDto);
         Task<Theme> DeleteThemeAsync(int id);
     }
 }

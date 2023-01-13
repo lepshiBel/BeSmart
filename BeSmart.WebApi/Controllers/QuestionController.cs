@@ -70,7 +70,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult<QuestionDTO>> Update(int id, [FromBody] QuestionUpdateDTO questionUpdateDTO)
+        public async Task<ActionResult<QuestionDTO>> Update(int id, [FromBody] QuestionCreationDTO questionUpdateDTO)
         {
             var updated = await serviceQuestion.UpdateQuestionAsync(id, questionUpdateDTO);
 

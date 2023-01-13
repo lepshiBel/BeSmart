@@ -41,7 +41,7 @@ namespace BeSmart.Application.Service
             return mapper.Map<QuestionDTO>(createdAnswer);
         }
 
-        public async Task<QuestionDTO> UpdateQuestionAsync(int id, QuestionUpdateDTO questionUpdateDto)
+        public async Task<QuestionDTO> UpdateQuestionAsync(int id, QuestionCreationDTO questionUpdateDto)
         {
             var questionToUpdate = mapper.Map<Question>(questionUpdateDto);
             var updated = await repoManager.Question.UpdateAsync(id, questionToUpdate);

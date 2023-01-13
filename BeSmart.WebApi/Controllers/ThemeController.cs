@@ -83,7 +83,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult<ThemeDTO>> Update(int id, [FromBody] ThemeUpdateDTO themeUpdateDto)
+        public async Task<ActionResult<ThemeDTO>> Update(int id, [FromBody] ThemeCreationDTO themeUpdateDto)
         {
             var updatedTheme = await serviceTheme.UpdateThemeAsync(id, themeUpdateDto);
 

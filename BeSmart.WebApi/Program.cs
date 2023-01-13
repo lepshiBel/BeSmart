@@ -2,12 +2,12 @@ using BeSmart.Application.Interfaces;
 using BeSmart.Application.Service;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Persistence.Repositories;
-using BeSmart.Application.Validators;
 using FluentValidation;
 using BeSmart.WebApi.Extensions;
 using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
 using BeSmart.Persistence;
+using BeSmart.Application.Validators.Lesson;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
-builder.Services.AddValidatorsFromAssemblyContaining<AnswerValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<LessonCreationDTOValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
