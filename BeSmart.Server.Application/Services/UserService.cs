@@ -15,21 +15,21 @@ namespace BeSmart.Server.Application.Services
             }
         };
 
-        private readonly IRepositoryManager repoManager;
+        private readonly IUserRepository userRepository;
 
-        public UserService(IRepositoryManager repoManager)
+        public UserService(IUserRepository userRepository)
         {
-            this.repoManager = repoManager;
+            this.userRepository = userRepository;
         }
 
         public async Task<List<User>> GetAllUsersAsync()
         {
-            return await repoManager.User.GetAllAsync();
+            return await userRepository.GetAllAsync();
         }
 
         public async Task<User> FindUserByIdAsync(int id)
         {
-            return await repoManager.User.GetAsync(id);
+            return await userRepository.GetAsync(id);
         }
     }
 }

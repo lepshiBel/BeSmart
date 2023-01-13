@@ -54,7 +54,7 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUserService, UserService>();
+//builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
