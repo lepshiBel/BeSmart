@@ -95,7 +95,7 @@ public class AnswerRepositoryUnitTests
         data.Text = newValue;
         
         // Act
-        await _sut.UpdateAsync(data);
+        await _sut.UpdateAsync(data.Id, data);
 
         // Assert
         var actual = _context.Answers.First(e => e.Id == 1);
