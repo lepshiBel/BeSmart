@@ -24,10 +24,6 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
                 .IsRequired()
                 .HasMaxLength(100)   
                 .HasColumnName("Account_userPassword");
-
-            builder.HasOne(a => a.AccountType)
-                .WithMany(q => q.Accounts)
-                .HasForeignKey(a => a.AccountTypeId);
         }
     }
 }
