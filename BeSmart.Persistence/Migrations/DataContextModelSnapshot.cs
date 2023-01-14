@@ -54,7 +54,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasIndex("AccountTypeId");
 
-                    b.ToTable("Account");
+                    b.ToTable("Account", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.AccountType", b =>
@@ -79,7 +79,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountType");
+                    b.ToTable("AccountType", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Answer", b =>
@@ -108,7 +108,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Card", b =>
@@ -150,7 +150,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Category", b =>
@@ -169,7 +169,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Course", b =>
@@ -202,7 +202,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Lesson", b =>
@@ -232,7 +232,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasIndex("ThemeId");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lessons", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Question", b =>
@@ -256,7 +256,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasIndex("TestId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Test", b =>
@@ -284,7 +284,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasIndex("ThemeId");
 
-                    b.ToTable("Tests");
+                    b.ToTable("Tests", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Theme", b =>
@@ -316,7 +316,7 @@ namespace BeSmart.WebApi.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Themes");
+                    b.ToTable("Themes", (string)null);
                 });
 
             modelBuilder.Entity("BeSmart.Domain.Models.Account", b =>
