@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BeSmart.Server.Domain.DTOs
+namespace BeSmart.Domain.DTOs.User
 {
     public class UserLoginRequestDTO
     {
@@ -10,4 +10,5 @@ namespace BeSmart.Server.Domain.DTOs
         [Required]
         public string? Password { get; set; }
     }
+
 }

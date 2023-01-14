@@ -8,10 +8,12 @@ using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
 using BeSmart.Persistence;
 using BeSmart.Application.Validators.Lesson;
-using BeSmart.Server.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using BeSmart.Application;
+using BeSmart.WebApi.Middleware;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var key = SomeOptions.GenerateBytes();
@@ -21,8 +23,6 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 
 builder.Services.AddSwaggerGen(swagger =>
 {
@@ -50,7 +50,6 @@ builder.Services.AddSwaggerGen(swagger =>
         }
     });
 });
-
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
@@ -81,7 +80,6 @@ builder.Services.AddAuthorization(options =>
 });
 
 
-
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceAnswer, AnswerService>();
 builder.Services.AddScoped<IServiceCategory, CategoryService>();
@@ -91,6 +89,8 @@ builder.Services.AddScoped<IServiceCard, CardService>();
 builder.Services.AddScoped<IServiceLesson, LessonService>();
 builder.Services.AddScoped<IServiceCourse, CourseService>();
 builder.Services.AddScoped<IServiceTheme, ThemeService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 builder.Services.ConfigureServices(builder.Configuration);
 
@@ -105,6 +105,7 @@ app.UseSwagger();
 app.MapControllers();
 
 app.UseRouting();
+app.UseMiddleware<TokenValidationMiddleware>();
 
 app.UseSwaggerUI(options =>
 {

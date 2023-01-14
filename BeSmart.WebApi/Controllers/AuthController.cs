@@ -1,10 +1,9 @@
-﻿using BeSmart.Server.Application.Interfaces;
-using BeSmart.Server.Domain.DTOs;
-using BeSmart.Server.Domain.Models;
+﻿using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BeSmart.Server.Controllers
+namespace BeSmart.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,7 +21,7 @@ namespace BeSmart.Server.Controllers
         {
             var authRes = tokenService.Authenticate(user);
 
-            return authRes ==null? BadRequest("") : Ok(authRes);
+            return authRes == null ? BadRequest("") : Ok(authRes);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace BeSmart.Server.Persistence
+namespace BeSmart.Application
 {
     public class SomeOptions
     {

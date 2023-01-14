@@ -1,35 +1,33 @@
-﻿using BeSmart.Server.Application.Interfaces;
-using BeSmart.Server.Domain.Interfaces;
-using BeSmart.Server.Domain.Models;
+﻿using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.User;
+using BeSmart.Domain.Interfaces;
+using BeSmart.Domain.Models;
 
-namespace BeSmart.Server.Application.Services
+namespace BeSmart.Application.Service
 {
     public class UserService : IUserService
     {
-        private List<User> _users = new List<User> {
-            new User {
-                Id = 1, Username = "mytestuser", Email = "somemail_user@gmail.com", Password = "12345", Role = "user"
-            },
-            new User {
-                Id = 2, Username = "mytestadmin", Email = "somemail_admin@gmail.com", Password = "12345", Role = "admin"
-            }
-        };
+        private readonly IRepositoryManager repoManager;
 
-        private readonly IUserRepository userRepository;
-
-        public UserService(IUserRepository userRepository)
+        public UserService(IRepositoryManager repoManager)
         {
-            this.userRepository = userRepository;
+            this.repoManager = repoManager;
         }
 
         public async Task<List<User>> GetAllUsersAsync()
         {
-            return await userRepository.GetAllAsync();
+            return await repoManager.User.GetAllAsync();
         }
 
         public async Task<User> FindUserByIdAsync(int id)
         {
-            return await userRepository.GetAsync(id);
+            return await repoManager.User.GetAsync(id);
+        }
+
+        public async Task<User> FindUserByNameAsync(UserLoginRequestDTO userDto)
+        {
+            return await repoManager.User.GetUserByNameAsync(userDto.Username, userDto.Password);
         }
     }
+
 }

@@ -10,6 +10,7 @@
         ILessonRepository Lesson { get; }
         ICourseRepository Course { get; }
         IThemeRepository Theme { get; }
+        IUserRepository User { get; }
         void Save();
     }
 }

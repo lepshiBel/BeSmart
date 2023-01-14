@@ -1,6 +1,4 @@
-﻿using BeSmart.Server.Domain.Models;
-
-namespace BeSmart.Server.Domain.DTOs
+﻿namespace BeSmart.Domain.DTOs.User
 {
     public class UserLoginResponseDTO
     {
@@ -10,7 +8,7 @@ namespace BeSmart.Server.Domain.DTOs
         public string? Role { get; set; }
         public string? Token { get; set; }
 
-        public UserLoginResponseDTO(User user, string token)
+        public UserLoginResponseDTO(Models.User user, string token)
         {
             Id = user.Id;
             Username = user.Username;

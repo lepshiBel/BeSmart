@@ -1,6 +1,6 @@
 ﻿using BeSmart.Domain.Models.Base;
 
-namespace BeSmart.Server.Domain.Models
+namespace BeSmart.Domain.Models
 {
     public class User : EntityBase
     {

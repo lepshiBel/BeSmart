@@ -8,8 +8,7 @@ using BeSmart.Domain.DTOs.Card;
 using BeSmart.Domain.DTOs.Lesson;
 using BeSmart.Domain.DTOs.Course;
 using BeSmart.Domain.DTOs.Theme;
-using BeSmart.Server.Domain.Models;
-using BeSmart.Server.Domain.DTOs;
+using BeSmart.Domain.DTOs.User;
 
 namespace BeSmart.Persistence
 {

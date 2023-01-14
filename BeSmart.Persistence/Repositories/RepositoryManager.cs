@@ -15,6 +15,7 @@ namespace BeSmart.Persistence.Repositories
         private ILessonRepository lesson;
         private ICourseRepository course;
         private IThemeRepository theme;
+        private IUserRepository user;
 
         public RepositoryManager(BeSmartDbContext dbContext)
         {
@@ -121,6 +122,19 @@ namespace BeSmart.Persistence.Repositories
                 }
 
                 return theme;
+            }
+        }
+
+        public IUserRepository User
+        {
+            get
+            {
+                if (user == null)
+                {
+                    user = new UserRepository(dbContext);
+                }
+
+                return user;
             }
         }
 

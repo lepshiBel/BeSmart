@@ -1,9 +1,9 @@
-﻿using BeSmart.Server.Application.Interfaces;
-using BeSmart.Server.Persistence;
+﻿using BeSmart.Application;
+using BeSmart.Application.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace BeSmart.Server.Middleware
+namespace BeSmart.WebApi.Middleware
 {
     public class TokenValidationMiddleware
     {
@@ -19,7 +19,7 @@ namespace BeSmart.Server.Middleware
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-            if (token!=null)
+            if (token != null)
             {
                 await ValidateAndAttach(context, token);
             }
@@ -50,7 +50,7 @@ namespace BeSmart.Server.Middleware
 
                 context.Items["User"] = await userService.FindUserByIdAsync(id);
             }
-            catch {}
+            catch { }
         }
     }
 }

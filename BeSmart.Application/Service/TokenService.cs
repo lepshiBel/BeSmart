@@ -1,7 +1,7 @@
-﻿using BeSmart.Server.Application.Interfaces;
-using BeSmart.Server.Domain.DTOs;
-using BeSmart.Server.Domain.Models;
-using BeSmart.Server.Persistence;
+﻿using BeSmart.Application;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.User;
+using BeSmart.Domain.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,13 +10,6 @@ namespace BeSmart.Server.Application.Services
 {
     public class TokenService : ITokenService
     {
-        //private readonly IMapper mapper;
-
-        //public TokenService(IMapper mapper)
-        //{
-        //    this.mapper = mapper;
-        //}
-
         private List<User> users = new List<User> {
             new User {
                 Id = 1, Username = "test1", Email = "somemail@gmail.com", Password = "12345", Role = "user"
