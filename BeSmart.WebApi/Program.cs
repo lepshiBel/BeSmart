@@ -14,7 +14,6 @@ using Microsoft.OpenApi.Models;
 using BeSmart.Application;
 using BeSmart.WebApi.Middleware;
 
-
 var builder = WebApplication.CreateBuilder(args);
 var key = SomeOptions.GenerateBytes();
 
@@ -77,6 +76,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("admin", policy => policy.RequireRole("admin"));
+    options.AddPolicy("user", policy => policy.RequireRole("user"));
 });
 
 
@@ -90,6 +90,7 @@ builder.Services.AddScoped<IServiceLesson, LessonService>();
 builder.Services.AddScoped<IServiceCourse, CourseService>();
 builder.Services.AddScoped<IServiceTheme, ThemeService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 builder.Services.ConfigureServices(builder.Configuration);
@@ -101,10 +102,14 @@ app.MapGet("/", () => "Hello World!");
 app.UseExceptionHandlerMiddleware();
 
 app.UseSwagger();
+app.UseDeveloperExceptionPage();
 
 app.MapControllers();
 
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseMiddleware<TokenValidationMiddleware>();
 
 app.UseSwaggerUI(options =>

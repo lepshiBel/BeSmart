@@ -8,26 +8,24 @@ namespace BeSmart.WebApi.Middleware
     public class TokenValidationMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly IUserService userService;
-        public TokenValidationMiddleware(RequestDelegate next, IUserService userService)
+        public TokenValidationMiddleware(RequestDelegate next)
         {
             this.next = next;
-            this.userService = userService;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, IUserService userService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
             {
-                await ValidateAndAttach(context, token);
+                await ValidateAndAttach(context, token, userService);
             }
 
             await next(context);
         }
 
-        private async Task ValidateAndAttach(HttpContext context, string token)
+        private async Task ValidateAndAttach(HttpContext context, string token, IUserService userService)
         {
             try
             {

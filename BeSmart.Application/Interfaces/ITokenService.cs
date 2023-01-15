@@ -5,7 +5,7 @@ namespace BeSmart.Application.Interfaces
 {
     public interface ITokenService
     {
-        UserLoginResponseDTO Authenticate(UserLoginRequestDTO user);
+        Task<UserLoginResponseDTO> Authenticate(UserLoginRequestDTO user);
         public string GenerateToken(User user);
     }
 }

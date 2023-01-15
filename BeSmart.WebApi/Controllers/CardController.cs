@@ -1,6 +1,8 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Card;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BeSmart.WebApi.Controllers
 {
@@ -79,6 +81,19 @@ namespace BeSmart.WebApi.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet(nameof(GetRole))]
+        [Authorize(Roles = "user")]
+        public ActionResult GetRole()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                var userClaims = identity.Claims;
+                return Ok(userClaims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value);
+            }
+            return BadRequest();
         }
     }
 }

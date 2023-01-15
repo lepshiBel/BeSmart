@@ -7,10 +7,10 @@ namespace BeSmart.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : Controller
+    public class AccountController : Controller
     {
         private readonly ITokenService tokenService;
-        public AuthController(ITokenService tokenService)
+        public AccountController(ITokenService tokenService)
         {
             this.tokenService = tokenService;
         }
@@ -21,7 +21,7 @@ namespace BeSmart.WebApi.Controllers
         {
             var authRes = tokenService.Authenticate(user);
 
-            return authRes == null ? BadRequest("") : Ok(authRes);
+            return authRes.Result == null ? Unauthorized("Entered userName or password is invalid") : Ok(authRes.Result);
         }
     }
 }

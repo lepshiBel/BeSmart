@@ -1,36 +1,29 @@
-﻿using BeSmart.Application;
-using BeSmart.Application.Interfaces;
+﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.User;
 using BeSmart.Domain.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace BeSmart.Server.Application.Services
+namespace BeSmart.Application.Service
 {
     public class TokenService : ITokenService
     {
-        private List<User> users = new List<User> {
-            new User {
-                Id = 1, Username = "test1", Email = "somemail@gmail.com", Password = "12345", Role = "user"
-            },
-            new User {
-                Id = 2, Username = "test2", Email = "somemail@gmail.com", Password = "12345", Role = "user"
-            }
-        };
-
-        public UserLoginResponseDTO Authenticate(UserLoginRequestDTO userDto)
+        private readonly IUserService userService;
+        public TokenService(IUserService userService)
         {
-            var user = users.SingleOrDefault(x => x.Username == userDto.Username && x.Password == userDto.Password);
+            this.userService = userService;
+        }
 
-            if (user == null)
-            {
-                return null;
-            }
+        public async Task<UserLoginResponseDTO> Authenticate(UserLoginRequestDTO userDto)
+        {
+            var user = await userService.FindUserByNameAsync(userDto);
+
+            if (user == null) return null;
 
             var token = GenerateToken(user);
-
-            return new UserLoginResponseDTO(user, token);
+            var response = new UserLoginResponseDTO(user, token);
+            return response;
         }
 
         public string GenerateToken(User user)
@@ -39,18 +32,18 @@ namespace BeSmart.Server.Application.Services
 
             var key = SomeOptions.GenerateBytes();
 
-            var tokenDescriptor = new SecurityTokenDescriptor 
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = SomeOptions.Issuer,
                 Audience = SomeOptions.Audience,
 
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),              
-                
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("id", user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Username.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role.ToString()),
+                                new Claim("id", user.Id.ToString()),
+                                new Claim(ClaimTypes.Name, user.Username.ToString()),
+                                new Claim(ClaimTypes.Role, user.Role.ToString()),
                 }),
 
                 Expires = DateTime.UtcNow.AddHours(1),
