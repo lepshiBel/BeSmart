@@ -1,4 +1,5 @@
 ﻿using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.Card;
 using BeSmart.Domain.DTOs.User;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -29,10 +30,24 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("Update/{id}")]
-        public async Task<ActionResult<User>> Update(int id, [FromBody] User user)
+        [HttpPut("Update/admin/{id}")]
+        public async Task<ActionResult<User>> UpdateByAdmin(int id, [FromBody] User user)
         {
-            var updated = await userService.UpdateUserAsync(id, user);
+            var updated = await userService.UpdateUserByAdminAsync(id, user);
+
+            if (updated is null)
+            {
+                return BadRequest("User object is invalid");
+            }
+
+            return RedirectToAction("Get", "Users", updated.Id);
+        }
+
+        [Authorize(Roles = "user")]
+        [HttpPut("Update/user/{id}")]
+        public async Task<ActionResult<User>> UpdateByUser(int id, [FromBody] UserLoginRequestDTO user)
+        {
+            var updated = await userService.UpdateUserByUserAsync(id, user);
 
             if (updated is null)
             {
