@@ -28,6 +28,16 @@ namespace BeSmart.Application.Service
         {
             return await repoManager.User.GetUserByNameAsync(userDto.Username, userDto.Password);
         }
+
+        public async Task<User> UpdateUserAsync(int id, User user)
+        {
+            return await repoManager.User.UpdateAsync(id, user);
+        }
+
+        public async Task<User> DeleteUserAsync(int id)
+        {
+            return await repoManager.User.DeleteAsync(id);
+        }
     }
 
 }
