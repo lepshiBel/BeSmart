@@ -1,5 +1,6 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Answer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -16,6 +17,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<AnswerDTO>>> GetAll()
         {
             var answersDto = await serviceAnswer.GetAllAnswersAsync();
@@ -27,7 +29,8 @@ namespace BeSmart.WebApi.Controllers
 
             return Ok(answersDto.OrderBy(a => a.Id));
         }
-
+     
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<AnswerDTO>> Get(int id)
         {
@@ -41,6 +44,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(answerDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Create/{questionId}")]
         public async Task<ActionResult> Post(int questionId, [FromBody]AnswerCreationDTO answerDto)
         {
@@ -55,6 +59,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdAnswer);
         }
 
+        [AllowAnonymous]
         [HttpPut("Update/{id}")]
         public async Task<ActionResult<AnswerDTO>> Update(int id, [FromBody]AnswerUpdateDTO answerUpdateDTO)
         {
@@ -68,6 +73,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(updated);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {

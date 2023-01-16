@@ -17,6 +17,7 @@ namespace BeSmart.WebApi.Controllers
             this.serviceCard = serviceCard;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<CardDTO>>> GetAll()
         {
@@ -30,6 +31,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(cardsDto.OrderBy(a => a.Id));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<CardDTO>> Get(int id)
         {
@@ -43,6 +45,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(cardDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Create/{lessonId}")]
         public async Task<ActionResult> Post(int lessonId, [FromBody]CardCreationDTO cardDto)
         {
@@ -57,6 +60,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdCard);
         }
 
+        [AllowAnonymous]
         [HttpPut("Update/{id}")]
         public async Task<ActionResult<CardDTO>> Update(int id, [FromBody]CardUpdateDTO cardUpdateDTO)
         {
@@ -70,6 +74,7 @@ namespace BeSmart.WebApi.Controllers
             return RedirectToAction("Get", "Cards", updated.Id);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -84,7 +89,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpGet(nameof(GetRole))]
-        [Authorize(Roles = "user")]
+        [Authorize(Roles = "user, admin")]
         public ActionResult GetRole()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;

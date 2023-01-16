@@ -1,6 +1,7 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Question;
 using BeSmart.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -16,6 +17,7 @@ namespace BeSmart.WebApi.Controllers
             this.serviceQuestion = serviceQuestion;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<QuestionDTO>>> GetAll()
         {
@@ -29,6 +31,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(questions.OrderBy(a => a.Id));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<QuestionDTO>> Get(int id)
         {
@@ -42,6 +45,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(questionDto);
         }
 
+        [AllowAnonymous]
         [HttpGet("withAnswers/{id}")]
         public async Task<ActionResult<QuestionWithAnswersDTO>> GetQuestionWithAnswers(int id)
         {
@@ -55,6 +59,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(questionsWithAnswersDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Create/{testId}")]
         public async Task<ActionResult> Post(int testId, [FromBody]QuestionCreationDTO questionCreationDto)
         {
@@ -69,6 +74,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdQuestion);
         }
 
+        [AllowAnonymous]
         [HttpPut("Update/{id}")]
         public async Task<ActionResult<QuestionDTO>> Update(int id, [FromBody] QuestionCreationDTO questionUpdateDTO)
         {
@@ -82,6 +88,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(updated);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {

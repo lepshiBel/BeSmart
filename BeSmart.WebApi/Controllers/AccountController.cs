@@ -57,6 +57,7 @@ namespace BeSmart.WebApi.Controllers
             return RedirectToAction("Get", "Users", updated.Id);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {

@@ -1,6 +1,7 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Course;
 using BeSmart.Domain.DTOs.Question;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -16,6 +17,7 @@ namespace BeSmart.WebApi.Controllers
             this.serviceCourse = serviceCourse;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<CourseDTO>>> GetAll()
         {
@@ -29,6 +31,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(courses.OrderBy(a => a.Id));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<CourseDTO>> Get(int id)
         {
@@ -42,6 +45,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(courseDto);
         }
 
+        [AllowAnonymous]
         [HttpGet("withThemes/{id}")]
         public async Task<ActionResult<CourseWithThemesDTO>> GetCourseWithThemes(int id)
         {
@@ -55,6 +59,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(coursesWithThemesDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Create/{CreatedById}, {CategoryId}")]
         public async Task<ActionResult> Post(int createdById, int categoryId,[FromBody] CourseCreationDTO courseCreationDto)
         {
@@ -71,6 +76,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdCourse);
         }
 
+        [AllowAnonymous]
         [HttpPut("Update/{id}")]
         public async Task<ActionResult<CourseDTO>> Update(int id, [FromBody] CourseUpdateDTO courseUpdateDTO)
         {
@@ -84,6 +90,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(updatedCourse);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {

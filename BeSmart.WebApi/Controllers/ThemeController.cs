@@ -15,6 +15,7 @@ namespace BeSmart.WebApi.Controllers
             this.serviceTheme = serviceTheme;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<ThemeDTO>>> GetAll()
         {
@@ -28,6 +29,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(themes);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<ThemeDTO>> Get(int id)
         {
@@ -41,6 +43,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(themeDTO);
         }
 
+        [AllowAnonymous]
         [HttpGet("withLessons/{id}")]
         public async Task<ActionResult<ThemeWithLessonsDTO>> GetThemeWithLessons(int id)
         {
@@ -54,6 +57,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(themeWithLessonsDto);
         }
 
+        [AllowAnonymous]
         [HttpGet("withTests/{id}")]
         public async Task<ActionResult<ThemeWithTestsDTO>> GetThemeWithTests(int id)
         {
@@ -67,6 +71,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(themeWithTestsDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Create/{CourseId}")]
         public async Task<ActionResult> Post(int courseId, [FromBody] ThemeCreationDTO themeCreationDto)
         {
@@ -82,6 +87,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdTheme);
         }
 
+        [AllowAnonymous]
         [HttpPut("Update/{id}")]
         public async Task<ActionResult<ThemeDTO>> Update(int id, [FromBody] ThemeCreationDTO themeUpdateDto)
         {
@@ -95,6 +101,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(updatedTheme);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {

@@ -1,6 +1,7 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Category;
 using BeSmart.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -16,6 +17,7 @@ namespace BeSmart.WebApi.Controllers
             this.serviceCategory = serviceCategory;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<CategoryDTO>>> GetAll()
         {
@@ -29,6 +31,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(categoriesDto.OrderBy(a => a.Id));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDTO>> Get(int id)
         {
@@ -42,6 +45,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(categoryDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Create")]
         public async Task<ActionResult> Post([FromBody]CategoryCreationDTO categoryDto)
         {
