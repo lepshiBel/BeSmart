@@ -6,12 +6,12 @@ networks:
 
 services:
   customer-service:
-    image: ${REGISTRY:-service-one}/customer-service.api:${PLATFORM:-windows}-${TAG:-latest}
+    image: ${REGISTRY:-beSmart-service}/customer-service.api:${PLATFORM:-windows}-${TAG:-latest}
     depends_on:
-      - "BeSmart_db"
+      - "postgres_image"
     container_name: BeSmart-container
     ports:
-      - "5009:80"
+      - "5443:80"
     build:
       context: .
       dockerfile: Project/Presentation/BeSmart.WebApi/Dockerfile
@@ -20,7 +20,7 @@ services:
     networks:
       - dev
 
-  customer_db:
+  postgres_image:
     image: postgres:latest
     container_name: BeSmart_db
     environment:
@@ -28,12 +28,12 @@ services:
       - POSTGRES_PASSWORD=dash844a
       - POSTGRES_DB=BeSmart2
     ports:
-      - "5432:5432"
+      - "5435:5435"
     restart: always
     volumes:
-      - customer_data:/var/lib/postgresql/data/ 
+      - db_data:/var/lib/postgresql/data/ 
     networks:
       - dev
 
 volumes:
-  customer_data:
+  db_data:
