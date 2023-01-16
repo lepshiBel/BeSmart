@@ -1,5 +1,6 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Theme;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
