@@ -8,6 +8,7 @@ using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
 using BeSmart.Persistence;
 using BeSmart.Application.Validators.Lesson;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -57,20 +58,26 @@ builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(config =>
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(config =>
+//    {
+//        config.RequireHttpsMetadata = false;
+//        config.SaveToken = true;
+//        config.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = false,
+//            ValidIssuer = SomeOptions.Issuer,
+//            ValidateAudience = false,
+//            ValidAudience = SomeOptions.Audience,
+//            ValidateIssuerSigningKey = true,
+//            IssuerSigningKey = new SymmetricSecurityKey(key)
+//        };
+//    });
+
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
     {
-        config.RequireHttpsMetadata = false;
-        config.SaveToken = true;
-        config.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidIssuer = SomeOptions.Issuer,
-            ValidateAudience = false,
-            ValidAudience = SomeOptions.Audience,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key)
-        };
+
     });
 
 builder.Services.AddAuthorization(options =>
