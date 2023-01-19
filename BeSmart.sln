@@ -20,6 +20,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeSmart.WebApi", "BeSmart.WebApi\BeSmart.WebApi.csproj", "{322BA44F-4625-4BB8-B29E-530FB00C89FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project", "Project", "{8C85A30D-1F3E-4CEB-8CB2-4F0FC922B921}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{F06C26A0-B1E4-4883-B282-867F5CA40021}"
 EndProject

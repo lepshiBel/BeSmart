@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using BeSmart.Application;
 using BeSmart.WebApi.Middleware;
+using BeSmart.Persistence.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var key = SomeOptions.GenerateBytes();
@@ -80,7 +81,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 
-builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+//builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceAnswer, AnswerService>();
 builder.Services.AddScoped<IServiceCategory, CategoryService>();
 builder.Services.AddScoped<IServiceTest, TestService>();
@@ -94,6 +95,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 builder.Services.ConfigureServices(builder.Configuration);
+
 
 var app = builder.Build();
 
@@ -109,6 +111,8 @@ app.MapControllers();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+DatabaseManagementService.MigrationInitialisation(app);
 
 app.UseMiddleware<TokenValidationMiddleware>();
 
