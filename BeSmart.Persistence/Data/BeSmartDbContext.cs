@@ -24,6 +24,7 @@ public class BeSmartDbContext : DbContext
 
     public DbSet<Answer> Answers { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Membership> Memberships { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,6 +37,7 @@ public class BeSmartDbContext : DbContext
         modelBuilder.ApplyConfiguration(new ThemeConfiguration());
         modelBuilder.ApplyConfiguration(new TestConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new MembershipConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

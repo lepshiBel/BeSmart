@@ -11,6 +11,7 @@
         ICourseRepository Course { get; }
         IThemeRepository Theme { get; }
         IUserRepository User { get; }
+        IMembershipRepository Membership { get; }
         void Save();
     }
 }
