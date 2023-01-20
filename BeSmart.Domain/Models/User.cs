@@ -9,5 +9,6 @@ namespace BeSmart.Domain.Models
         public string? Password { get; set; }
         public string? Role { get; set; }
         public List<Course> CreatedCourses { get; set; }
+        public List<Membership> Memberships { get; set; }
     }
 }
