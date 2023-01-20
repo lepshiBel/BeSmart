@@ -6,7 +6,6 @@ using System.Security.Claims;
 
 namespace BeSmart.WebApi.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class MembershipController : ControllerBase
@@ -17,7 +16,7 @@ namespace BeSmart.WebApi.Controllers
             this.serviceMembership = serviceMembership;
         }
 
-        [Authorize(Roles = "user, admin")]
+        //[Authorize(Roles = "admin")]
         [HttpGet(nameof(GetAllMemberships))]
         public async Task<ActionResult<List<Membership>>> GetAllMemberships()
         {
@@ -51,22 +50,41 @@ namespace BeSmart.WebApi.Controllers
             return Ok(memberships);
         }
 
+        [Authorize(Roles ="user, admin")]
+        [HttpPost("AddMembership/{courseId}")]
+        public async Task<ActionResult> Post(int courseId)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity == null) return BadRequest();
 
-        //[Authorize]
-        //[HttpPost("Create")]
-        //public async Task<ActionResult> Post([FromBody] CategoryCreationDTO categoryDto)
-        //{
-        //    var createdCategory = await serviceCategory.AddCategoryAsync(categoryDto);
+            var userClaims = identity.Claims;
+            var userId = Convert.ToInt32(userClaims.FirstOrDefault(x => x.Type == "id")?.Value);
 
-        //    if (createdCategory is null)
-        //    {
-        //        return BadRequest("Category object is invalid");
-        //    }
+            var createdMembership = await serviceMembership.CreateNewMembershipAsync(courseId, userId);
 
-        //    return Ok(createdCategory);
-        //}
+            if (createdMembership is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(createdMembership);
+        }
+
+        [HttpDelete("Delete/{id}")]
+        [Authorize(Roles ="admin")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var entity = await serviceMembership.DeleteMembershipAsync(id);
+
+            if (entity == null)
+            {
+                return BadRequest("Passed id is invalid");
+            }
+
+            return Ok();
+        }
+
     }
-
 }
 
 

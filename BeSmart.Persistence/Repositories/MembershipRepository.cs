@@ -2,6 +2,7 @@
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 using BeSmart.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeSmart.Persistence.Repositories
 {
@@ -9,9 +10,18 @@ namespace BeSmart.Persistence.Repositories
     {
         public MembershipRepository(BeSmartDbContext context) : base(context) { }
 
-        public async Task<List<Membership>> GetMembershipsForUser(int userId)
+        public override async Task<List<Membership>> GetAllAsync()
         {
-            var memberships = context.Memberships.Where(m => m.UserId==userId).ToList();
+            return await context.Memberships.Include(x=>x.User).ToListAsync();
+        }
+
+        public async Task<List<Membership>> GetMembershipsForUserAsync(int userId)
+        {
+            var memberships = await context.Memberships.Where(m => m.UserId==userId)
+                .Include(x => x.Course)
+                .Include(m=>m.Course.Category)
+                .ToListAsync();
+
             return memberships;
         }
     }
