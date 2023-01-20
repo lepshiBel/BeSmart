@@ -27,30 +27,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(swagger =>
 {
     // To Enable authorization using Swagger (JWT)
-    swagger.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
+    swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
-        Description = "ouath",
-        Name = "oauth2.0",
-        Type = SecuritySchemeType.OAuth2,
-        Flows = new OpenApiOAuthFlows
-        {
-            Implicit = new OpenApiOAuthFlow
-            {
-                AuthorizationUrl = new Uri($"https://accounts.google.com/o/oauth2/v2/auth"),
-                TokenUrl = new Uri($"https://www.googleapis.com/oauth2/v4/token"),
-
-                Scopes = new Dictionary<string, string>
-                {
-                    {
-                        $"https://www.googleapis.com/auth/cloud-platform.read-only",
-                        "User"
-                    }
-
-                }
-            }
-        }
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
     });
-    swagger.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
@@ -58,16 +43,54 @@ builder.Services.AddSwaggerGen(swagger =>
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "oauth2"
-                },
-
-                Scheme = "oauth2",
-                Name = "oauth2",
-                In = ParameterLocation.Header
+                    Id = "Bearer"
+                }
             },
-            new List<string>()
+            new string[] {}
         }
     });
+
+    //swagger.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
+    //{
+    //    Description = "ouath",
+    //    Name = "oauth2.0",
+    //    Type = SecuritySchemeType.OAuth2,
+    //    Flows = new OpenApiOAuthFlows
+    //    {
+    //        Implicit = new OpenApiOAuthFlow
+    //        {
+    //            AuthorizationUrl = new Uri($"https://accounts.google.com/o/oauth2/v2/auth"),
+    //            TokenUrl = new Uri($"https://www.googleapis.com/oauth2/v4/token"),
+
+    //            Scopes = new Dictionary<string, string>
+    //            {
+    //                {
+    //                    $"https://www.googleapis.com/auth/cloud-platform.read-only",
+    //                    "User"
+    //                }
+
+    //            }
+    //        }
+    //    }
+    //});
+    //swagger.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    //{
+    //    {
+    //        new OpenApiSecurityScheme
+    //        {
+    //            Reference = new OpenApiReference
+    //            {
+    //                Type = ReferenceType.SecurityScheme,
+    //                Id = "oauth2"
+    //            },
+
+    //            Scheme = "oauth2",
+    //            Name = "oauth2",
+    //            In = ParameterLocation.Header
+    //        },
+    //        new List<string>()
+    //    }
+    //});
 });
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
@@ -77,28 +100,28 @@ builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(config =>
-//    {
-//        config.RequireHttpsMetadata = false;
-//        config.SaveToken = true;
-//        config.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuer = false,
-//            ValidIssuer = SomeOptions.Issuer,
-//            ValidateAudience = false,
-//            ValidAudience = SomeOptions.Audience,
-//            ValidateIssuerSigningKey = true,
-//            IssuerSigningKey = new SymmetricSecurityKey(key)
-//        };
-//    });
-
-builder.Services.AddAuthentication()
-    .AddGoogle(options =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(config =>
     {
-        options.ClientId = "1093291377089-eu4kbk7loa9tsvhdf1jrpubk2spgoqj7.apps.googleusercontent.com";
-        options.ClientSecret = "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";
+        config.RequireHttpsMetadata = false;
+        config.SaveToken = true;
+        config.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidIssuer = SomeOptions.Issuer,
+            ValidateAudience = false,
+            ValidAudience = SomeOptions.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
     });
+
+//builder.Services.AddAuthentication()
+//    .AddGoogle(options =>
+//    {
+//        options.ClientId = "1093291377089-eu4kbk7loa9tsvhdf1jrpubk2spgoqj7.apps.googleusercontent.com";
+//        options.ClientSecret = "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";
+//    });
 
 builder.Services.AddAuthorization(options =>
 {
@@ -144,10 +167,10 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     options.RoutePrefix = string.Empty;
     options.DocumentTitle = "Swagger";
-    options.OAuthClientId("1093291377089-eu4kbk7loa9tsvhdf1jrpubk2spgoqj7.apps.googleusercontent.com");
-    options.OAuthClientSecret("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");   
-    options.OAuthScopes("email");
-    options.OAuthUseBasicAuthenticationWithAccessCodeGrant();
+    //options.OAuthClientId("1093291377089-eu4kbk7loa9tsvhdf1jrpubk2spgoqj7.apps.googleusercontent.com");
+    //options.OAuthClientSecret("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");   
+    //options.OAuthScopes("email");
+    //options.OAuthUseBasicAuthenticationWithAccessCodeGrant();
 });
 
 app.Run();
