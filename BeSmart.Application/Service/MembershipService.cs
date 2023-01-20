@@ -11,21 +11,29 @@ namespace BeSmart.Application.Service
         {
             this.manager = manager;
         }
+        public async Task<List<Membership>> GetAllMembershipsAsync()
+        {
+            var memberships = await manager.Membership.GetAllAsync();
+            return memberships;
+        }
+        public async Task<List<Membership>> GetAllMembershipsForUserAsync(int userId)
+        {
+            var memberships = await manager.Membership.GetAllAsync();
+            return memberships;
+        }
+
         public async Task<Membership> FindMembershipByIdAsync(int id)
         {
             var membership = await manager.Membership.GetAsync(id);
             return membership;
         }
 
-        public async Task<List<Membership>> GetAllMembershipsAsync()
-        {
-            var memberships = await manager.Membership.GetAllAsync();
-            return memberships;
-        }
 
-        public Task<Membership> AddMembershipAsync(Membership answer)
+        public async Task<Membership> CreateNewMembershipAsync(int courseId, int userId)
         {
-            throw new NotImplementedException();
+            var newMembership = new Membership() { CourseId = courseId, UserId = userId };
+            var created = await manager.Membership.AddAsync(newMembership);
+            return created;
         }
 
         public async Task<Membership> DeleteMembershipAsync(int id)

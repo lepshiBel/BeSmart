@@ -7,6 +7,12 @@ namespace BeSmart.Persistence.Repositories
 {
     public class MembershipRepository : RepositoryBase<Membership, BeSmartDbContext>, IMembershipRepository
     {
-        public MembershipRepository(BeSmartDbContext dbContext) : base(dbContext) { }
+        public MembershipRepository(BeSmartDbContext context) : base(context) { }
+
+        public async Task<List<Membership>> GetMembershipsForUser(int userId)
+        {
+            var memberships = context.Memberships.Where(m => m.UserId==userId).ToList();
+            return memberships;
+        }
     }
 }

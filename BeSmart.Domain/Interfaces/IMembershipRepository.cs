@@ -4,5 +4,6 @@ namespace BeSmart.Domain.Interfaces
 {
     public interface IMembershipRepository : IRepositoryBase<Membership>
     {
+        Task<List<Membership>> GetMembershipsForUser(int userId);
     }
 }
