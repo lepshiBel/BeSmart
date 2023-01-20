@@ -1,4 +1,6 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.Membership;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 
@@ -7,19 +9,24 @@ namespace BeSmart.Application.Service
     public class MembershipService : IServiceMembership
     {
         private readonly IRepositoryManager manager;
-        public MembershipService(IRepositoryManager manager)
+        private readonly IMapper mapper;
+
+        public MembershipService(IRepositoryManager manager, IMapper mapper)
         {
             this.manager = manager;
+            this.mapper = mapper;
         }
+
         public async Task<List<Membership>> GetAllMembershipsAsync()
         {
             var memberships = await manager.Membership.GetAllAsync();
             return memberships;
         }
-        public async Task<List<Membership>> GetAllMembershipsForUserAsync(int userId)
+
+        public async Task<List<MembershipDTO>> GetAllMembershipsForUserAsync(int userId)
         {
             var memberships = await manager.Membership.GetMembershipsForUserAsync(userId);
-            return memberships;
+            return mapper.Map<List<MembershipDTO>>(memberships);
         }
 
         public async Task<Membership> CreateNewMembershipAsync(int courseId, int userId)

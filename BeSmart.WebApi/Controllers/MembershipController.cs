@@ -1,4 +1,5 @@
 ﻿using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.Membership;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,15 +31,15 @@ namespace BeSmart.WebApi.Controllers
             return Ok(memberships);
         }
 
-        [Authorize(Roles = "user, admin")]
+        //[Authorize(Roles = "user, admin")]
         [HttpGet(nameof(GetMembershipsForUser))]
-        public async Task<ActionResult<List<Membership>>> GetMembershipsForUser()
+        public async Task<ActionResult<List<MembershipDTO>>> GetMembershipsForUser(int userId)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (identity == null) return BadRequest();
+            //var identity = HttpContext.User.Identity as ClaimsIdentity;
+            //if (identity == null) return BadRequest();
 
-            var userClaims = identity.Claims;
-            var userId = Convert.ToInt32(userClaims.FirstOrDefault(x => x.Type == "id")?.Value);
+            //var userClaims = identity.Claims;
+            //var userId = Convert.ToInt32(userClaims.FirstOrDefault(x => x.Type == "id")?.Value);
 
             var memberships = await serviceMembership.GetAllMembershipsForUserAsync(userId);
 
