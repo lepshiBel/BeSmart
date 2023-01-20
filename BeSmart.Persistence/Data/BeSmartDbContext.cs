@@ -23,8 +23,16 @@ public class BeSmartDbContext : DbContext
     public DbSet<Question> Questions { get; set; }
 
     public DbSet<Answer> Answers { get; set; }
+
     public DbSet<User> Users { get; set; }
+
     public DbSet<Membership> Memberships { get; set; }
+
+    public DbSet<StatusTheme> StatusThemes { get; set; }
+
+    public DbSet<StatusLesson> StatusLessons { get; set; }
+
+    public DbSet<StatusTest> StatusTests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -38,6 +46,9 @@ public class BeSmartDbContext : DbContext
         modelBuilder.ApplyConfiguration(new TestConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new MembershipConfiguration());
+        modelBuilder.ApplyConfiguration(new StatusThemeConfiguration());
+        modelBuilder.ApplyConfiguration(new StatusLessonConfiguration());
+        modelBuilder.ApplyConfiguration(new StatusTestConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

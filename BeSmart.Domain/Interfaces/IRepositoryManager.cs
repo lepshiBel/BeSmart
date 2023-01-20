@@ -12,6 +12,9 @@
         IThemeRepository Theme { get; }
         IUserRepository User { get; }
         IMembershipRepository Membership { get; }
+        IStatusThemeRepository StatusTheme { get; }
+        IStatusLessonRepository StatusLesson { get; }
+        IStatusTestRepository StatusTest { get; }
         void Save();
     }
 }

@@ -10,6 +10,9 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
         {
             builder.HasKey(m=>m.Id);
 
+            builder.Property(m => m.Status)
+                .HasDefaultValue("Не пройдено");
+
             builder.HasOne(m=>m.Course)
                 .WithMany(q => q.Memberships)
                 .HasForeignKey(a => a.CourseId);

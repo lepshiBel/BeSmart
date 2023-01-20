@@ -17,6 +17,9 @@ namespace BeSmart.Persistence.Repositories
         private IThemeRepository theme;
         private IUserRepository user;
         private IMembershipRepository membership;
+        private IStatusThemeRepository statusTheme;
+        private IStatusLessonRepository statusLesson;
+        private IStatusTestRepository statusTest;
 
         public RepositoryManager(BeSmartDbContext dbContext)
         {
@@ -138,6 +141,7 @@ namespace BeSmart.Persistence.Repositories
                 return user;
             }
         }
+
         public IMembershipRepository Membership
         {
             get
@@ -148,6 +152,45 @@ namespace BeSmart.Persistence.Repositories
                 }
 
                 return membership;
+            }
+        }
+
+        public IStatusThemeRepository StatusTheme
+        {
+            get
+            {
+                if (statusTheme == null)
+                {
+                    statusTheme = new ThemeStatusRepository(dbContext);
+                }
+
+                return statusTheme;
+            }
+        }
+
+        public IStatusLessonRepository StatusLesson
+        {
+            get
+            {
+                if (statusLesson == null)
+                {
+                    statusLesson = new LessonStatusRepository(dbContext);
+                }
+
+                return statusLesson;
+            }
+        }
+
+        public IStatusTestRepository StatusTest
+        {
+            get
+            {
+                if (statusTest == null)
+                {
+                    statusTest = new TestStatusRepository(dbContext);
+                }
+
+                return statusTest;
             }
         }
 
