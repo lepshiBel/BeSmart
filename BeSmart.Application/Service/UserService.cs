@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BeSmart.Application.Interfaces;
-using BeSmart.Domain.DTOs.Card;
 using BeSmart.Domain.DTOs.User;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
@@ -30,7 +29,7 @@ namespace BeSmart.Application.Service
 
         public async Task<User> FindUserByNameAsync(UserLoginRequestDTO userDto)
         {
-            return await repoManager.User.GetUserByNameAsync(userDto.Username, userDto.Password);
+            return await repoManager.User.GetUserByNameAsync(userDto.Username, userDto.Password, userDto.Email);
         }
 
         public async Task<User> UpdateUserByAdminAsync(int id, User user)

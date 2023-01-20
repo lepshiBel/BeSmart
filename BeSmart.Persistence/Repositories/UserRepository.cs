@@ -12,9 +12,9 @@ namespace BeSmart.Persistence.Repositories
         {
         }
 
-        public async Task<User> GetUserByNameAsync(string username, string password)
+        public async Task<User> GetUserByNameAsync(string username, string password, string email)
         {
-            var user = context.Users.SingleOrDefault(u => u.Username == username && u.Password == password);
+            var user = context.Users.SingleOrDefault(u => u.Username == username && u.Password == password && u.Email == email);
             return user;
         }
     }
