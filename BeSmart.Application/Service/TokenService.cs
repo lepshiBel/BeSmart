@@ -41,6 +41,8 @@ namespace BeSmart.Application.Service
         public async Task<UserLoginResponseDTO> Authenticate(UserLoginRequestDTO userDto, string googleTokenUrl)
         {
             var payload = await GoogleTokenValidateAsync(googleTokenUrl);
+
+            userDto.Email = payload.Email;
             
             var user = await userService.FindUserByNameAsync(userDto);
 
