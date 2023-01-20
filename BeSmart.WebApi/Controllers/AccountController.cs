@@ -22,12 +22,21 @@ namespace BeSmart.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost(nameof(Login))]
-        public IActionResult Login([FromBody] UserLoginRequestDTO user)
+        public IActionResult Login([FromBody] UserLoginRequestDTO user, string googleTokenUrl)
         {
-            var authRes = tokenService.Authenticate(user);
+            var authRes = tokenService.Authenticate(user, googleTokenUrl);
 
             return authRes.Result == null ? Unauthorized("Entered userName or password is invalid") : Ok(authRes.Result);
         }
+
+        //[AllowAnonymous]
+        //[HttpPost(nameof(GoogleLoginAsync))]
+        //public async Task<IActionResult> GoogleLoginAsync(string googleToken)
+        //{
+        //    var registeredUser = await userService.GoogleLoginAsync(googleToken);
+            
+        //    return Ok(registeredUser);
+        //}
 
         [Authorize(Roles = "admin")]
         [HttpPut("Update/admin/{id}")]
