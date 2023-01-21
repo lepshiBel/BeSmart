@@ -1,49 +1,51 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.Question;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
-using FluentValidation;
 
 namespace BeSmart.Application.Service
 {
     public class QuestionService : IServiceQuestion
     {
         private readonly IRepositoryManager repoManager;
-        private readonly IValidator<Question> validator;
+        private readonly IMapper mapper;
 
-        public QuestionService(IRepositoryManager repoManager, IValidator<Question> validator)
+        public QuestionService(IRepositoryManager repoManager, IMapper mapper)
         {
             this.repoManager = repoManager;
-            this.validator = validator;
+            this.mapper = mapper;
         }
 
-        public async Task<List<Question>> GetAllQuestionsAsync()
+        public async Task<List<QuestionDTO>> GetAllQuestionsAsync()
         {
-            return await repoManager.Question.GetAllAsync();
+            var questions = await repoManager.Question.GetAllAsync();
+            return questions == null ? null : mapper.Map<List<QuestionDTO>>(questions);
         }
 
-        public async Task<Question> FindQuestionByIdAsync(int id)
+        public async Task<QuestionDTO> FindQuestionByIdAsync(int id)
         {
-            return await repoManager.Question.GetAsync(id);
+            var question = await repoManager.Question.GetAsync(id);
+            return question == null ? null : mapper.Map<QuestionDTO>(question);
+        }
+        public async Task<QuestionWithAnswersDTO> GetQuestionWithAnswersAsync(int id)
+        {
+            var questionsWithAnswers = await repoManager.Question.GetQuestionWithAnswersAsync(id);
+            return questionsWithAnswers == null ? null : mapper.Map<QuestionWithAnswersDTO>(questionsWithAnswers);
         }
 
-        public async Task<Question> AddQuestionAsync(Question question)
+        public async Task<QuestionDTO> AddQuestionAsync(QuestionCreationDTO questionDto)
         {
-            var validationResult = validator.Validate(question);
-            if(validationResult.IsValid)
-            {
-                return await repoManager.Question.AddAsync(question);
-            }
-            return null;
+            var questionToCreate = mapper.Map<Question>(questionDto);
+            var createdAnswer = await repoManager.Question.AddAsync(questionToCreate);
+            return mapper.Map<QuestionDTO>(createdAnswer);
         }
 
-        public async Task<Question> UpdateQuestionAsync(Question question)
+        public async Task<QuestionDTO> UpdateQuestionAsync(int id, QuestionCreationDTO questionUpdateDto)
         {
-            var validationResult = validator.Validate(question);
-            if (validationResult.IsValid)
-            {
-                return await repoManager.Question.UpdateAsync(question);
-            }
-            return null;      
+            var questionToUpdate = mapper.Map<Question>(questionUpdateDto);
+            var updated = await repoManager.Question.UpdateAsync(id, questionToUpdate);
+            return updated == null ? null : mapper.Map<QuestionDTO>(updated);
         }
 
         public async Task<Question> DeleteQuestionAsync(int id)
