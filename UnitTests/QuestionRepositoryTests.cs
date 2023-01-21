@@ -1,4 +1,4 @@
-using BeSmart.Domain.Interfaces;
+﻿using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 using BeSmart.Persistence.Data;
 using BeSmart.Persistence.Repositories;
@@ -7,12 +7,12 @@ using Xunit;
 
 namespace UnitTests;
 
-public class AnswerRepositoryUnitTests
+public class QuestionRepositoryUnitTests
 {
-    private readonly IAnswerRepository _sut;
+    private readonly IQuestionRepository _sut;
     private readonly BeSmartDbContext _context;
-    
-    public AnswerRepositoryUnitTests()
+
+    public QuestionRepositoryUnitTests()
     {
         var options = new DbContextOptionsBuilder()
             .UseInMemoryDatabase("test")
@@ -20,54 +20,52 @@ public class AnswerRepositoryUnitTests
         
         var context = new BeSmartDbContext(options);
         _context = context;
-        _sut = new AnswerRepository(context);
+        _sut = new QuestionRepository(context);
 
-        if (!_context.Answers.Any())
+        if (!_context.Questions.Any())
         {
             FillDatabase(context);
         }
     }
-
     public void FillDatabase(BeSmartDbContext context)
     {
-        var data = new List<Answer>()
+        var data = new List<Question>()
         {
-            new() {Id = 1, Text = "test", QuestionId = 1, Fidelity = true},
-            new() {Id = 2, Text = "test2", QuestionId = 2, Fidelity = true},
+            new() {Id = 1, Text = "test",TestId = 1},
+            new() {Id = 2, Text = "test2",TestId = 2},
         };
         
-        context.Answers.AddRange(data);
+        context.Questions.AddRange(data);
         context.SaveChanges();
     }
 
-    
     [Fact]
-    public async Task ShouldAddAnswer()
+    public async Task ShouldAddQuestion()
     {
         // Arrange
-        var data = new Answer() {Id = 3, Fidelity = true, QuestionId = 1, Text = "asd"};
+        var data = new Question() {Id = 3, TestId = 1, Text = "asd"};
         
         // Act
         await _sut.AddAsync(data);
 
         // Assert
-        var actual = _context.Answers.FirstOrDefault(e => e.Id == 3);
+        var actual = _context.Questions.FirstOrDefault(e => e.Id == 3);
         Assert.NotNull(actual);
     }
 
     [Fact]
-    public async Task ShouldDeleteAnswer()
+    public async Task ShouldDeleteQuestion()
     {
         // Act
         await _sut.DeleteAsync(1);
 
         // Assert
-        var actual = _context.Answers.FirstOrDefault(e => e.Id == 1);
+        var actual = _context.Questions.FirstOrDefault(e => e.Id == 1);
         Assert.Null(actual);
     }
 
     [Fact]
-    public async Task ShouldGetAnswer()
+    public async Task ShouldGetQuestions()
     {
         // Act
         var data = await _sut.GetAsync(1);
@@ -77,7 +75,7 @@ public class AnswerRepositoryUnitTests
     }
     
     [Fact]
-    public async Task ShouldNotGetAnswer()
+    public async Task ShouldNotGetQuestion()
     {
         // Act
         var data = await _sut.GetAsync(5);
@@ -87,17 +85,17 @@ public class AnswerRepositoryUnitTests
     }
 
     [Fact]
-    public async Task ShouldUpdateAnswer()
+    public async Task ShouldUpdateQuestion()
     {
-        var data = _context.Answers.FirstOrDefault(e => e.Id == 1);
+        var data = _context.Questions.FirstOrDefault(e => e.Id == 1);
         var newValue = "newTestValue";
         data.Text = newValue;
         
         // Act
-        await _sut.UpdateAsync(data.Id, data);
+        await _sut.UpdateAsync(data);
 
         // Assert
-        var actual = _context.Answers.First(e => e.Id == 1);
+        var actual = _context.Questions.First(e => e.Id == 1);
         Assert.Equal(actual.Text, newValue);
     }
 
