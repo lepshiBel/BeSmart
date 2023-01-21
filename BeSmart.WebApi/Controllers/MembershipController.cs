@@ -60,6 +60,9 @@ namespace BeSmart.WebApi.Controllers
             //if (userId == 0) return BadRequest();
             int userId = 1;
 
+            bool isExisted = serviceMembership.CheckMembershipAsync(courseId, userId);
+            if (isExisted) return Ok("You already have passed this course");
+
             var createdMembership = await serviceMembership.CreateNewMembershipAsync(courseId, userId);
 
             if (createdMembership is null)

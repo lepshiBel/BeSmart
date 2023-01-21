@@ -42,6 +42,11 @@ namespace BeSmart.Application.Service
             return mapper.Map<List<MembershipDTO>>(memberships);
         }
 
+        public bool CheckMembershipAsync(int courseId, int userId)
+        {
+            var existed = manager.Membership.CheckIfExisted(courseId, userId);
+            return existed;
+        }
         public async Task<Membership> CreateNewMembershipAsync(int courseId, int userId)
         {
             var newMembership = new Membership() { CourseId = courseId, UserId = userId, Status = "В процессе" };

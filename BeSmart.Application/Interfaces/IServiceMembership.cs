@@ -6,6 +6,7 @@ namespace BeSmart.Application.Interfaces
     public interface IServiceMembership
     {
         Task<List<Membership>> GetAllMembershipsAsync();
+        bool CheckMembershipAsync(int courseId, int userId);
         Task<List<MembershipDTO>> GetAllMembershipsForUserAsync(int userId);
         Task<Membership> CreateNewMembershipAsync(int courseId, int userId);
         Task<Membership> DeleteMembershipAsync(int id);

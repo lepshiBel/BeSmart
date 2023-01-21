@@ -10,6 +10,12 @@ namespace BeSmart.Persistence.Repositories
     {
         public MembershipRepository(BeSmartDbContext context) : base(context) { }
 
+        public bool CheckIfExisted(int courseId, int userId)
+        {
+            var membership = context.Memberships.Where(m=>m.UserId == userId && m.CourseId == courseId).FirstOrDefault();
+            return membership == null? false: true;
+        }
+
         public override async Task<List<Membership>> GetAllAsync()
         {
             return await context.Memberships.Include(x=>x.User).ToListAsync();
