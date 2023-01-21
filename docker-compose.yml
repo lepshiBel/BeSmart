@@ -1,45 +1,13 @@
 version: '3.4'
 
-networks:
-  dev:
-    driver: bridge 
-
 services:
-  customer-service:
-    image: ${REGISTRY:-besmart-service}/customer-service.api:${PLATFORM:-linux}-${TAG:-latest}
-    depends_on:
-      - "postgres_image"
-    container_name: BeSmart-container
-    ports:
-      - "5443:80"
+  besmart.webapi:
+    image: ${DOCKER_REGISTRY-}besmartwebapi
+    container_name: besmart.webapi.container
     build:
       context: .
       dockerfile: BeSmart.WebApi/Dockerfile
-    environment:
-      - ConnectionString=Server=BeSmart_db;port=5433;Username=postgres;Password=dash844a;database=be; 
-    networks: 
-      - dev
 
-  postgres_image:
+  postgres.db:
     image: postgres:latest
-    container_name: BeSmart_db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=dash844a
-      - POSTGRES_DB=be
-    ports:
-      - "5433:5433"
-    restart: always
-    volumes:
-      - db_data:/var/lib/postgresql/data/ 
-      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      # - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
-    networks:
-      - dev
-
-volumes:
-  db_data:
-
-
-      #environment:
-    #  - ConnectionString=host=BeSmart_db;port=5432;database=BeSmartDb2;username=postgres;password=dash844a;Pooling=true;
+    container_name: postgres.db.container
