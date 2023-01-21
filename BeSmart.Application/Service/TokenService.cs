@@ -41,20 +41,20 @@ namespace BeSmart.Application.Service
         public async Task<UserLoginResponseDTO> Authenticate(UserLoginRequestDTO userDto, string googleTokenUrl)
         {
             var payload = await GoogleTokenValidateAsync(googleTokenUrl);
-
-            userDto.Email = payload.Email;
             
             var user = await userService.FindUserByNameAsync(userDto);
 
-            if (user == null)
+            if (user.Email == payload.Email)
+            {
+                var token = GenerateToken(user);
+                var response = new UserLoginResponseDTO(user, token);
+
+                return response;
+            }
+            else
             {
                 return null;
-            }
-
-            var token = GenerateToken(user);
-            var response = new UserLoginResponseDTO(user, token);
-
-            return response;
+            }            
         }
 
         public string GenerateToken(User user)

@@ -26,7 +26,7 @@ namespace BeSmart.WebApi.Controllers
         {
             var authRes = tokenService.Authenticate(user, googleTokenUrl);
 
-            return authRes.Result == null ? Unauthorized("Entered userName or password is invalid") : Ok(authRes.Result);
+            return authRes.Result == null ? Unauthorized("Entered userName, password or email is invalid") : Ok(authRes.Result);
         }
 
         //[AllowAnonymous]
