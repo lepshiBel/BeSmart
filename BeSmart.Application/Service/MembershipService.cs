@@ -26,12 +26,15 @@ namespace BeSmart.Application.Service
         public async Task<List<MembershipDTO>> GetAllMembershipsForUserAsync(int userId)
         {
             var memberships = await manager.Membership.GetMembershipsForUserAsync(userId);
+
+            if(!memberships.Any()) return null;
+
             return mapper.Map<List<MembershipDTO>>(memberships);
         }
 
         public async Task<Membership> CreateNewMembershipAsync(int courseId, int userId)
         {
-            var newMembership = new Membership() { CourseId = courseId, UserId = userId };
+            var newMembership = new Membership() { CourseId = courseId, UserId = userId, Status = "В процессе" };
             var created = await manager.Membership.AddAsync(newMembership);
             return created;
         }

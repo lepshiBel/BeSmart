@@ -1,5 +1,6 @@
 ﻿using BeSmart.Domain.DTOs.User;
 using BeSmart.Domain.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BeSmart.Application.Interfaces
 {
@@ -11,5 +12,6 @@ namespace BeSmart.Application.Interfaces
         Task<User> UpdateUserByAdminAsync(int id, User user);
         Task<User> UpdateUserByUserAsync(int id, UserLoginRequestDTO user);
         Task<User> DeleteUserAsync(int id);
+        int GetCurrentUserId(HttpContext context);
     }
 }

@@ -12,12 +12,14 @@ namespace BeSmart.WebApi.Controllers
     public class MembershipController : ControllerBase
     {
         private readonly IServiceMembership serviceMembership;
-        public MembershipController(IServiceMembership serviceMembership)
+        private readonly IUserService userService;
+        public MembershipController(IServiceMembership serviceMembership, IUserService userService)
         {
             this.serviceMembership = serviceMembership;
+            this.userService = userService;
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet(nameof(GetAllMemberships))]
         public async Task<ActionResult<List<Membership>>> GetAllMemberships()
         {
@@ -31,19 +33,17 @@ namespace BeSmart.WebApi.Controllers
             return Ok(memberships);
         }
 
-        //[Authorize(Roles = "user, admin")]
+        [Authorize(Roles = "user, admin")]
         [HttpGet(nameof(GetMembershipsForUser))]
-        public async Task<ActionResult<List<MembershipDTO>>> GetMembershipsForUser(int userId)
+        public async Task<ActionResult<List<MembershipDTO>>> GetMembershipsForUser()
         {
-            //var identity = HttpContext.User.Identity as ClaimsIdentity;
-            //if (identity == null) return BadRequest();
+            var userId = userService.GetCurrentUserId(HttpContext);
 
-            //var userClaims = identity.Claims;
-            //var userId = Convert.ToInt32(userClaims.FirstOrDefault(x => x.Type == "id")?.Value);
+            if (userId == 0) return BadRequest();
 
             var memberships = await serviceMembership.GetAllMembershipsForUserAsync(userId);
 
-            if (!memberships.Any())
+            if (memberships == null)
             {
                 return NoContent();
             }
@@ -55,17 +55,15 @@ namespace BeSmart.WebApi.Controllers
         [HttpPost("AddMembership/{courseId}")]
         public async Task<ActionResult> Post(int courseId)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (identity == null) return BadRequest();
+            var userId = userService.GetCurrentUserId(HttpContext);
 
-            var userClaims = identity.Claims;
-            var userId = Convert.ToInt32(userClaims.FirstOrDefault(x => x.Type == "id")?.Value);
+            if (userId == 0) return BadRequest();
 
             var createdMembership = await serviceMembership.CreateNewMembershipAsync(courseId, userId);
 
             if (createdMembership is null)
             {
-                return BadRequest();
+                return BadRequest("Passed courseId is not valid");
             }
 
             return Ok(createdMembership);
