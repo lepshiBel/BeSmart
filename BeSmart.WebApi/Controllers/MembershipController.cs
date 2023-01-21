@@ -51,13 +51,14 @@ namespace BeSmart.WebApi.Controllers
             return Ok(memberships);
         }
 
-        [Authorize(Roles ="user, admin")]
+        //[Authorize(Roles ="user, admin")]
         [HttpPost("AddMembership/{courseId}")]
-        public async Task<ActionResult> Post(int courseId)
+        public async Task<ActionResult> Post(int courseId) // проверка на валидность courseId
         {
-            var userId = userService.GetCurrentUserId(HttpContext);
+            //var userId = userService.GetCurrentUserId(HttpContext);
 
-            if (userId == 0) return BadRequest();
+            //if (userId == 0) return BadRequest();
+            int userId = 1;
 
             var createdMembership = await serviceMembership.CreateNewMembershipAsync(courseId, userId);
 

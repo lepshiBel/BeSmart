@@ -5,5 +5,6 @@ namespace BeSmart.Application.Interfaces
 {
     public interface IServiceStatusTheme
     {
+        Task<StatusTheme> AddStatusThemeAsync(int themeId, int membershipId);
     }
 }
