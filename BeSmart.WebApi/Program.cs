@@ -26,6 +26,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSwaggerGen(swagger =>
 {
+    // AuthorizationUrl = "https://accounts.google.com/o/oauth2/v2/auth"
+    // TokenUrl = "https://www.googleapis.com/oauth2/v4/token"
+    // ClientId = "1093291377089-eu4kbk7loa9tsvhdf1jrpubk2spgoqj7.apps.googleusercontent.com"
+    // ClientSecret = "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"
+
     // To Enable authorization using Swagger (JWT)
     swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
@@ -49,48 +54,6 @@ builder.Services.AddSwaggerGen(swagger =>
             new string[] {}
         }
     });
-
-    //swagger.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
-    //{
-    //    Description = "ouath",
-    //    Name = "oauth2.0",
-    //    Type = SecuritySchemeType.OAuth2,
-    //    Flows = new OpenApiOAuthFlows
-    //    {
-    //        Implicit = new OpenApiOAuthFlow
-    //        {
-    //            AuthorizationUrl = new Uri($"https://accounts.google.com/o/oauth2/v2/auth"),
-    //            TokenUrl = new Uri($"https://www.googleapis.com/oauth2/v4/token"),
-
-    //            Scopes = new Dictionary<string, string>
-    //            {
-    //                {
-    //                    $"https://www.googleapis.com/auth/cloud-platform.read-only",
-    //                    "User"
-    //                }
-
-    //            }
-    //        }
-    //    }
-    //});
-    //swagger.AddSecurityRequirement(new OpenApiSecurityRequirement()
-    //{
-    //    {
-    //        new OpenApiSecurityScheme
-    //        {
-    //            Reference = new OpenApiReference
-    //            {
-    //                Type = ReferenceType.SecurityScheme,
-    //                Id = "oauth2"
-    //            },
-
-    //            Scheme = "oauth2",
-    //            Name = "oauth2",
-    //            In = ParameterLocation.Header
-    //        },
-    //        new List<string>()
-    //    }
-    //});
 });
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
@@ -116,19 +79,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-//builder.Services.AddAuthentication()
-//    .AddGoogle(options =>
-//    {
-//        options.ClientId = "1093291377089-eu4kbk7loa9tsvhdf1jrpubk2spgoqj7.apps.googleusercontent.com";
-//        options.ClientSecret = "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";
-//    });
-
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("admin", policy => policy.RequireRole("admin"));
     options.AddPolicy("user", policy => policy.RequireRole("user"));
 });
-
 
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceAnswer, AnswerService>();
@@ -141,7 +96,6 @@ builder.Services.AddScoped<IServiceCourse, CourseService>();
 builder.Services.AddScoped<IServiceTheme, ThemeService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
 
 builder.Services.ConfigureServices(builder.Configuration);
 
@@ -167,10 +121,6 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     options.RoutePrefix = string.Empty;
     options.DocumentTitle = "Swagger";
-    //options.OAuthClientId("1093291377089-eu4kbk7loa9tsvhdf1jrpubk2spgoqj7.apps.googleusercontent.com");
-    //options.OAuthClientSecret("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");   
-    //options.OAuthScopes("email");
-    //options.OAuthUseBasicAuthenticationWithAccessCodeGrant();
 });
 
 app.Run();

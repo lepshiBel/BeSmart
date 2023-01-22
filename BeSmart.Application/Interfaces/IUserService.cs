@@ -5,6 +5,8 @@ namespace BeSmart.Application.Interfaces
 {
     public interface IUserService
     {
+        Task<UserLoginResponseDTO> RegisterUserAsync(UserLoginRequestDTO userDto);
+        Task<UserLoginResponseDTO> LoginUserAsync(UserLoginRequestDTO user, string tokenUrl);
         Task<List<User>> GetAllUsersAsync();
         Task<User> FindUserByIdAsync(int id);
         Task<User> FindUserByNameAsync(UserLoginRequestDTO userDto);

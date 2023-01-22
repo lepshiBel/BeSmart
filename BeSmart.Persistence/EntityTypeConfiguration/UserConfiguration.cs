@@ -29,7 +29,7 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
                 .HasColumnName("User_PasswordSalt");
 
             builder.Property(a => a.Role)
-                .IsRequired()
+                .HasDefaultValue("user")
                 .HasColumnName("User_Role");
         }
     }

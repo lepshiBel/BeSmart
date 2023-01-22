@@ -1,5 +1,4 @@
 ﻿using BeSmart.Application.Interfaces;
-using BeSmart.Domain.DTOs.Card;
 using BeSmart.Domain.DTOs.User;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -21,22 +20,22 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost(nameof(Registration))]
+        public IActionResult Registration([FromBody] UserLoginRequestDTO user)
+        {
+            var response = userService.RegisterUserAsync(user);
+
+            return Ok(response.Result);
+        }
+
+        [AllowAnonymous]
         [HttpPost(nameof(Login))]
         public IActionResult Login([FromBody] UserLoginRequestDTO user, string googleTokenUrl)
         {
-            var authRes = tokenService.Authenticate(user, googleTokenUrl);
+            var authRes = userService.LoginUserAsync(user, googleTokenUrl);
 
             return authRes.Result == null ? Unauthorized("Entered userName, password or email is invalid") : Ok(authRes.Result);
         }
-
-        //[AllowAnonymous]
-        //[HttpPost(nameof(GoogleLoginAsync))]
-        //public async Task<IActionResult> GoogleLoginAsync(string googleToken)
-        //{
-        //    var registeredUser = await userService.GoogleLoginAsync(googleToken);
-            
-        //    return Ok(registeredUser);
-        //}
 
         [Authorize(Roles = "admin")]
         [HttpPut("Update/admin/{id}")]
