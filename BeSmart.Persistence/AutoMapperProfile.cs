@@ -10,6 +10,7 @@ using BeSmart.Domain.DTOs.Course;
 using BeSmart.Domain.DTOs.Theme;
 using BeSmart.Domain.DTOs.User;
 using BeSmart.Domain.DTOs.Membership;
+using BeSmart.Domain.DTOs.StatusTheme;
 
 namespace BeSmart.Persistence
 {
@@ -52,9 +53,22 @@ namespace BeSmart.Persistence
 
             CreateMap<User, UserLoginRequestDTO>().ReverseMap();
 
-            CreateMap<Membership, MembershipDTO>().ForMember(d => d.NameCourse, s => s.MapFrom((s => s.Course.Name)))
+            CreateMap<Membership, MembershipDTO>().ForMember(d => d.NameOfCourse, s => s.MapFrom((s => s.Course.Name)))
                 .ForMember(d=>d.CountOfThemes, s => s.MapFrom(s => s.Course.CountOfThemes))
+                .ForMember(d=>d.NameOfCourseCategory, s=>s.MapFrom(s=>s.Course.Category.Name))
                 .ReverseMap();
+
+            CreateMap<Membership, MembershipWithThemesDTO>().ForMember(d => d.MembershipStatus, s => s.MapFrom((s => s.Status)))
+                .ForMember(d => d.CourseName, s => s.MapFrom(s => s.Course.Name))
+                .ForMember(d => d.CourseCountThemes, s => s.MapFrom(s => s.Course.CountOfThemes))
+                .ReverseMap();
+
+            CreateMap<StatusTheme, StatusThemeWithThemeDTO>().ForMember(d => d.Id, s => s.MapFrom((s => s.Id)))
+                .ForMember(d => d.Status, s => s.MapFrom(s => s.Status))
+                .ForMember(d => d.Theme, s => s.MapFrom(s => s.Theme))
+                .ReverseMap();
+
+            
         }
     }
 }

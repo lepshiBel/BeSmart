@@ -5,6 +5,6 @@ namespace BeSmart.Application.Interfaces
 {
     public interface IServiceStatusLesson
     {
-        Task<StatusLesson> AddStatusLessonAsync(int lessonId, int membershipId);
+        Task<StatusLesson> AddStatusLessonAsync(int lessonId, int statusThemeId);
     }
 }

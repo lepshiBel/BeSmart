@@ -15,5 +15,21 @@ namespace BeSmart.Persistence.Repositories
             await context.SaveChangesAsync();
             return newStatus;
         }
+
+        //public async Task<StatusTheme> GetStatusThemeWithLessonsAndTestsAsync(int statusThemeId)
+        //{
+        //    //var statusTheme = await context.StatusThemes.FindAsync(statusThemeId);
+        //    //await context.Entry(statusTheme).Collection(x => x.StatusLessons).LoadAsync();
+        //    //return statusTheme;
+        //    var ldetails = context.StatusThemes.Include(i => i.ListFriends).SingleOrDefault(c => c.UserName == registrationUser.UserName && c.Password == registrationUser.Password);
+        //}
+
+        public async Task<StatusTheme> UpdateStatusTheme(StatusTheme statusTheme, string newStatus)
+        {
+            statusTheme.Status = newStatus;
+            context.StatusThemes.Update(statusTheme);
+            await context.SaveChangesAsync();
+            return statusTheme;
+        }
     }
 }

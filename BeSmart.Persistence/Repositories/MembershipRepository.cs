@@ -1,4 +1,5 @@
 ﻿using BeSmart.Domain;
+using BeSmart.Domain.DTOs.Membership;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 using BeSmart.Persistence.Data;
@@ -29,6 +30,23 @@ namespace BeSmart.Persistence.Repositories
                 .ToListAsync();
 
             return memberships;
+        }
+
+        public async Task<Membership> GetMembershipWithThemesAsync(int membershipId) 
+            // TODO load only necessary fields
+        {
+            var membership = await context.Memberships.Include(m=>m.Course).FirstOrDefaultAsync(x => x.Id == membershipId);
+
+            if (membership == null) return null;
+
+            await context.Entry(membership).Collection(x => x.StatusThemes).LoadAsync();
+
+            foreach (var statueTheme in membership.StatusThemes)
+            {
+                await context.Entry(statueTheme).Reference(x => x.Theme).LoadAsync();
+            }
+
+            return membership;
         }
     }
 }

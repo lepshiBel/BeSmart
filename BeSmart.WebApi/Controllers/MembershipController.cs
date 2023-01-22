@@ -33,13 +33,14 @@ namespace BeSmart.WebApi.Controllers
             return Ok(memberships);
         }
 
-        [Authorize(Roles = "user, admin")]
+        //[Authorize(Roles = "user, admin")]
         [HttpGet(nameof(GetMembershipsForUser))]
         public async Task<ActionResult<List<MembershipDTO>>> GetMembershipsForUser()
         {
-            var userId = userService.GetCurrentUserId(HttpContext);
+            //var userId = userService.GetCurrentUserId(HttpContext);
 
-            if (userId == 0) return BadRequest();
+            //if (userId == 0) return BadRequest("");
+            int userId = 1;
 
             var memberships = await serviceMembership.GetAllMembershipsForUserAsync(userId);
 
@@ -51,9 +52,23 @@ namespace BeSmart.WebApi.Controllers
             return Ok(memberships);
         }
 
+        //[Authorize(Roles = "user, admin")]
+        [HttpGet("GetMembershipWithThemes/{membershipId}")]
+        public async Task<ActionResult<Membership>> GetMembershipsWithThemesForUser(int membershipId)
+        {
+            var membership = await serviceMembership.GetMembershipWithThemesForUserAsync(membershipId);
+
+            if (membership == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(membership);
+        }
+
         //[Authorize(Roles ="user, admin")]
-        [HttpPost("AddMembership/{courseId}")]
-        public async Task<ActionResult> Post(int courseId) // проверка на валидность courseId
+        [HttpPost("StartNewCourse/{courseId}")]
+        public async Task<ActionResult> StartNewCourse(int courseId) // TODO проверка на валидность courseId
         {
             //var userId = userService.GetCurrentUserId(HttpContext);
 

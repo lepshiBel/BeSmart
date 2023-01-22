@@ -10,21 +10,16 @@ namespace BeSmart.Application.Service
     {
         private readonly IRepositoryManager manager;
         private readonly IServiceCourse serviceCourse;
-        private readonly IServiceTheme serviceTheme;
         private readonly IServiceStatusTheme serviceStatusTheme;
-        private readonly IServiceStatusLesson serviceStatusLesson;
         private readonly IMapper mapper;
 
         public MembershipService(IRepositoryManager manager, IMapper mapper,
-            IServiceCourse serviceCourse, IServiceStatusTheme serviceStatusTheme, 
-            IServiceTheme serviceTheme, IServiceStatusLesson serviceStatusLesson)
+            IServiceCourse serviceCourse, IServiceStatusTheme serviceStatusTheme)
         {
             this.manager = manager;
             this.mapper = mapper;
             this.serviceCourse = serviceCourse;
             this.serviceStatusTheme = serviceStatusTheme;
-            this.serviceTheme = serviceTheme;
-            this.serviceStatusLesson = serviceStatusLesson;
         }
 
         public async Task<List<Membership>> GetAllMembershipsAsync()
@@ -56,25 +51,24 @@ namespace BeSmart.Application.Service
             if(course == null) return null;
 
             List<StatusTheme> createdStatusThemes = new List<StatusTheme>();
-            List<StatusLesson> createdStatusLessons = new List<StatusLesson>();
-            //List<StatusTest> createdStatusTests = new List<StatusTest>();
+            //List<StatusLesson> createdStatusLessons = new List<StatusLesson>();
 
             foreach (var theme in course.Themes)
             {
                 createdStatusThemes.Add(await serviceStatusTheme.AddStatusThemeAsync(theme.Id, membershipId));
             }
+            createdStatusThemes.Clear();
 
-            foreach (var statusTheme in createdStatusThemes)
-            {
-                var themeWithLessons = await serviceTheme.GetThemeWithLessonsAsync(statusTheme.ThemeId);
+            //foreach (var statusTheme in createdStatusThemes)
+            //{
+            //    var themeWithLessons = await serviceTheme.GetThemeWithLessonsAsync(statusTheme.ThemeId);
 
-                var themeWithTests = await serviceTheme.GetThemeWithTestsAsync(statusTheme.ThemeId);
 
-                foreach (var lesson in themeWithLessons.Lessons)
-                {
-                    createdStatusLessons.Add(await serviceStatusLesson.AddStatusLessonAsync(lesson.Id, statusTheme.Id));
-                }
-            }
+            //    foreach (var lesson in themeWithLessons.Lessons)
+            //    {
+            //        createdStatusLessons.Add(await serviceStatusLesson.AddStatusLessonAsync(lesson.Id, statusTheme.Id));
+            //    }
+            //}
 
             return created;
         }
@@ -82,6 +76,12 @@ namespace BeSmart.Application.Service
         public async Task<Membership> DeleteMembershipAsync(int id)
         {
             return await manager.Membership.DeleteAsync(id);
+        }
+
+        public async Task<MembershipWithThemesDTO> GetMembershipWithThemesForUserAsync(int membershipId)
+        {
+            var membership =  await manager.Membership.GetMembershipWithThemesAsync(membershipId);
+            return mapper.Map<MembershipWithThemesDTO>(membership);
         }
     }
 }
