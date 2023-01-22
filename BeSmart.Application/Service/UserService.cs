@@ -29,7 +29,7 @@ namespace BeSmart.Application.Service
 
         public async Task<User> FindUserByNameAsync(UserLoginRequestDTO userDto)
         {
-            return await repoManager.User.GetUserByNameAsync(userDto.Username, userDto.Password, userDto.Email);
+            return await repoManager.User.GetUserByNameAsync(userDto.Username);
         }
 
         public async Task<User> UpdateUserByAdminAsync(int id, User user)

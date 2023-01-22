@@ -44,6 +44,11 @@ namespace BeSmart.Application.Service
             
             var user = await userService.FindUserByNameAsync(userDto);
 
+            if (user is null)
+            {
+                return null;
+            }
+
             if (user.Email == payload.Email)
             {
                 var token = GenerateToken(user);

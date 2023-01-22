@@ -20,10 +20,17 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
                 .HasMaxLength(100)
                 .HasColumnName("User_Email");
 
-            builder.Property(a => a.Password)
+            builder.Property(a => a.PasswordHash)
                 .IsRequired()
-                .HasMaxLength(100)
-                .HasColumnName("User_Password");
+                .HasColumnName("User_PasswordHash");
+
+            builder.Property(a => a.PasswordSalt)
+                .IsRequired()
+                .HasColumnName("User_PasswordSalt");
+
+            builder.Property(a => a.Role)
+                .IsRequired()
+                .HasColumnName("User_Role");
         }
     }
 }

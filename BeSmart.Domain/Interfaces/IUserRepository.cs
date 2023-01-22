@@ -4,6 +4,6 @@ namespace BeSmart.Domain.Interfaces
 {
     public interface IUserRepository : IRepositoryBase<User>
     {
-        Task<User> GetUserByNameAsync(string username, string password, string email);
+        Task<User> GetUserByNameAsync(string username);
     }
 }
