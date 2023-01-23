@@ -50,7 +50,7 @@ namespace BeSmart.Application.Service
 
             var user = await FindUserByNameAsync(userDto);
 
-            if (user is null)
+            if (user is null || user.PasswordHash.Length == 0)
             {
                 return null;
             }
