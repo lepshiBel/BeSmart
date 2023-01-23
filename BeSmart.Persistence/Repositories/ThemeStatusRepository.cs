@@ -2,6 +2,7 @@
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 using BeSmart.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeSmart.Persistence.Repositories
 {
@@ -23,6 +24,37 @@ namespace BeSmart.Persistence.Repositories
         //    //return statusTheme;
         //    var ldetails = context.StatusThemes.Include(i => i.ListFriends).SingleOrDefault(c => c.UserName == registrationUser.UserName && c.Password == registrationUser.Password);
         //}
+
+        public async Task<StatusThemeWithLessons> GetStatusThemeWithStatusLessonsWithLessonsAsync(int statusThemeId)
+        {
+            var statusThemeWithLessons = await context.StatusThemes.Include(x => x.StatusLessons).ThenInclude(x => x.Lesson)
+                .Join(
+                    context.Themes,
+                    s => s.ThemeId,
+                    t => t.Id,
+                    (s, t) => new StatusThemeWithLessons
+                    {
+                        Id = s.Id,
+                        CountOfLessons = t.CountLesson,
+                        NameOfTheme = t.Name,
+                        StatusLessons = new List<StatusLesson>(s.StatusLessons.Select(l =>
+                        new StatusLesson
+                        {
+                            Id = l.Id,
+                            Lesson = l.Lesson,
+                            Status = l.Status
+                        }))
+                    })
+                   .FirstOrDefaultAsync(x => x.Id == statusThemeId);
+
+            return statusThemeWithLessons;
+
+            //var statusThemeWithStatusLessonsWithLessons = context.StatusThemes.Include(x => x.Theme)
+            //    .Include(x => x.StatusLessons)
+            //    .ThenInclude(x => x.Lesson)
+            //    .FirstOrDefault(x => x.Id == statusThemeId);
+            //return statusThemeWithStatusLessonsWithLessons;
+        }
 
         public async Task<StatusTheme> UpdateStatusTheme(StatusTheme statusTheme, string newStatus)
         {

@@ -1,4 +1,6 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.StatusTheme;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 
@@ -9,12 +11,17 @@ namespace BeSmart.Application.Service
         private readonly IRepositoryManager repositoryManger;
         private readonly IServiceStatusLesson serviceStatusLesson;
         private readonly IServiceStatusTest serviceStatusTest;
+        private readonly IMapper mapper;
 
-        public StatusThemeService(IRepositoryManager repositoryManger, IServiceStatusLesson serviceStatusLesson, IServiceStatusTest serviceStatusTest)
+        public StatusThemeService(IRepositoryManager repositoryManger, 
+            IServiceStatusLesson serviceStatusLesson,
+            IMapper mapper,
+            IServiceStatusTest serviceStatusTest)
         {
             this.repositoryManger = repositoryManger;
             this.serviceStatusLesson = serviceStatusLesson;
             this.serviceStatusTest = serviceStatusTest;
+            this.mapper = mapper;
         }
 
         public async Task<StatusTheme> AddStatusThemeAsync(int themeId, int membershipId)
@@ -29,6 +36,24 @@ namespace BeSmart.Application.Service
             if (statusTheme == null) return null;
 
             return statusTheme.Status == "В процессе" ? null : statusTheme;
+        }
+
+        public async Task<StatusThemeWithLessonsDTO> GetStatusThemeWithStatusLessons(int statusThemeId)
+        {
+            var result = await repositoryManger.StatusTheme.GetStatusThemeWithStatusLessonsWithLessonsAsync(statusThemeId);
+
+            if(result == null) return null;
+
+            var mapped = mapper.Map<StatusThemeWithLessonsDTO>(result);
+
+            return mapped;
+        }
+
+        public async Task<StatusTheme> UpdateStatus(int statusThemeId, string newStatus)
+        {
+            var toUpdate = await repositoryManger.StatusTheme.GetAsync(statusThemeId);
+            var updated = await repositoryManger.StatusTheme.UpdateStatusTheme(toUpdate, newStatus);
+            return updated;
         }
 
         public async Task<StatusTheme> StartNewThemeAsync(StatusTheme existed)

@@ -5,6 +5,6 @@ namespace BeSmart.Application.Interfaces
 {
     public interface IServiceStatusTest
     {
-        Task<StatusTest> AddStatusTestAsync(int testId, int statusThemeId);
+        public Task<StatusTest> AddStatusTestAsync(int testId, int statusThemeId);
     }
 }

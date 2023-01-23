@@ -48,27 +48,11 @@ namespace BeSmart.Application.Service
             var created = await manager.Membership.AddAsync(newMembership);
             var membershipId = created.Id;
             var course = await serviceCourse.GetCourseWithThemesAsync(courseId);
-            if(course == null) return null;
-
-            List<StatusTheme> createdStatusThemes = new List<StatusTheme>();
-            //List<StatusLesson> createdStatusLessons = new List<StatusLesson>();
 
             foreach (var theme in course.Themes)
             {
-                createdStatusThemes.Add(await serviceStatusTheme.AddStatusThemeAsync(theme.Id, membershipId));
+                await serviceStatusTheme.AddStatusThemeAsync(theme.Id, membershipId);
             }
-            createdStatusThemes.Clear();
-
-            //foreach (var statusTheme in createdStatusThemes)
-            //{
-            //    var themeWithLessons = await serviceTheme.GetThemeWithLessonsAsync(statusTheme.ThemeId);
-
-
-            //    foreach (var lesson in themeWithLessons.Lessons)
-            //    {
-            //        createdStatusLessons.Add(await serviceStatusLesson.AddStatusLessonAsync(lesson.Id, statusTheme.Id));
-            //    }
-            //}
 
             return created;
         }
