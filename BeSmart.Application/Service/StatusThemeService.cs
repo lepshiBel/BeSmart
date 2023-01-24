@@ -49,16 +49,9 @@ namespace BeSmart.Application.Service
             return mapped;
         }
 
-        public async Task<StatusTheme> UpdateStatus(int statusThemeId, string newStatus)
-        {
-            var toUpdate = await repositoryManger.StatusTheme.GetAsync(statusThemeId);
-            var updated = await repositoryManger.StatusTheme.UpdateStatusTheme(toUpdate, newStatus);
-            return updated;
-        }
-
         public async Task<StatusTheme> StartNewThemeAsync(StatusTheme existed)
         {
-            var updated = await repositoryManger.StatusTheme.UpdateStatusTheme(existed, "В процессе");
+            var updated = await repositoryManger.StatusTheme.UpdateStatusTheme(existed.Id, "В процессе");
 
             var themeWithLessons = await repositoryManger.Theme.GetThemeWithLessonsAsync(updated.ThemeId); // TODO сделать одним методом
             var themeWithTests = await repositoryManger.Theme.GetThemeWithTestsAsync(updated.ThemeId);

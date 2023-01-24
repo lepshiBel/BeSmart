@@ -56,12 +56,14 @@ namespace BeSmart.Persistence.Repositories
             //return statusThemeWithStatusLessonsWithLessons;
         }
 
-        public async Task<StatusTheme> UpdateStatusTheme(StatusTheme statusTheme, string newStatus)
+        public async Task<StatusTheme> UpdateStatusTheme(int statusThemeId, string newStatus)
         {
-            statusTheme.Status = newStatus;
-            context.StatusThemes.Update(statusTheme);
+            var themeToUpdate = await context.StatusThemes.FindAsync(statusThemeId);
+            if (themeToUpdate == null) return null;
+            themeToUpdate.Status = newStatus;
+            context.StatusThemes.Update(themeToUpdate);
             await context.SaveChangesAsync();
-            return statusTheme;
+            return themeToUpdate;
         }
     }
 }

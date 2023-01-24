@@ -6,7 +6,7 @@ namespace BeSmart.Domain.Interfaces
     {
         public Task<StatusTheme> AddStatusTheme(int themeId, int membershipId);
         //Task<StatusTheme> GetStatusThemeWithLessonsAndTestsAsync(int statusThemeId);
-        public Task<StatusTheme> UpdateStatusTheme(StatusTheme statusTheme, string newStatus);
+        public Task<StatusTheme> UpdateStatusTheme(int statusThemeId, string newStatus);
         public Task<StatusThemeWithLessons> GetStatusThemeWithStatusLessonsWithLessonsAsync(int statusThemeId);
     }
 }

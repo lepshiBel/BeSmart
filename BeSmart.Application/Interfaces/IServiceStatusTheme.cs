@@ -10,7 +10,5 @@ namespace BeSmart.Application.Interfaces
         Task<StatusTheme> StartNewThemeAsync(StatusTheme existed);
         Task<StatusTheme>? CheckIfThemeStarted(int statusThemeId);
         Task<StatusThemeWithLessonsDTO> GetStatusThemeWithStatusLessons(int statusThemeId);
-        Task<StatusTheme> UpdateStatus(int statusThemeId, string newStatus);
-
     }
 }

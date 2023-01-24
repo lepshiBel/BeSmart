@@ -8,12 +8,10 @@ namespace BeSmart.Application.Service
     public class StatusLessonService : IServiceStatusLesson
     {
         private readonly IRepositoryManager repositoryManger;
-        private readonly IServiceStatusTheme serviceStatusTheme;
 
-        public StatusLessonService(IRepositoryManager repositoryManger, IServiceStatusTheme serviceStatusTheme)
+        public StatusLessonService(IRepositoryManager repositoryManger)
         {
             this.repositoryManger = repositoryManger;
-            this.serviceStatusTheme = serviceStatusTheme;
         }
 
         public async Task<StatusLesson> AddStatusLessonAsync(int lessonId, int statusThemeId)
@@ -30,7 +28,7 @@ namespace BeSmart.Application.Service
 
             if  (statusThemeToDelete is null) return null;
 
-            return await serviceStatusTheme.UpdateStatus(Convert.ToInt32(statusThemeToDelete), "Пройдено");
+            return await repositoryManger.StatusTheme.UpdateStatusTheme(Convert.ToInt32(statusThemeToDelete), "Пройдено");
         }
 
         public async Task<StatusLesson> PassTheLesson(int statusLessonId)
