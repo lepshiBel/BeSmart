@@ -21,18 +21,18 @@ namespace BeSmart.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost(nameof(Registration))]
-        public IActionResult Registration([FromBody] UserLoginRequestDTO user)
+        public IActionResult Registration([FromBody] string googleToken, string password)
         {
-            var response = userService.RegisterUserAsync(user);
+            var response = userService.RegisterUserAsync(googleToken, password);
 
             return Ok(response.Result);
         }
 
         [AllowAnonymous]
         [HttpPost(nameof(Login))]
-        public IActionResult Login([FromBody] UserLoginRequestDTO user, string googleTokenUrl)
+        public IActionResult Login([FromBody] string googleToken)
         {
-            var authRes = userService.LoginUserAsync(user, googleTokenUrl);
+            var authRes = userService.LoginUserAsync(googleToken);
 
             return authRes.Result == null ? Unauthorized("Entered userName, password or email is invalid") : Ok(authRes.Result);
         }

@@ -21,19 +21,15 @@ namespace BeSmart.Application.Service
             this.mapper = mapper;
         }
 
-        public async Task<UserLoginResponseDTO> RegisterUserAsync(UserLoginRequestDTO userDto)
+        public async Task<UserLoginResponseDTO> RegisterUserAsync(string googleToken, string password)
         {
-
-            var user = mapper.Map<User>(userDto);
-
-            if (user is null)
-            {
-                return null;
-            }
+            var payload = await tokenService.GoogleTokenValidateAsync(googleToken);
+            
+            var user = new User(payload.Name, payload.Email);
 
             var hmac = new HMACSHA512();
 
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             user.PasswordSalt = hmac.Key;
 
             await repoManager.User.AddAsync(user);
@@ -44,39 +40,21 @@ namespace BeSmart.Application.Service
             return response;
         }
 
-        public async Task<UserLoginResponseDTO> LoginUserAsync(UserLoginRequestDTO userDto, string googleTokenUrl)
+        public async Task<UserLoginResponseDTO> LoginUserAsync(string googleToken)
         {
-            var payload = await tokenService.GoogleTokenValidateAsync(googleTokenUrl);
+            var payload = await tokenService.GoogleTokenValidateAsync(googleToken);
 
-            var user = await FindUserByNameAsync(userDto);
+            var user = await FindUserByEmailAsync(payload.Email);
 
             if (user is null || user.PasswordHash.Length == 0)
             {
                 return null;
             }
 
-            var hmac = new HMACSHA512(user.PasswordSalt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
+            var token = tokenService.GenerateToken(user);
+            var response = new UserLoginResponseDTO(user, token);
 
-            for (var i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i])
-                {
-                    return null;
-                }
-            }
-
-            if (user.Email == payload.Email)
-            {
-                var token = tokenService.GenerateToken(user);
-                var response = new UserLoginResponseDTO(user, token);
-
-                return response;
-            }
-            else
-            {
-                return null;
-            }
+            return response;
         }
 
         public async Task<List<User>> GetAllUsersAsync()
@@ -89,9 +67,9 @@ namespace BeSmart.Application.Service
             return await repoManager.User.GetAsync(id);
         }
 
-        public async Task<User> FindUserByNameAsync(UserLoginRequestDTO userDto)
+        public async Task<User> FindUserByEmailAsync(string email)
         {
-            return await repoManager.User.GetUserByNameAsync(userDto.Username, userDto.Email);
+            return await repoManager.User.GetUserByEmailAsync(email);
         }
 
         public async Task<User> UpdateUserByAdminAsync(int id, User user)
