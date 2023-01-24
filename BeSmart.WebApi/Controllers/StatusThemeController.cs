@@ -34,7 +34,7 @@ namespace BeSmart.WebApi.Controllers
         {
             var existed = await serviceStatusTheme.CheckIfThemeStarted(statusThemeId);
 
-            if (existed != null) return Ok("You have'n started this theme");
+            if (existed != null) return Ok("You haven't started this theme");
 
             var statusTheme = await serviceStatusTheme.GetStatusThemeWithStatusLessons(statusThemeId);
 

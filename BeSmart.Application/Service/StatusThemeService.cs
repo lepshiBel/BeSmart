@@ -15,8 +15,8 @@ namespace BeSmart.Application.Service
 
         public StatusThemeService(IRepositoryManager repositoryManger, 
             IServiceStatusLesson serviceStatusLesson,
-            IMapper mapper,
-            IServiceStatusTest serviceStatusTest)
+            IServiceStatusTest serviceStatusTest,
+            IMapper mapper)
         {
             this.repositoryManger = repositoryManger;
             this.serviceStatusLesson = serviceStatusLesson;

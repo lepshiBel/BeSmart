@@ -33,7 +33,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(memberships);
         }
 
-        //[Authorize(Roles = "user, admin")]
+        //[Authorize(Roles = "user")]
         [HttpGet(nameof(GetMembershipsForUser))]
         public async Task<ActionResult<List<MembershipDTO>>> GetMembershipsForUser()
         {
@@ -52,9 +52,9 @@ namespace BeSmart.WebApi.Controllers
             return Ok(memberships);
         }
 
-        //[Authorize(Roles = "user, admin")]
-        [HttpGet("GetMembershipWithThemes/{membershipId}")]
-        public async Task<ActionResult<Membership>> GetMembershipsWithThemesForUser(int membershipId)
+        //[Authorize(Roles = "user")]
+        [HttpGet("GetMembershipWithThemesForUser/{membershipId}")]
+        public async Task<ActionResult<Membership>> GetMembershipWithThemesForUser(int membershipId)
         {
             var membership = await serviceMembership.GetMembershipWithThemesForUserAsync(membershipId);
 
@@ -66,7 +66,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(membership);
         }
 
-        //[Authorize(Roles ="user, admin")]
+        //[Authorize(Roles ="user")]
         [HttpPost("StartNewCourse/{courseId}")]
         public async Task<ActionResult> StartNewCourse(int courseId) // TODO проверка на валидность courseId
         {
@@ -88,8 +88,8 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdMembership);
         }
 
-        [HttpDelete("Delete/{id}")]
-        [Authorize(Roles ="admin")]
+        [HttpDelete("Delete/{membershipId}")]
+        [Authorize(Roles ="admin, user")]
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await serviceMembership.DeleteMembershipAsync(id);

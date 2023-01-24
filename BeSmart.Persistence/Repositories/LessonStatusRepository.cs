@@ -9,7 +9,7 @@ namespace BeSmart.Persistence.Repositories
 {
     public class LessonStatusRepository : RepositoryBase<StatusLesson, BeSmartDbContext>, IStatusLessonRepository
     {
-        public LessonStatusRepository(BeSmartDbContext context, IServiceStatusTheme serviceStatusTheme) : base(context) { }
+        public LessonStatusRepository(BeSmartDbContext context) : base(context) { }
 
         public async Task<StatusLesson> AddStatusLessonAsync(int lessonId, int statusThemeId)
         {

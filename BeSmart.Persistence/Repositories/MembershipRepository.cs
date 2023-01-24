@@ -22,6 +22,12 @@ namespace BeSmart.Persistence.Repositories
             return await context.Memberships.Include(x=>x.User).ToListAsync();
         }
 
+        public async Task<List<Membership>> GetAllMembershipsWithUserAsync()
+        {
+            var membershipsWithUsers = await context.Memberships.Include(x => x.User).ToListAsync();
+            return membershipsWithUsers;
+        }
+
         public async Task<List<Membership>> GetMembershipsForUserAsync(int userId)
         {
             var memberships = await context.Memberships.Where(m => m.UserId==userId)

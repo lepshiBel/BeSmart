@@ -24,7 +24,7 @@ namespace BeSmart.Application.Service
 
         public async Task<List<Membership>> GetAllMembershipsAsync()
         {
-            var memberships = await manager.Membership.GetAllAsync();
+            var memberships = await manager.Membership.GetAllMembershipsWithUserAsync();
             return memberships;
         }
 

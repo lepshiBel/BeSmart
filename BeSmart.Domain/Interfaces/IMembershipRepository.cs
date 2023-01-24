@@ -7,5 +7,6 @@ namespace BeSmart.Domain.Interfaces
         Task<List<Membership>> GetMembershipsForUserAsync(int userId);
         Task<Membership> GetMembershipWithThemesAsync(int membershipId);
         bool CheckIfExisted(int courseId, int userId);
+        Task<List<Membership>> GetAllMembershipsWithUserAsync();
     }
 }
