@@ -67,5 +67,26 @@ namespace BeSmart.Application.Service
             var membership =  await manager.Membership.GetMembershipWithThemesAsync(membershipId);
             return mapper.Map<MembershipWithThemesDTO>(membership);
         }
+
+        // проверяет пройдены ли все темы в курсе 
+        public async Task<bool?> CheckIfAllThemesArePassedAsync(int membershipId)
+        {
+            var membershipToCheck = await manager.Membership.GetMembershipWithCourseAsync(membershipId);
+
+            if (membershipToCheck == null) return null;
+
+            return membershipToCheck.AmountOfCompletedThemes == membershipToCheck.Course.CountOfThemes ? true : false;
+        }
+        
+        // обновляет статус membership на завершен и удаляет все темы, связанные с курсом
+        public async Task<MembershipDTO> FinishCourseLearning(int membershipId)
+        {
+            var membership = await  manager.Membership.GetMembershipWithCourseAsync(membershipId);
+            membership.Status = "Завершен";
+            var updated = await manager.Membership.UpdateAsync(membershipId, membership); // todo dto
+            await manager.StatusTheme.FindStatusThemesAndDeleteArrange(membershipId);
+            return mapper.Map<MembershipDTO>(updated);
+        }
+
     }
 }

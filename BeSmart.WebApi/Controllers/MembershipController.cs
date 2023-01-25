@@ -46,7 +46,7 @@ namespace BeSmart.WebApi.Controllers
 
             if (memberships == null)
             {
-                return NoContent();
+                return Ok("Your courses list is empty");
             }
 
             return Ok(memberships);
@@ -60,7 +60,7 @@ namespace BeSmart.WebApi.Controllers
 
             if (membership == null)
             {
-                return NoContent();
+                return BadRequest("Passed membersipId is invalid");
             }
 
             return Ok(membership);
@@ -92,9 +92,9 @@ namespace BeSmart.WebApi.Controllers
         [Authorize(Roles ="admin")]
         public async Task<ActionResult> Delete(int id)
         {
-            var entity = await serviceMembership.DeleteMembershipAsync(id);
+            var membership = await serviceMembership.DeleteMembershipAsync(id);
 
-            if (entity == null)
+            if (membership == null)
             {
                 return BadRequest("Passed id is invalid");
             }
@@ -102,11 +102,20 @@ namespace BeSmart.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPut("Delete/{membershipId}")]
+
         //[Authorize(Roles = "user")]
+        [HttpPut("FinishTheCourse/{membershipId}")]
         public async Task<ActionResult> FinishTheCourse(int membershipId)
         {
-            throw new NotImplementedException();
+            bool? isAllThemesPassed = await serviceMembership.CheckIfAllThemesArePassedAsync(membershipId);
+
+            if (isAllThemesPassed is null) return BadRequest("Passed membershipId is invalid");
+
+            if (isAllThemesPassed == false) return Ok("You haven't completed all themes in this course");
+
+            var updated = await serviceMembership.FinishCourseLearning(membershipId);
+
+            return Ok(updated); 
         }
 
     }

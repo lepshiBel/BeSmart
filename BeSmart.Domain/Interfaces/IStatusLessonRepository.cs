@@ -7,5 +7,6 @@ namespace BeSmart.Domain.Interfaces
         public Task<StatusLesson> AddStatusLessonAsync(int lessonId, int statusThemeId);
 
         public Task<StatusLesson> UpdateStatusAsync(StatusLesson statusLesson, string status);
+        public Task FindStatusLessonsAndDeleteArrange(int statusThemeId);
     }
 }

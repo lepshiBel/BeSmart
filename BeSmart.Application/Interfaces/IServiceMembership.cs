@@ -11,5 +11,7 @@ namespace BeSmart.Application.Interfaces
         Task<MembershipWithThemesDTO> GetMembershipWithThemesForUserAsync(int membershipId);
         Task<Membership> CreateNewMembershipAsync(int courseId, int userId);
         Task<Membership> DeleteMembershipAsync(int id);
+        Task<bool?> CheckIfAllThemesArePassedAsync(int membershipId);
+        Task<MembershipDTO> FinishCourseLearning(int membershipId);
     }
 }

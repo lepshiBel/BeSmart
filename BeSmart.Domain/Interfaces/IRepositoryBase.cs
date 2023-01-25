@@ -9,5 +9,6 @@ namespace BeSmart.Domain.Interfaces
         Task<TEntity> AddAsync(TEntity entity);
         Task<TEntity> UpdateAsync(int id, TEntity entity);
         Task<TEntity> DeleteAsync(int id);
+        Task DeleteArrange(List<TEntity> entities);
     }
 }

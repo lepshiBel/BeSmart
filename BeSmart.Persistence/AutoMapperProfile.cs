@@ -76,13 +76,6 @@ namespace BeSmart.Persistence
                 .ForMember(d => d.Lesson, s => s.MapFrom(s => s.Lesson))
                 .ReverseMap();
 
-            //CreateMap<StatusTheme, StatusThemeWithLessonsDTO>().ForMember(d => d.Id, s => s.MapFrom((s => s.Id)))
-            //    .ForMember(d => d.StatusTheme, s => s.MapFrom(s => s.Status))
-            //    .ForMember(d => d.NameOfTheme, s => s.MapFrom(s => s.Theme.Name))
-            //    .ForMember(d => d.CountOfLessons, s => s.MapFrom(s => s.Theme.CountLesson))
-            //    .ForMember(d => d.StatusLessonsWithLessons, s => s.MapFrom(s => s.StatusLessons))
-            //    .ReverseMap();
-
             CreateMap<StatusThemeWithLessons, StatusThemeWithLessonsDTO>().ForMember(d => d.Id, s => s.MapFrom((s => s.Id)))
                 //.ForMember(d => d.StatusTheme, s => s.MapFrom(s => s.StatusTheme))
                 .ForMember(d => d.NameOfTheme, s => s.MapFrom(s => s.NameOfTheme))
@@ -95,6 +88,6 @@ namespace BeSmart.Persistence
                 .ForMember(d => d.AmountOfIncorrect, s => s.MapFrom(s => s.AmountOfIncorrectAnswers))
                 .ForMember(d => d.AmountOfFaithfull, s => s.MapFrom(s => s.AmountOfFaithfullAnswers))
                 .ReverseMap();
-        }
+    }
     }
 }

@@ -7,5 +7,6 @@ namespace BeSmart.Domain.Interfaces
         Task<StatusTest> UpdateAnswerFieldInStatusTestAsync(bool fidelity, int statusTestId);
         Task<StatusTest> UpdateStatusAndMarkInStatusTestAsync(StatusTest statusTest);
         Task<StatusTest> GetStatusTestWithTest(int statusTestId);
+        Task FindStatusTestsAndDeleteArrange(int statusThemeId);
     }
 }

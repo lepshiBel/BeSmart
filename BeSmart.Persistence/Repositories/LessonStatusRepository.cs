@@ -53,5 +53,12 @@ namespace BeSmart.Persistence.Repositories
             await context.SaveChangesAsync();
             return statusLesson;
         }
+
+        // метод для удаления уроков из темы если тема пройдена
+        public async Task FindStatusLessonsAndDeleteArrange(int statusThemeId)
+        {
+            var finishedLessons = await context.StatusLessons.Where(sl => sl.StatusThemeId == statusThemeId & sl.Status == "Пройден").ToListAsync();
+            await base.DeleteArrange(finishedLessons);
+        }
     }
 }

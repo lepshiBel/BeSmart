@@ -49,13 +49,7 @@ namespace BeSmart.Persistence.Repositories
             var statusThemeWithTheme = await context.StatusThemes.Include(s => s.Theme).FirstOrDefaultAsync(s => s.Id == statusThemeId);
 
             if (statusThemeWithTheme.AmountOfCompletedLessons == statusThemeWithTheme.Theme.CountLesson)
-            {
-                var finishedLessons = await context.StatusLessons.Where(sl => sl.StatusThemeId == statusThemeId & sl.Status == "Пройден").ToListAsync();
-                var finishedTests = await context.StatusTests.Where(sl => sl.StatusThemeId == statusThemeId).ToListAsync();
-                context.StatusLessons.RemoveRange(finishedLessons);
-                context.StatusTests.RemoveRange(finishedTests); 
-                await context.SaveChangesAsync(); // TODO ??
-
+            {              
                 return statusThemeWithTheme; 
             }
 
@@ -79,6 +73,13 @@ namespace BeSmart.Persistence.Repositories
             themeToUpdate.Status = newStatus;
             var updated = await base.UpdateAsync(themeToUpdate.Id, themeToUpdate);
             return updated;
+        }
+
+        // метод для удаления записей о пройденных темах если курс пройден
+        public async Task FindStatusThemesAndDeleteArrange(int membershipId)
+        {
+            var finishedThemes = await context.StatusThemes.Where(sl => sl.MembershipId == membershipId).ToListAsync();
+            await base.DeleteArrange(finishedThemes);
         }
     }
 }

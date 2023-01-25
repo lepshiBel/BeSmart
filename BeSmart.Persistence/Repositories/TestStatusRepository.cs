@@ -41,5 +41,12 @@ namespace BeSmart.Persistence.Repositories
             var updated = await base.UpdateAsync(statusTest.Id, statusTest);
             return updated;
         }
+
+        // метод для удаления записей о пройденных тестах если пройдена тема
+        public async Task FindStatusTestsAndDeleteArrange(int statusThemeId)
+        {
+            var finishedTests = await context.StatusTests.Where(sl => sl.StatusThemeId == statusThemeId).ToListAsync();
+            await base.DeleteArrange(finishedTests);
+        }
     }
 }

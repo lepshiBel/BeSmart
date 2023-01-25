@@ -38,6 +38,11 @@ namespace BeSmart.Persistence.Repositories
             return memberships;
         }
 
+        public async Task<Membership> GetMembershipWithCourseAsync(int membershipId)
+        {
+            return await context.Memberships.Include(m=>m.Course).ThenInclude(m => m.Category).FirstOrDefaultAsync(m=>m.Id==membershipId);
+        }
+
         public async Task<Membership> GetMembershipWithThemesAsync(int membershipId) 
             // TODO load only necessary fields
         {
@@ -55,7 +60,7 @@ namespace BeSmart.Persistence.Repositories
             return membership;
         }
 
-        // увеличивает кол-во пройденных тем 
+        // увеличивает кол-во пройденных тем в membership
         public async Task<Membership> UpdateAmountOfCompletedThemesAsync(int membershipId)
         {
             var membership = await context.Memberships.Include(x => x.Course).FirstOrDefaultAsync(m=>m.Id == membershipId);

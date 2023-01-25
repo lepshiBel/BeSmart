@@ -55,6 +55,12 @@ namespace BeSmart.Domain
             //return entity;
         }
 
+        public virtual async Task DeleteArrange(List<TEntity> entities) 
+        {
+            context.Set<TEntity>().RemoveRange(entities);
+            await context.SaveChangesAsync();
+        }
+
         public virtual async Task<TEntity> DeleteAsync(int id)
         {
             var entity = await context
