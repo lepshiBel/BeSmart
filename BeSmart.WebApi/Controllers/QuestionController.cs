@@ -9,11 +9,11 @@ namespace BeSmart.WebApi.Controllers
     [ApiController]
     public class QuestionController : ControllerBase
     {
-        private readonly IServiceQuestion serviceQuestion;
+        private readonly IServiceQuestion _serviceQuestion;
 
         public QuestionController(IServiceQuestion serviceQuestion)
         {
-            this.serviceQuestion = serviceQuestion;
+            this._serviceQuestion = serviceQuestion;
         }
 
         [HttpGet]
