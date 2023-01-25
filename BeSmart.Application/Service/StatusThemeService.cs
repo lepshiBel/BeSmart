@@ -10,17 +10,14 @@ namespace BeSmart.Application.Service
     {
         private readonly IRepositoryManager repositoryManger;
         private readonly IServiceStatusLesson serviceStatusLesson;
-        private readonly IServiceStatusTest serviceStatusTest;
         private readonly IMapper mapper;
 
         public StatusThemeService(IRepositoryManager repositoryManger, 
             IServiceStatusLesson serviceStatusLesson,
-            IServiceStatusTest serviceStatusTest,
             IMapper mapper)
         {
             this.repositoryManger = repositoryManger;
             this.serviceStatusLesson = serviceStatusLesson;
-            this.serviceStatusTest = serviceStatusTest;
             this.mapper = mapper;
         }
 
@@ -49,22 +46,16 @@ namespace BeSmart.Application.Service
             return mapped;
         }
 
+        // обновляет статус темы на в процессе и добавляет записи со статусом не пройдено в таблицу статус_уроков
         public async Task<StatusTheme> StartNewThemeAsync(StatusTheme existed)
         {
             var updated = await repositoryManger.StatusTheme.UpdateStatusTheme(existed.Id, "В процессе");
 
-            var themeWithLessons = await repositoryManger.Theme.GetThemeWithLessonsAsync(updated.ThemeId); // TODO сделать одним методом
-            var themeWithTests = await repositoryManger.Theme.GetThemeWithTestsAsync(updated.ThemeId);
-
+            var themeWithLessons = await repositoryManger.Theme.GetThemeWithLessonsAsync(updated.ThemeId);
 
             foreach (var lesson in themeWithLessons.Lessons)
             {
                 await serviceStatusLesson.AddStatusLessonAsync(lesson.Id, updated.Id);
-            }
-
-            foreach (var test in themeWithTests.Tests)
-            {
-                await serviceStatusTest.AddStatusTestAsync(test.Id, updated.Id);
             }
 
             return updated;

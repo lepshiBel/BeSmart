@@ -37,7 +37,7 @@ namespace BeSmart.Domain
             return entity;
         }
 
-        public virtual async Task<TEntity> UpdateAsync(int id, TEntity entity)
+        public virtual async Task<TEntity> UpdateAsync(int id, TEntity entity) // TODO убрать id
         {
             context.Set<TEntity>().Update(entity);
             await context.SaveChangesAsync();

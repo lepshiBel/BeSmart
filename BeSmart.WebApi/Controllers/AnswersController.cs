@@ -1,5 +1,6 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Answer;
+using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,21 @@ namespace BeSmart.WebApi.Controllers
         public AnswersController(IServiceAnswer serviceAnswer)
         {
             this.serviceAnswer = serviceAnswer;
+        }
+
+        //[Authorize(Roles ="user")]
+        [HttpPost("GiveTheAnswerToTheQuestion/{answerId, statusTestId}")]
+        public async Task<ActionResult> GiveTheAnswerToTheQuestion(int answerId, int statusTestId)
+        {
+            var passedAnswer = await serviceAnswer.FindAnswerByIdAsync(answerId);
+
+            if (passedAnswer == null) return BadRequest("Passed answerId is invalid");
+
+            var updatedStatusTest = await serviceAnswer.CheckAnswerAndUpdateStatusTest(passedAnswer.Fidelity, statusTestId);
+
+            if (updatedStatusTest == null) return BadRequest("Passed statusTestId is invalid");
+
+            return Ok(updatedStatusTest);
         }
 
         [HttpGet]

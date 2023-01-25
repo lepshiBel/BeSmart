@@ -12,6 +12,7 @@ using BeSmart.Domain.DTOs.User;
 using BeSmart.Domain.DTOs.Membership;
 using BeSmart.Domain.DTOs.StatusTheme;
 using BeSmart.Domain.DTOs.StatusLesson;
+using BeSmart.Domain.DTOs.StatusTest;
 
 namespace BeSmart.Persistence
 {
@@ -89,7 +90,11 @@ namespace BeSmart.Persistence
                 .ForMember(d => d.StatusLessonsWithLessons, s => s.MapFrom(s => s.StatusLessons))
                 .ReverseMap();
 
-
+            CreateMap<StatusTest, StatusTestDTO>().ForMember(d => d.TestStatus, s => s.MapFrom(s => s.Status))
+                .ForMember(d => d.TestName, s => s.MapFrom(s => s.Test.Name))
+                .ForMember(d => d.AmountOfIncorrect, s => s.MapFrom(s => s.AmountOfIncorrectAnswers))
+                .ForMember(d => d.AmountOfFaithfull, s => s.MapFrom(s => s.AmountOfFaithfullAnswers))
+                .ReverseMap();
         }
     }
 }

@@ -48,12 +48,6 @@ namespace BeSmart.Persistence.Repositories
                    .FirstOrDefaultAsync(x => x.Id == statusThemeId);
 
             return statusThemeWithLessons;
-
-            //var statusThemeWithStatusLessonsWithLessons = context.StatusThemes.Include(x => x.Theme)
-            //    .Include(x => x.StatusLessons)
-            //    .ThenInclude(x => x.Lesson)
-            //    .FirstOrDefault(x => x.Id == statusThemeId);
-            //return statusThemeWithStatusLessonsWithLessons;
         }
 
         public async Task<StatusTheme> UpdateStatusTheme(int statusThemeId, string newStatus)
