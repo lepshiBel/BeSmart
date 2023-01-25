@@ -49,5 +49,14 @@ namespace BeSmart.Application.Service
             var mark = Math.Ceiling(faithfullAnswers / totalAmount * 10);
             return Convert.ToInt32(mark);
         }
+
+        public async Task<StatusTest> FihishTheAttemptAsync(int statusTestId)
+        {
+            var deleted = await repositoryManger.StatusTest.DeleteAsync(statusTestId);
+
+            if (deleted == null) return null;
+
+            return deleted;
+        }
     }
 }

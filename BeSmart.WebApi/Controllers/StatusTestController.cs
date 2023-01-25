@@ -31,7 +31,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         //[Authorize(Roles = "user")]
-        [HttpPost("FinishTheTest/{statusTestId, testId}")]
+        [HttpPost("FinishTheTest/{statusTestId}")]
         public async Task<ActionResult> FinishTheTest(int statusTestId)
         {
             var finishedTest = await serviceStatusTest.FihishTheTestAsync(statusTestId);
@@ -43,6 +43,18 @@ namespace BeSmart.WebApi.Controllers
                 return Ok("You haven't answered to all the questions");
                     
             return Ok(finishedTest); 
+        }
+
+        //[Authorize(Roles = "user")]
+        [HttpDelete("FinishTheAttempt/{statusTestId}")]
+        public async Task<ActionResult> FinishTheAttempt(int statusTestId)
+        {
+            var finishedAttempt = await serviceStatusTest.FihishTheAttemptAsync(statusTestId);
+
+            if (finishedAttempt == null)
+                return BadRequest("Passed statusTestId is invalid");
+
+            return Ok("You finished the attempt");
         }
     }
 }

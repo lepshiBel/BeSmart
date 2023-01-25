@@ -89,7 +89,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpDelete("Delete/{membershipId}")]
-        [Authorize(Roles ="admin, user")]
+        [Authorize(Roles ="admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await serviceMembership.DeleteMembershipAsync(id);
@@ -100,6 +100,13 @@ namespace BeSmart.WebApi.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPut("Delete/{membershipId}")]
+        //[Authorize(Roles = "user")]
+        public async Task<ActionResult> FinishTheCourse(int membershipId)
+        {
+            throw new NotImplementedException();
         }
 
     }

@@ -19,32 +19,32 @@ namespace BeSmart.Persistence.Repositories
             return statusLesson;
         }
 
-        public async Task<int> CheckIfThemeIsPassed(StatusLesson updated)
-        {
-            var info = context.StatusLessons.Where(x => x.Id == updated.Id).Include(x => x.StatusTheme)
-                .ThenInclude(x => x.Theme)
-                .Select(s => new
-                {
-                    StatusLessonId = s.Id,
-                    StatusThemeId = s.StatusThemeId,
-                    ThemeId = s.StatusTheme.ThemeId,
-                    AmountOfLessonsInTheme = s.StatusTheme.Theme.CountLesson
-                }).FirstOrDefault();
+        //public async Task<int> CheckIfThemeIsPassed(StatusLesson updated)
+        //{
+        //    var info = context.StatusLessons.Where(x => x.Id == updated.Id).Include(x => x.StatusTheme)
+        //        .ThenInclude(x => x.Theme)
+        //        .Select(s => new
+        //        {
+        //            StatusLessonId = s.Id,
+        //            StatusThemeId = s.StatusThemeId,
+        //            ThemeId = s.StatusTheme.ThemeId,
+        //            AmountOfLessonsInTheme = s.StatusTheme.Theme.CountLesson
+        //        }).FirstOrDefault();
 
-            var finishedLessons = await context.StatusLessons.Where(sl => sl.StatusThemeId == info.StatusThemeId & sl.Status == "Пройден").ToListAsync();
+        //    var finishedLessons = await context.StatusLessons.Where(sl => sl.StatusThemeId == info.StatusThemeId & sl.Status == "Пройден").ToListAsync();
 
-            if (finishedLessons.Count() == info.AmountOfLessonsInTheme)
-            {
-                foreach (var statusLesson in finishedLessons)
-                {
-                    context.StatusLessons.Remove(statusLesson);
-                }
+        //    if (finishedLessons.Count() == info.AmountOfLessonsInTheme)
+        //    {
+        //        foreach (var statusLesson in finishedLessons)
+        //        {
+        //            context.StatusLessons.Remove(statusLesson);
+        //        }
 
-                return finishedLessons[0].StatusThemeId;
-            }
+        //        return finishedLessons[0].StatusThemeId;
+        //    }
 
-            return 0;
-        }
+        //    return 0;
+        //}
 
         public async Task<StatusLesson> UpdateStatusAsync(StatusLesson statusLesson, string status)
         {

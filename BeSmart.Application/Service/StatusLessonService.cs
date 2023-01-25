@@ -20,17 +20,16 @@ namespace BeSmart.Application.Service
             return createdStatus;
         }
 
-        // if (count кол-во записей в таблице statusLesson с statusThemeId == theme.
-        // countlessons то статус темы меняется на пройдено и все записи из таблицы status lesson удаляются)
         public async Task<StatusTheme> CheckIfThemeIsCompleted(StatusLesson updated)
         {
-            var statusThemeToDelete = repositoryManger.StatusLesson.CheckIfThemeIsPassed(updated);
+            var statusTheme = repositoryManger.StatusTheme.CheckIfThemeIsPassed(updated.StatusThemeId);
 
-            if  (statusThemeToDelete is null) return null;
+            if  (statusTheme is null) return null;
 
-            return await repositoryManger.StatusTheme.UpdateStatusTheme(Convert.ToInt32(statusThemeToDelete), "Пройдено");
+            return await repositoryManger.StatusTheme.UpdateStatusTheme(statusTheme.Id, "Пройдено");
         }
 
+        // изменение статуса урока на пройден и увеличивает кол-во пройденых уроков в статус_тема
         public async Task<StatusLesson> PassTheLesson(int statusLessonId)
         {
             var statusLesson = await repositoryManger.StatusLesson.GetAsync(statusLessonId);
@@ -38,6 +37,7 @@ namespace BeSmart.Application.Service
             if(statusLesson == null || statusLesson.Status == "Пройден") return null;
 
             var updated = await repositoryManger.StatusLesson.UpdateStatusAsync(statusLesson, "Пройден");
+            await repositoryManger.StatusTheme.UpdateAmountOfPassedLessons(statusLesson.StatusThemeId);
             return updated;
         }
     }

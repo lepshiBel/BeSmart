@@ -17,14 +17,6 @@ namespace BeSmart.Persistence.Repositories
             return newStatus;
         }
 
-        //public async Task<StatusTheme> GetStatusThemeWithLessonsAndTestsAsync(int statusThemeId)
-        //{
-        //    //var statusTheme = await context.StatusThemes.FindAsync(statusThemeId);
-        //    //await context.Entry(statusTheme).Collection(x => x.StatusLessons).LoadAsync();
-        //    //return statusTheme;
-        //    var ldetails = context.StatusThemes.Include(i => i.ListFriends).SingleOrDefault(c => c.UserName == registrationUser.UserName && c.Password == registrationUser.Password);
-        //}
-
         public async Task<StatusThemeWithLessons> GetStatusThemeWithStatusLessonsWithLessonsAsync(int statusThemeId)
         {
             var statusThemeWithLessons = await context.StatusThemes.Include(x => x.StatusLessons).ThenInclude(x => x.Lesson)
@@ -50,14 +42,43 @@ namespace BeSmart.Persistence.Repositories
             return statusThemeWithLessons;
         }
 
+        // проверяет равно ли кол-во пройденных уроков общему кол-ву уроков в теме, если равно,
+        // то удаляет все записи из статус_лессон и статус_тест, относящиеся к пройденной теме
+        public async Task<StatusTheme> CheckIfThemeIsPassed(int statusThemeId)
+        {
+            var statusThemeWithTheme = await context.StatusThemes.Include(s => s.Theme).FirstOrDefaultAsync(s => s.Id == statusThemeId);
+
+            if (statusThemeWithTheme.AmountOfCompletedLessons == statusThemeWithTheme.Theme.CountLesson)
+            {
+                var finishedLessons = await context.StatusLessons.Where(sl => sl.StatusThemeId == statusThemeId & sl.Status == "Пройден").ToListAsync();
+                var finishedTests = await context.StatusTests.Where(sl => sl.StatusThemeId == statusThemeId).ToListAsync();
+                context.StatusLessons.RemoveRange(finishedLessons);
+                context.StatusTests.RemoveRange(finishedTests); 
+                await context.SaveChangesAsync(); // TODO ??
+
+                return statusThemeWithTheme; 
+            }
+
+            return null;
+        }
+
+        // увеличивает кол-во пройденных уроков в статус_темы на 1
+        public async Task<StatusTheme> UpdateAmountOfPassedLessons(int statusThemeId)
+        {
+            var statusThemeToUpdate = await context.StatusThemes.FindAsync(statusThemeId);
+            if (statusThemeToUpdate == null) return null;
+            statusThemeToUpdate.AmountOfCompletedLessons += 1;
+            var updated = await base.UpdateAsync(statusThemeToUpdate.Id, statusThemeToUpdate);
+            return updated;
+        }
+
         public async Task<StatusTheme> UpdateStatusTheme(int statusThemeId, string newStatus)
         {
             var themeToUpdate = await context.StatusThemes.FindAsync(statusThemeId);
             if (themeToUpdate == null) return null;
             themeToUpdate.Status = newStatus;
-            context.StatusThemes.Update(themeToUpdate);
-            await context.SaveChangesAsync();
-            return themeToUpdate;
+            var updated = await base.UpdateAsync(themeToUpdate.Id, themeToUpdate);
+            return updated;
         }
     }
 }

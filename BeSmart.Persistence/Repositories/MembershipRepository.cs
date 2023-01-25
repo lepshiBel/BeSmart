@@ -54,5 +54,18 @@ namespace BeSmart.Persistence.Repositories
 
             return membership;
         }
+
+        // увеличивает кол-во пройденных тем 
+        public async Task<Membership> UpdateAmountOfCompletedThemesAsync(int membershipId)
+        {
+            var membership = await context.Memberships.Include(x => x.Course).FirstOrDefaultAsync(m=>m.Id == membershipId);
+
+            if(membership == null) return null;
+
+            membership.AmountOfCompletedThemes += 1;
+
+            var updated = await base.UpdateAsync(membership.Id, membership); // TODO изменить реализацию метода
+            return updated;
+        }
     }
 }

@@ -31,7 +31,7 @@ namespace BeSmart.WebApi.Controllers
 
             return updatedStatusTheme is null ?
                 Ok("Lesson marked as completed") :
-                Ok("The lesson that you have passed now is last in current theme. Current theme marked as comleted ");
+                Ok("The lesson that you have passed now is last in current theme. Current theme marked as comleted");
         }
     }
 }
