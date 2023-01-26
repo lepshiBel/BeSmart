@@ -13,6 +13,14 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
             builder.Property(s => s.Mark)
                 .HasDefaultValue(null);
 
+            builder.Property(s => s.AmountOfFaithfullAnswers)
+                .HasColumnName("Amount_of_faithfull_answers")
+                .HasDefaultValue(0);
+
+            builder.Property(s => s.AmountOfIncorrectAnswers)
+                .HasColumnName("Amount_of_incorrect_answers")
+                .HasDefaultValue(0);
+
             builder.Property(s => s.Status)
                 .HasDefaultValue("Не пройдено");
 

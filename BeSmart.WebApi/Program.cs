@@ -96,6 +96,10 @@ builder.Services.AddScoped<IServiceCourse, CourseService>();
 builder.Services.AddScoped<IServiceTheme, ThemeService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IServiceMembership, MembershipService>();
+builder.Services.AddScoped<IServiceStatusTheme, StatusThemeService>();
+builder.Services.AddScoped<IServiceStatusLesson, StatusLessonService>();
+builder.Services.AddScoped<IServiceStatusTest, StatusTestService>();
 
 builder.Services.ConfigureServices(builder.Configuration);
 
