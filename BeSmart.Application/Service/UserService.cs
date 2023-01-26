@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using BeSmart.Application.Interfaces;
-using BeSmart.Domain.DTOs.Card;
 using BeSmart.Domain.DTOs.User;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace BeSmart.Application.Service
 {
