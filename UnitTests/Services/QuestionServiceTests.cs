@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BeSmart.Application.Interfaces;
 using BeSmart.Application.Service;
-using BeSmart.Domain.DTOs.Answer;
 using BeSmart.Domain.DTOs.Question;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
@@ -46,14 +45,14 @@ namespace UnitTests.Services
         public void SeedData(BeSmartDbContext context)
         {
             var data = new List<Question>()
-                {
-                    new() { Id = 1, Text = "test", TestId = 1 },
-                    new() { Id = 2, Text = "test2", TestId = 1 },
-                    new() { Id = 3, Text = "test3", TestId = 1 },
-                    new() { Id = 4, Text = "test4", TestId = 2 },
-                    new() { Id = 5, Text = "test5", TestId = 2 },
-                    new() { Id = 6, Text = "test6", TestId = 2 }
-                };
+            {
+                new() { Id = 1, Text = "test", TestId = 1 },
+                new() { Id = 2, Text = "test2", TestId = 1 },
+                new() { Id = 3, Text = "test3", TestId = 1 },
+                new() { Id = 4, Text = "test4", TestId = 2 },
+                new() { Id = 5, Text = "test5", TestId = 2 },
+                new() { Id = 6, Text = "test6", TestId = 2 }
+            };
 
             context.Questions.AddRange(data);
             context.SaveChanges();
