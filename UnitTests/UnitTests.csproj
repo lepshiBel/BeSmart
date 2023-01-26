@@ -27,8 +27,4 @@
       <ProjectReference Include="..\BeSmart.Persistence\BeSmart.Persistence.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\" />
-    </ItemGroup>
-
 </Project>
