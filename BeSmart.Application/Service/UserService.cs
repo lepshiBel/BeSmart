@@ -6,8 +6,6 @@ using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace BeSmart.Application.Service
 {
