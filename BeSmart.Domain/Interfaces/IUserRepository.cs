@@ -1,0 +1,9 @@
+﻿using BeSmart.Domain.Models;
+
+namespace BeSmart.Domain.Interfaces
+{
+    public interface IUserRepository : IRepositoryBase<User>
+    {
+        Task<User> GetUserByEmailAsync(string email);
+    }
+}

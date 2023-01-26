@@ -11,5 +11,20 @@ namespace BeSmart.Persistence.Repositories
             : base(dbContext)
         {
         }
+
+        public override async Task<Answer> UpdateAsync(int id, Answer answer)
+        {
+            var old = context.Answers.FirstOrDefault(o => o.Id == id);
+
+            if (old == null)
+            {
+                return null;
+            }
+
+            old.Text = answer.Text;
+            old.Fidelity = answer.Fidelity;
+            var updated = await base.UpdateAsync(id, old);
+            return updated;
+        }
     }
 }

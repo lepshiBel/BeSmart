@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeSmart.WebApi", "BeSmart.W
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project", "Project", "{8C85A30D-1F3E-4CEB-8CB2-4F0FC922B921}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{F06C26A0-B1E4-4883-B282-867F5CA40021}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{F06C26A0-B1E4-4883-B282-867F5CA40021}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

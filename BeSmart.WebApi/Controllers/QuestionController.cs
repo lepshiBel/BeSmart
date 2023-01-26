@@ -1,5 +1,7 @@
 ﻿using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs.Question;
 using BeSmart.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -15,58 +17,70 @@ namespace BeSmart.WebApi.Controllers
             this.serviceQuestion = serviceQuestion;
         }
 
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<List<Question>>> GetAll()
+        public async Task<ActionResult<List<QuestionDTO>>> GetAll()
         {
             var questions = await serviceQuestion.GetAllQuestionsAsync();
+            
             if (!questions.Any())
             {
                 return NoContent();
             }
-            return Ok(questions);          
+
+            return Ok(questions.OrderBy(a => a.Id));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Question>> Get(int id)
+        public async Task<ActionResult<QuestionDTO>> Get(int id)
         {
-            var question = await serviceQuestion.FindQuestionByIdAsync(id);
-            if (question is null)
+            var questionDto = await serviceQuestion.FindQuestionByIdAsync(id);
+
+            if (questionDto is null)
             {
                 return NoContent();
             }
-            else
-            {
-                return Ok(question);
-            }
+
+            return Ok(questionDto);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(Question question)
+        [AllowAnonymous]
+        [HttpGet("withAnswers/{id}")]
+        public async Task<ActionResult<QuestionWithAnswersDTO>> GetQuestionWithAnswers(int id)
         {
-            var createdQuestion = await serviceQuestion.AddQuestionAsync(question);
+            var questionsWithAnswersDto = await serviceQuestion.GetQuestionWithAnswersAsync(id);
+
+            if (questionsWithAnswersDto is null)
+            {
+                return NoContent();
+            }
+
+            return Ok(questionsWithAnswersDto);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Create/{testId}")]
+        public async Task<ActionResult> Post(int testId, [FromBody]QuestionCreationDTO questionCreationDto)
+        {
+            questionCreationDto.TestId = testId;
+            var createdQuestion = await serviceQuestion.AddQuestionAsync(questionCreationDto);
+           
             if (createdQuestion is null)
             {
                 return BadRequest("Question object is invalid");
             }
+
             return Ok(createdQuestion);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, Question question)
+        [AllowAnonymous]
+        [HttpPut("Update/{id}")]
+        public async Task<ActionResult<QuestionDTO>> Update(int id, [FromBody] QuestionCreationDTO questionUpdateDTO)
         {
-            if (id != question.Id)
-            {
-                return BadRequest();
-            }
+            var updated = await serviceQuestion.UpdateQuestionAsync(id, questionUpdateDTO);
 
-            var questionToUpdate = await serviceQuestion.FindQuestionByIdAsync(id);
-            if (questionToUpdate is null)
-            {
-                return NoContent();
-            }
-
-            var updated = await serviceQuestion.UpdateQuestionAsync(questionToUpdate);
-            if(updated is null)
+            if (updated is null)
             {
                 return BadRequest("Question object is invalid");
             }
@@ -74,14 +88,17 @@ namespace BeSmart.WebApi.Controllers
             return Ok(updated);
         }
 
-        [HttpDelete("{id}")]
+        [AllowAnonymous]
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await serviceQuestion.DeleteQuestionAsync(id);
+            
             if (entity == null)
             {
                 return NoContent();
             }
+
             return Ok();
         }
     }

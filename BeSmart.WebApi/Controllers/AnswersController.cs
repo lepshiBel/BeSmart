@@ -1,5 +1,6 @@
 ﻿using BeSmart.Application.Interfaces;
-using BeSmart.Domain.Models;
+using BeSmart.Domain.DTOs.Answer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -16,61 +17,73 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Answer>>> GetAll()
+        [AllowAnonymous]
+        public async Task<ActionResult<List<AnswerDTO>>> GetAll()
         {
-            var answers = await serviceAnswer.GetAllAnswersAsync();
-            if (!answers.Any())
+            var answersDto = await serviceAnswer.GetAllAnswersAsync();
+            
+            if (answersDto == null)
             {
                 return NoContent();
             }
-            return Ok(answers);
-        }
 
+            return Ok(answersDto.OrderBy(a => a.Id));
+        }
+     
+        [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Answer>> Get(int id)
+        public async Task<ActionResult<AnswerDTO>> Get(int id)
         {
-            var answer = await serviceAnswer.FindAnswerByIdAsync(id);
-            if (answer is null)
+            var answerDto = await serviceAnswer.FindAnswerByIdAsync(id);
+            
+            if (answerDto is null)
             {
                 return NoContent();
             }
 
-            return Ok(answer);
+            return Ok(answerDto);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Answer>> Post(Answer answer)
+        [AllowAnonymous]
+        [HttpPost("Create/{questionId}")]
+        public async Task<ActionResult> Post(int questionId, [FromBody]AnswerCreationDTO answerDto)
         {
-            if (answer is null)
+            answerDto.QuestionId = questionId;
+            var createdAnswer = await serviceAnswer.AddAnswerAsync(answerDto);
+
+            if (createdAnswer is null)
             {
-                return BadRequest("Answer object is null");
+                return BadRequest("Answer object is invalid");
             }
-            // добавить валидацию
-            var createdAnswer = await serviceAnswer.AddAnswerAsync(answer);
-            return CreatedAtRoute("OwnerById", new { id = createdAnswer.Id }, createdAnswer);
+
+            return Ok(createdAnswer);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Answer>> Update(int id)
+        [AllowAnonymous]
+        [HttpPut("Update/{id}")]
+        public async Task<ActionResult<AnswerDTO>> Update(int id, [FromBody]AnswerUpdateDTO answerUpdateDTO)
         {
-            var answerToUpdate = await serviceAnswer.FindAnswerByIdAsync(id);
-            if (answerToUpdate is null)
+            var updated = await serviceAnswer.UpdateAnswerAsync(id, answerUpdateDTO);
+
+            if (updated is null)
             {
-                return NoContent();
+                return BadRequest("Answer object is invalid");
             }
-            // добавить валидацию
-            var updated = await serviceAnswer.UpdateAnswerAsync(answerToUpdate);
+
             return Ok(updated);
         }
 
-        [HttpDelete("{id}")]
+        [AllowAnonymous]
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await serviceAnswer.DeleteAnswerAsync(id);
+            
             if (entity == null)
             {
-                return NoContent();
+                return BadRequest();
             }
+
             return Ok();
         }
     }
