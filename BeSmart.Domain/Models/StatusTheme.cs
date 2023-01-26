@@ -5,6 +5,7 @@ namespace BeSmart.Domain.Models
     public class StatusTheme : EntityBase
     {
         public string? Status { get; set; }
+        public int? AmountOfCompletedLessons { get; set; }
         public int MembershipId { get; set; }
         public Membership Membership { get; set; }
         public int ThemeId { get; set; }

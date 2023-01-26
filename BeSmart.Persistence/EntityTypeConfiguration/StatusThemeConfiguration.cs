@@ -13,6 +13,10 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
             builder.Property(s => s.Status)
                 .HasDefaultValue("Не пройдено");
 
+            builder.Property(s => s.AmountOfCompletedLessons)
+                .HasColumnName("Amount_of_completed_lessons")
+                .HasDefaultValue(0);
+
             builder.Property(s => s.MembershipId)
                 .HasColumnName("Membersip_ID");
 

@@ -17,6 +17,16 @@ namespace BeSmart.Application.Service
             this.mapper = mapper;
         }
 
+        // в зависимости от значения верности ответа  увеличивает кол-во  верных/неверных ответов в статусТеста
+        public async Task<StatusTest> CheckAnswerAndUpdateStatusTest(bool fidelity, int statusTestId)
+        {
+            var updated = await repoManager.StatusTest.UpdateAnswerFieldInStatusTestAsync(fidelity, statusTestId);
+
+            if (updated == null) return null;
+
+            return updated;
+        }
+
         public async Task<List<AnswerDTO>>? GetAllAnswersAsync()
         {
             var answers = await repoManager.Answer.GetAllAsync();

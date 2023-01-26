@@ -48,10 +48,10 @@ namespace BeSmart.WebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("withQuestions/{id}")]
-        public async Task<ActionResult<TestWithQuestionsDTO>> GetTestWithQuestions(int id)
+        [HttpGet("withQuestionsWithAnswers/{testId}")]
+        public async Task<ActionResult<TestWithQuestionsDTO>> GetTestWithQuestionsWithAnswers(int testId)
         {
-            var testWithQuestionsDto = await serviceTest.GetTestWithQuestionsAsync(id);
+            var testWithQuestionsDto = await serviceTest.GetTestWithQuestionsAsync(testId);
 
             if (testWithQuestionsDto is null)
             {

@@ -12,6 +12,10 @@ namespace BeSmart.Persistence.EntityTypeConfiguration
 
             builder.Property(m => m.Status)
                 .HasDefaultValue("Не пройдено");
+            
+            builder.Property(s => s.AmountOfCompletedThemes)
+                .HasColumnName("Amount_of_completed_themes")
+                .HasDefaultValue(0);
 
             builder.HasOne(m=>m.Course)
                 .WithMany(q => q.Memberships)
