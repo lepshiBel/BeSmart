@@ -5,7 +5,7 @@ using BeSmart.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace UnitTests;
+namespace UnitTests.Repositories;
 
 public class QuestionRepositoryUnitTests
 {
@@ -17,7 +17,7 @@ public class QuestionRepositoryUnitTests
         var options = new DbContextOptionsBuilder()
             .UseInMemoryDatabase("test")
             .Options;
-        
+
         var context = new BeSmartDbContext(options);
         _context = context;
         _sut = new QuestionRepository(context);
@@ -34,7 +34,7 @@ public class QuestionRepositoryUnitTests
             new() {Id = 1, Text = "test",TestId = 1},
             new() {Id = 2, Text = "test2",TestId = 2},
         };
-        
+
         context.Questions.AddRange(data);
         context.SaveChanges();
     }
@@ -43,8 +43,8 @@ public class QuestionRepositoryUnitTests
     public async Task ShouldAddQuestion()
     {
         // Arrange
-        var data = new Question() {Id = 3, TestId = 1, Text = "asd"};
-        
+        var data = new Question() { Id = 3, TestId = 1, Text = "asd" };
+
         // Act
         await _sut.AddAsync(data);
 
@@ -69,17 +69,17 @@ public class QuestionRepositoryUnitTests
     {
         // Act
         var data = await _sut.GetAsync(1);
-        
+
         // Assert
         Assert.NotNull(data);
     }
-    
+
     [Fact]
     public async Task ShouldNotGetQuestion()
     {
         // Act
         var data = await _sut.GetAsync(5);
-        
+
         // Assert
         Assert.Null(data);
     }
@@ -90,7 +90,7 @@ public class QuestionRepositoryUnitTests
         var data = _context.Questions.FirstOrDefault(e => e.Id == 1);
         var newValue = "newTestValue";
         data.Text = newValue;
-        
+
         // Act
         await _sut.UpdateAsync(data);
 
