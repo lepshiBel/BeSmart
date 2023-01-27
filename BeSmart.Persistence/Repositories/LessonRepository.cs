@@ -27,6 +27,7 @@ namespace BeSmart.Persistence.Repositories
 
             old.Text = lesson.Text;
             old.Name = lesson.Name;
+            old.ThemeId= lesson.ThemeId;
             var updated = await base.UpdateAsync(id, old);
             return updated;
         }
