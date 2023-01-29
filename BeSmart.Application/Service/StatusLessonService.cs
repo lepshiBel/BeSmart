@@ -14,9 +14,9 @@ namespace BeSmart.Application.Service
             this.repositoryManger = repositoryManger;
         }
 
-        public async Task<StatusTheme> CheckIfThemeIsCompleted(StatusLesson updated)
+        public async Task<StatusTheme> CheckIfThemeIsCompletedAsync(StatusLesson updated)
         {
-            var statusTheme = repositoryManger.StatusTheme.CheckIfThemeIsPassed(updated.StatusThemeId);
+            var statusTheme = await repositoryManger.StatusTheme.CheckIfThemeIsPassedAsync(updated.StatusThemeId);
 
             if  (statusTheme is null) return null;
 

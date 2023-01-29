@@ -18,7 +18,7 @@ namespace BeSmart.WebApi.Controllers
 
         //[Authorize(Roles ="user, admin")]
         [HttpPut("PassTheLesson/{statusLessonId}")]
-        public async Task<ActionResult<StatusLesson>> PassTheLesson(int statusLessonId) //
+        public async Task<ActionResult<StatusLesson>> PassTheLesson(int statusLessonId) 
         {
             var updated = await statusLessonService.PassTheLesson(statusLessonId);
 
@@ -27,7 +27,7 @@ namespace BeSmart.WebApi.Controllers
                 return BadRequest("Passed statusLesson id is invalid or you have already completed this lesson");
             }
 
-            var updatedStatusTheme = await statusLessonService.CheckIfThemeIsCompleted(updated);
+            var updatedStatusTheme = await statusLessonService.CheckIfThemeIsCompletedAsync(updated);
 
             return updatedStatusTheme is null ?
                 Ok("Lesson marked as completed") :

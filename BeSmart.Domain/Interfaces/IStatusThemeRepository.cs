@@ -8,6 +8,6 @@ namespace BeSmart.Domain.Interfaces
         public Task<StatusTheme> UpdateStatusTheme(int statusThemeId, string newStatus);
         public Task<StatusTheme> UpdateAmountOfPassedLessons(int statusThemeId);
         public Task<StatusThemeWithLessons> GetStatusThemeWithStatusLessonsWithLessonsAsync(int statusThemeId);
-        public Task<StatusTheme> CheckIfThemeIsPassed(int statusThemeId);
+        public Task<StatusTheme> CheckIfThemeIsPassedAsync(int statusThemeId);
     }
 }

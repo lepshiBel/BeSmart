@@ -14,9 +14,8 @@ namespace BeSmart.Persistence.Repositories
         public async Task<StatusTest> AddStatusTestAsync(int testId, int statusThemeId)
         {
             var statusTest = new StatusTest() { TestId = testId, StatusThemeId = statusThemeId };
-            await context.StatusTests.AddAsync(statusTest);
-            await context.SaveChangesAsync();
-            return statusTest;
+            var created = await base.AddAsync(statusTest);
+            return created;
         }
 
         public async Task<StatusTest> GetStatusTestWithTest(int statusTestId)

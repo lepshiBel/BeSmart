@@ -17,34 +17,12 @@ namespace BeSmart.Persistence.Repositories
             await context.StatusLessons.AddAsync(statusLesson);
             await context.SaveChangesAsync();
             return statusLesson;
+
+            // todo 
+            //var statusTest = new StatusTest() { TestId = testId, StatusThemeId = statusThemeId };
+            //var created = await base.AddAsync(statusTest);
+            //return created;
         }
-
-        //public async Task<int> CheckIfThemeIsPassed(StatusLesson updated)
-        //{
-        //    var info = context.StatusLessons.Where(x => x.Id == updated.Id).Include(x => x.StatusTheme)
-        //        .ThenInclude(x => x.Theme)
-        //        .Select(s => new
-        //        {
-        //            StatusLessonId = s.Id,
-        //            StatusThemeId = s.StatusThemeId,
-        //            ThemeId = s.StatusTheme.ThemeId,
-        //            AmountOfLessonsInTheme = s.StatusTheme.Theme.CountLesson
-        //        }).FirstOrDefault();
-
-        //    var finishedLessons = await context.StatusLessons.Where(sl => sl.StatusThemeId == info.StatusThemeId & sl.Status == "Пройден").ToListAsync();
-
-        //    if (finishedLessons.Count() == info.AmountOfLessonsInTheme)
-        //    {
-        //        foreach (var statusLesson in finishedLessons)
-        //        {
-        //            context.StatusLessons.Remove(statusLesson);
-        //        }
-
-        //        return finishedLessons[0].StatusThemeId;
-        //    }
-
-        //    return 0;
-        //}
 
         public async Task<StatusLesson> UpdateStatusAsync(StatusLesson statusLesson, string status)
         {

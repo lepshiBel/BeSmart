@@ -18,7 +18,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         //[Authorize(Roles ="user")]
-        [HttpPost("StartTest/{statusThemeId, testId}")]
+        [HttpPost("StartTest/{statusThemeId}, {testId}")]
         public async Task<ActionResult> StartTest(int statusThemeId, int testId)
         {
             await serviceStatusTest.StartTestAsync(statusThemeId, testId);

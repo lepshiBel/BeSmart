@@ -44,7 +44,7 @@ namespace BeSmart.Persistence.Repositories
 
         // проверяет равно ли кол-во пройденных уроков общему кол-ву уроков в теме, если равно,
         // то удаляет все записи из статус_лессон и статус_тест, относящиеся к пройденной теме
-        public async Task<StatusTheme> CheckIfThemeIsPassed(int statusThemeId)
+        public async Task<StatusTheme> CheckIfThemeIsPassedAsync(int statusThemeId)
         {
             var statusThemeWithTheme = await context.StatusThemes.Include(s => s.Theme).FirstOrDefaultAsync(s => s.Id == statusThemeId);
 
@@ -54,7 +54,7 @@ namespace BeSmart.Persistence.Repositories
                 var finishedTests = await context.StatusTests.Where(sl => sl.StatusThemeId == statusThemeId).ToListAsync();
                 context.StatusLessons.RemoveRange(finishedLessons);
                 context.StatusTests.RemoveRange(finishedTests); 
-                await context.SaveChangesAsync(); // TODO ??
+                await context.SaveChangesAsync();
 
                 return statusThemeWithTheme; 
             }

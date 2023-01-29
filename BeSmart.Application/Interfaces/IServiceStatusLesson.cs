@@ -6,6 +6,6 @@ namespace BeSmart.Application.Interfaces
     public interface IServiceStatusLesson
     {
         Task<StatusLesson> PassTheLesson(int statusLessonId);
-        Task<StatusTheme> CheckIfThemeIsCompleted(StatusLesson updated);
+        Task<StatusTheme> CheckIfThemeIsCompletedAsync(StatusLesson updated);
     }
 }
