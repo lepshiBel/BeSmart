@@ -7,7 +7,7 @@ public interface ICacheService
 {
     public string GetKey(string serviceName, string dataKey);
 
-    public Task CacheDataAsync<T>(string key, T data, TimeSpan? ttl = null);
+    public Task<T> CacheDataAsync<T>(string key, T data, TimeSpan? ttl = null);
 
     public Task<T> GetCachedDataAsync<T>(string key) where T : class;
 

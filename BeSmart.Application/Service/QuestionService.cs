@@ -19,9 +19,14 @@ namespace BeSmart.Application.Service
             _cacheService = cacheService;
         }
 
+        private string GetCacheKey(string dataId)
+        {
+            return _cacheService.GetKey(nameof(QuestionService), dataId);
+        }
+
         public async Task<List<QuestionDTO>> GetAllQuestionsAsync()
         {
-            var cacheKey = _cacheService.GetKey(nameof(QuestionService), "all");
+            var cacheKey = GetCacheKey("all");
             var cachedData = await _cacheService.GetCachedDataAsync<List<QuestionDTO>>(cacheKey);
 
             if (cachedData is not null)
@@ -42,7 +47,7 @@ namespace BeSmart.Application.Service
 
         public async Task<QuestionDTO> FindQuestionByIdAsync(int id)
         {
-            var cacheKey = _cacheService.GetKey(nameof(QuestionService), id.ToString());
+            var cacheKey = GetCacheKey(id.ToString());
             var cachedData = await _cacheService.GetCachedDataAsync<QuestionDTO>(cacheKey);
 
             if (cachedData is not null)
@@ -53,19 +58,25 @@ namespace BeSmart.Application.Service
             var question = await repoManager.Question.GetAsync(id);
             var mappedQuestion = question == null ? null : mapper.Map<QuestionDTO>(question);
 
-            if (mappedQuestion is not null)
-            {
-                await _cacheService.CacheDataAsync(cacheKey, mappedQuestion);
-            }
-
-            return mappedQuestion;
+            return mappedQuestion is not null ? await _cacheService.CacheDataAsync(cacheKey, mappedQuestion)
+                : mappedQuestion;
         }
 
         public async Task<QuestionWithAnswersDTO> GetQuestionWithAnswersAsync(int id)
         {
-            var questionsWithAnswers = await repoManager.Question.GetQuestionWithAnswersAsync(id);
+            var cacheKey = GetCacheKey($"with_answers-{id.ToString()}");
+            var cachedData = await _cacheService.GetCachedDataAsync<QuestionWithAnswersDTO>(cacheKey);
 
-            return questionsWithAnswers == null ? null : mapper.Map<QuestionWithAnswersDTO>(questionsWithAnswers);
+            if (cachedData is not null)
+            {
+                return cachedData;
+            }
+            
+            var questionsWithAnswers = await repoManager.Question.GetQuestionWithAnswersAsync(id);
+            var mappedResult = questionsWithAnswers == null ? null : mapper.Map<QuestionWithAnswersDTO>(questionsWithAnswers);
+
+            return mappedResult is not null ? await _cacheService.CacheDataAsync(cacheKey, mappedResult)
+                : mappedResult;
         }
 
         public async Task<QuestionDTO> AddQuestionAsync(QuestionCreationDTO questionDto)

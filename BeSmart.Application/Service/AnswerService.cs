@@ -19,9 +19,14 @@ namespace BeSmart.Application.Service
             _cacheService = cacheService;
         }
 
+        private string GetCacheKey(string dataId)
+        {
+            return _cacheService.GetKey(nameof(AnswerService), dataId);
+        }
+        
         public async Task<List<AnswerDTO>>? GetAllAnswersAsync()
         {
-            var cacheKey = _cacheService.GetKey(nameof(AnswerService), "all");
+            var cacheKey = GetCacheKey("all");
             var cachedData = await _cacheService.GetCachedDataAsync<List<AnswerDTO>>(cacheKey);
 
             if (cachedData is not null)
@@ -41,7 +46,7 @@ namespace BeSmart.Application.Service
 
         public async Task<AnswerDTO>? FindAnswerByIdAsync(int id)
         {
-            var cacheKey = _cacheService.GetKey(nameof(AnswerService), id.ToString());
+            var cacheKey = GetCacheKey(id.ToString());
             var cachedData = await _cacheService.GetCachedDataAsync<AnswerDTO>(cacheKey);
 
             if (cachedData is not null)
@@ -74,7 +79,7 @@ namespace BeSmart.Application.Service
 
             if (updatedMappedAnswer is not null)
             {
-                var cacheKey = _cacheService.GetKey(nameof(AnswerService), id.ToString());
+                var cacheKey = GetCacheKey(id.ToString());
                 await _cacheService.CacheDataAsync(cacheKey, updatedMappedAnswer);
             }
 
@@ -86,7 +91,7 @@ namespace BeSmart.Application.Service
             var deletedAnswer = await repoManager.Answer.DeleteAsync(id);
             if (deletedAnswer is not null)
             {
-                var cacheKey = _cacheService.GetKey(nameof(AnswerService), id.ToString());
+                var cacheKey = GetCacheKey(id.ToString());
                 await _cacheService.DeleteCachedData(cacheKey);
             }
 

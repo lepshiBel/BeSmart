@@ -21,7 +21,7 @@ public class CacheService : ICacheService
             .ToLower();
     }
 
-    public async Task CacheDataAsync<T>(string key, T data, TimeSpan? ttl = null)
+    public async Task<T> CacheDataAsync<T>(string key, T data, TimeSpan? ttl = null)
     {
         var serializedData = JsonSerializer.Serialize(data);
         await _distributedCache.SetStringAsync(key,
@@ -30,6 +30,8 @@ public class CacheService : ICacheService
             {
                 AbsoluteExpirationRelativeToNow = ttl ?? TimeSpan.FromHours(3)
             });
+
+        return data;
     }
 
     public async Task<T> GetCachedDataAsync<T>(string key) where T : class
