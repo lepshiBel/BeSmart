@@ -22,4 +22,15 @@
     <ProjectReference Include="..\BeSmart.Domain\BeSmart.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Service\ResponseCacheService.cs" />
+    <Compile Remove="Service\IResponseCacheService.cs" />
+    <Compile Remove="Installers\IInstaller.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cache" />
+    <Folder Include="Installers" />
+  </ItemGroup>
+
 </Project>

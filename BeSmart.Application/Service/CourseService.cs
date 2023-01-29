@@ -10,25 +10,54 @@ namespace BeSmart.Application.Service
     {
         private readonly IRepositoryManager repoManager;
         private readonly IMapper mapper;
+        private readonly ICacheService _cacheService;
 
-        public CourseService(IRepositoryManager repoManager, IMapper mapper)
+        public CourseService(IRepositoryManager repoManager, IMapper mapper, ICacheService cacheService)
         {
             this.repoManager = repoManager;
             this.mapper = mapper;
+            _cacheService = cacheService;
+        }
+
+        private string GetCacheKey(string dataId)
+        {
+            return _cacheService.GetKey(nameof(CourseService), dataId);
         }
 
         public async Task<List<CourseDTO>> GetAllCoursesAsync()
         {
-            var courses = await repoManager.Course.GetAllAsync();
+            var cacheKey = GetCacheKey("all");
+            var cachedData = await _cacheService.GetCachedDataAsync<List<CourseDTO>>(cacheKey);
 
-            return courses == null ? null : mapper.Map<List<CourseDTO>>(courses);
+            if (cachedData != null)
+            {
+                return cachedData;
+            }
+            
+            var courses = await repoManager.Course.GetAllAsync();
+            var mappedResult = courses == null ? null : mapper.Map<List<CourseDTO>>(courses);
+            
+            return mappedResult != null
+                ? await _cacheService.CacheDataAsync(cacheKey, mappedResult)
+                : mappedResult;
         }
 
         public async Task<CourseDTO> FindCourseByIdAsync(int id)
         {
-            var course = await repoManager.Course.GetAsync(id);
+            var cacheKey = GetCacheKey(id.ToString());
+            var cachedData = await _cacheService.GetCachedDataAsync<CourseDTO>(cacheKey);
 
-            return course == null ? null : mapper.Map<CourseDTO>(course);
+            if (cachedData != null)
+            {
+                return cachedData;
+            }
+            
+            var course = await repoManager.Course.GetAsync(id);
+            var mappedResult = course == null ? null : mapper.Map<CourseDTO>(course);
+            
+            return mappedResult != null
+                ? await _cacheService.CacheDataAsync(cacheKey, mappedResult)
+                : mappedResult;
         }
 
         public async Task<CourseDTO> AddCourseAsync(CourseCreationDTO courseCreationDto)
@@ -41,14 +70,30 @@ namespace BeSmart.Application.Service
 
         public async Task<Course> DeleteCourseAsync(int id)
         {
-            return await repoManager.Course.DeleteAsync(id);
+            var result = await repoManager.Course.DeleteAsync(id);
+
+            var cacheKey = GetCacheKey(id.ToString());
+            await _cacheService.DeleteCachedData(cacheKey);
+
+            return result;
         }
 
         public async Task<CourseWithThemesDTO> GetCourseWithThemesAsync(int id)
         {
-            var courseWithThemes = await repoManager.Course.GetCourseWithThemesAsync(id);
+            var cacheKey = GetCacheKey($"-with-themes-{id.ToString()}");
+            var cachedData = await _cacheService.GetCachedDataAsync<CourseWithThemesDTO>(cacheKey);
 
-            return courseWithThemes == null ? null : mapper.Map<CourseWithThemesDTO>(courseWithThemes);
+            if (cachedData != null)
+            {
+                return cachedData;
+            }
+            
+            var courseWithThemes = await repoManager.Course.GetCourseWithThemesAsync(id);
+            var mappedResult = courseWithThemes == null ? null : mapper.Map<CourseWithThemesDTO>(courseWithThemes);
+            
+            return mappedResult != null
+                ? await _cacheService.CacheDataAsync(cacheKey, mappedResult)
+                : mappedResult;
         }
 
         public async Task<CourseDTO> UpdateCourseAsync(int id, CourseUpdateDTO courseDto)
@@ -56,7 +101,12 @@ namespace BeSmart.Application.Service
             var courseToUpdate = mapper.Map<Course>(courseDto);
             var updatedCourse = await repoManager.Course.UpdateAsync(id, courseToUpdate);
 
-            return updatedCourse == null ? null : mapper.Map<CourseDTO>(updatedCourse);
+            var mappedResult = updatedCourse == null ? null : mapper.Map<CourseDTO>(updatedCourse);
+
+            var cacheKey = GetCacheKey(id.ToString());
+            return mappedResult != null
+                ? await _cacheService.CacheDataAsync(cacheKey, mappedResult)
+                : mappedResult;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BeSmart.Domain.Interfaces;
+﻿using BeSmart.Application.Service;
+using BeSmart.Domain.Interfaces;
 using BeSmart.Persistence.Data;
 using BeSmart.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,14 @@ public static class ConfigureServicesExtension
             });
         });
 
+        services.AddStackExchangeRedisCache(options =>
+        {
+            var connectionString = configuration.GetConnectionString("Redis");
+            options.Configuration = connectionString;
+        });
+
+        services.AddSingleton<ICacheService, CacheService>();
+        
         return services;
     }
 }

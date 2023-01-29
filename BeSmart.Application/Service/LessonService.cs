@@ -10,29 +10,72 @@ namespace BeSmart.Application.Service
     {
         private readonly IRepositoryManager repoManager;
         private readonly IMapper mapper;
+        private readonly ICacheService _cacheService;
 
-        public LessonService(IRepositoryManager repoManager, IMapper mapper)
+        public LessonService(IRepositoryManager repoManager, IMapper mapper, ICacheService cacheService)
         {
             this.repoManager = repoManager;
             this.mapper = mapper;
+            _cacheService = cacheService;
         }
 
+        private string GetCacheKey(string dataId)
+        {
+            return _cacheService.GetKey(nameof(LessonService), dataId);
+        }
+        
         public async Task<List<LessonDTO>> GetAllLessonsAsync()
         {
+            var cacheKey = GetCacheKey("all");
+            var cachedData = await _cacheService.GetCachedDataAsync<List<LessonDTO>>(cacheKey);
+
+            if (cachedData != null)
+            {
+                return cachedData;
+            }
+            
             var lessons = await repoManager.Lesson.GetAllAsync();
-            return lessons == null ? null : mapper.Map<List<LessonDTO>>(lessons);
+            var mappedResult = lessons == null ? null : mapper.Map<List<LessonDTO>>(lessons);
+            
+            return mappedResult != null
+                ? await _cacheService.CacheDataAsync(cacheKey, mappedResult)
+                : mappedResult;
         }
 
         public async Task<LessonDTO> FindLessonByIdAsync(int id)
         {
+            var cacheKey = GetCacheKey(id.ToString());
+            var cachedData = await _cacheService.GetCachedDataAsync<LessonDTO>(cacheKey);
+
+            if (cachedData != null)
+            {
+                return cachedData;
+            }
+            
             var lesson = await repoManager.Lesson.GetAsync(id);
-            return lesson == null ? null : mapper.Map<LessonDTO>(lesson);
+            var mappedResult = lesson == null ? null : mapper.Map<LessonDTO>(lesson);
+            
+            return mappedResult != null
+                ? await _cacheService.CacheDataAsync(cacheKey, mappedResult)
+                : mappedResult;
         }
 
         public async Task<LessonWithCardsDTO> GetLessonWithCardsAsync(int id)
         {
+            var cacheKey = GetCacheKey($"-with-cards-{id.ToString()}");
+            var cachedData = await _cacheService.GetCachedDataAsync<LessonWithCardsDTO>(cacheKey);
+
+            if (cachedData != null)
+            {
+                return cachedData;
+            }
+            
             var lessonWithCards = await repoManager.Lesson.GetLessonWithCardsAsync(id);
-            return lessonWithCards == null ? null : mapper.Map<LessonWithCardsDTO>(lessonWithCards);
+            var mappedResult = lessonWithCards == null ? null : mapper.Map<LessonWithCardsDTO>(lessonWithCards);
+            
+            return mappedResult != null
+                ? await _cacheService.CacheDataAsync(cacheKey, mappedResult)
+                : mappedResult;
         }
 
         public async Task<LessonDTO> AddLessonAsync(LessonCreationDTO lessonCreationDto)
@@ -46,12 +89,22 @@ namespace BeSmart.Application.Service
         {
             var lesson = mapper.Map<Lesson>(lessonDto);
             var updated = await repoManager.Lesson.UpdateAsync(id, lesson);
-            return updated == null ? null : mapper.Map<LessonDTO>(updated);
+            var mappedResult = updated == null ? null : mapper.Map<LessonDTO>(updated);
+            
+            var cacheKey = GetCacheKey(id.ToString());
+            return mappedResult != null
+                ? await _cacheService.CacheDataAsync(cacheKey, mappedResult)
+                : mappedResult;
         }
 
         public async Task<Lesson> DeleteLessonAsync(int id)
         {
-            return await repoManager.Lesson.DeleteAsync(id);
+            var result = await repoManager.Lesson.DeleteAsync(id);
+
+            var cacheKey = GetCacheKey(id.ToString());
+            await _cacheService.DeleteCachedData(cacheKey);
+
+            return result;
         }
     }
 }
