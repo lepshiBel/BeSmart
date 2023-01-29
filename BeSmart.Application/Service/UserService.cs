@@ -27,7 +27,7 @@ namespace BeSmart.Application.Service
         {
             var payload = await tokenService.GoogleTokenValidateAsync(googleToken);
             
-            var user = new User(payload.Name, payload.Email);
+            var user = new User() { Username = payload.Name, Email = payload.Email };
 
             var hmac = new HMACSHA512();
 

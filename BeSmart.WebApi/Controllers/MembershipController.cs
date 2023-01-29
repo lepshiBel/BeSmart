@@ -19,7 +19,7 @@ namespace BeSmart.WebApi.Controllers
             this.userService = userService;
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpGet(nameof(GetAllMemberships))]
         public async Task<ActionResult<List<Membership>>> GetAllMemberships()
         {
@@ -27,7 +27,7 @@ namespace BeSmart.WebApi.Controllers
 
             if (!memberships.Any())
             {
-                return NoContent();
+                return Ok("Nothing was found");
             }
 
             return Ok(memberships);
@@ -39,14 +39,13 @@ namespace BeSmart.WebApi.Controllers
         {
             //var userId = userService.GetCurrentUserId(HttpContext);
 
-            //if (userId == 0) return BadRequest("");
             int userId = 1;
 
             var memberships = await serviceMembership.GetAllMembershipsForUserAsync(userId);
 
             if (memberships == null)
             {
-                return NoContent();
+                return Ok("Nothing was found");
             }
 
             return Ok(memberships);
@@ -60,7 +59,7 @@ namespace BeSmart.WebApi.Controllers
 
             if (membership == null)
             {
-                return NoContent();
+                return BadRequest("Passed membershipId is invalid");
             }
 
             return Ok(membership);
@@ -68,11 +67,10 @@ namespace BeSmart.WebApi.Controllers
 
         //[Authorize(Roles ="user")]
         [HttpPost("StartNewCourse/{courseId}")]
-        public async Task<ActionResult> StartNewCourse(int courseId) // TODO проверка на валидность courseId
+        public async Task<ActionResult> StartNewCourse(int courseId)
         {
             //var userId = userService.GetCurrentUserId(HttpContext);
 
-            //if (userId == 0) return BadRequest();
             int userId = 1;
 
             bool isExisted = serviceMembership.CheckMembershipAsync(courseId, userId);
@@ -102,12 +100,13 @@ namespace BeSmart.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPut("Delete/{membershipId}")]
-        //[Authorize(Roles = "user")]
-        public async Task<ActionResult> FinishTheCourse(int membershipId)
-        {
-            throw new NotImplementedException();
-        }
+        // TODO implement the method
+        //[HttpPut("Delete/{membershipId}")]
+        ////[Authorize(Roles = "user")]
+        //public async Task<ActionResult> FinishTheCourse(int membershipId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
     }
 }

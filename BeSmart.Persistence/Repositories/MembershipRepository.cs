@@ -17,12 +17,7 @@ namespace BeSmart.Persistence.Repositories
             return membership == null? false: true;
         }
 
-        public override async Task<List<Membership>> GetAllAsync()
-        {
-            return await context.Memberships.Include(x=>x.User).ToListAsync();
-        }
-
-        public async Task<List<Membership>> GetAllMembershipsWithUserAsync()
+        public async Task<List<Membership>> GetAllMembershipsWithUsersAsync()
         {
             var membershipsWithUsers = await context.Memberships.Include(x => x.User).ToListAsync();
             return membershipsWithUsers;
@@ -32,18 +27,19 @@ namespace BeSmart.Persistence.Repositories
         {
             var memberships = await context.Memberships.Where(m => m.UserId==userId)
                 .Include(x => x.Course)
-                .Include(m=>m.Course.Category)
+                .ThenInclude(c => c.Category)
                 .ToListAsync();
 
             return memberships;
         }
 
         public async Task<Membership> GetMembershipWithThemesAsync(int membershipId) 
-            // TODO load only necessary fields
         {
-            var membership = await context.Memberships.Include(m=>m.Course).FirstOrDefaultAsync(x => x.Id == membershipId);
+            var membership = await context.Memberships.FirstOrDefaultAsync(x => x.Id == membershipId);
 
             if (membership == null) return null;
+
+            await context.Entry(membership).Reference(m => m.Course).LoadAsync();
 
             await context.Entry(membership).Collection(x => x.StatusThemes).LoadAsync();
 
