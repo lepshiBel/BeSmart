@@ -14,12 +14,6 @@ namespace BeSmart.Application.Service
             this.repositoryManger = repositoryManger;
         }
 
-        public async Task<StatusLesson> AddStatusLessonAsync(int lessonId, int statusThemeId)
-        {
-            var createdStatus = await repositoryManger.StatusLesson.AddStatusLessonAsync(lessonId, statusThemeId);
-            return createdStatus;
-        }
-
         public async Task<StatusTheme> CheckIfThemeIsCompleted(StatusLesson updated)
         {
             var statusTheme = repositoryManger.StatusTheme.CheckIfThemeIsPassed(updated.StatusThemeId);

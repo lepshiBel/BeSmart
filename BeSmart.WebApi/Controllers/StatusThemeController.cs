@@ -19,26 +19,24 @@ namespace BeSmart.WebApi.Controllers
         {
             var existed = await serviceStatusTheme.CheckIfThemeStarted(statusThemeId);
 
-            if (existed is null) return Ok("You already have passed this theme");
+            if (existed is null) return Ok("You have already passed this theme");
 
             var updatedTheme = await serviceStatusTheme.StartNewThemeAsync(existed);
 
             if (updatedTheme is null) return BadRequest("Passed statusThemeId is not valid");
 
-            return Ok(updatedTheme);
+            return Ok("New theme started");
         }
 
         //[Authorize(Roles ="user, admin")]
         [HttpGet("GetStatusThemeWithLessons/{statusThemeId}")]
-        public async Task<ActionResult> GetStatusThemeWithLessons(int statusThemeId) // TODO проверка на валидность statusThemeId
+        public async Task<ActionResult> GetStatusThemeWithLessons(int statusThemeId) 
         {
             var existed = await serviceStatusTheme.CheckIfThemeStarted(statusThemeId);
 
             if (existed != null) return Ok("You haven't started this theme");
 
             var statusTheme = await serviceStatusTheme.GetStatusThemeWithStatusLessons(statusThemeId);
-
-            if (statusTheme is null) return BadRequest("Passed statusThemeId is not valid");
 
             return Ok(statusTheme);
         }

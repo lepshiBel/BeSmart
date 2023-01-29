@@ -9,23 +9,14 @@ namespace BeSmart.Application.Service
     public class StatusThemeService : IServiceStatusTheme
     {
         private readonly IRepositoryManager repositoryManger;
-        private readonly IServiceStatusLesson serviceStatusLesson;
         private readonly IMapper mapper;
 
-        public StatusThemeService(IRepositoryManager repositoryManger, 
-            IServiceStatusLesson serviceStatusLesson,
-            IMapper mapper)
+        public StatusThemeService(IRepositoryManager repositoryManger, IMapper mapper)
         {
             this.repositoryManger = repositoryManger;
-            this.serviceStatusLesson = serviceStatusLesson;
             this.mapper = mapper;
         }
 
-        public async Task<StatusTheme> AddStatusThemeAsync(int themeId, int membershipId)
-        {
-            var createdStatus = await repositoryManger.StatusTheme.AddStatusTheme(themeId, membershipId);
-            return createdStatus;
-        }
         public async Task<StatusTheme>? CheckIfThemeStarted(int statusThemeId)
         {
             var statusTheme = await repositoryManger.StatusTheme.GetAsync(statusThemeId);
@@ -55,7 +46,7 @@ namespace BeSmart.Application.Service
 
             foreach (var lesson in themeWithLessons.Lessons)
             {
-                await serviceStatusLesson.AddStatusLessonAsync(lesson.Id, updated.Id);
+                await repositoryManger.StatusLesson.AddStatusLessonAsync(lesson.Id, updated.Id);
             }
 
             return updated;

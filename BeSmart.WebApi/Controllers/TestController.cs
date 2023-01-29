@@ -78,7 +78,7 @@ namespace BeSmart.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("Update/{id}")]
-        public async Task<ActionResult<Test>> Update(int id, TestUpdateDTO testUpdateDto)
+        public async Task<ActionResult<Test>> Update(int id, TestUpdateDTO testUpdateDto) 
         {
             var updatedTest = await serviceTest.UpdateTestAsync(id, testUpdateDto);
 

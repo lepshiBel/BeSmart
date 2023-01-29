@@ -59,10 +59,9 @@ namespace UnitTests.Services
 
             var courses = new List<Course>()
             {
-                new ()  { Id = 1, Name="course", CountOfThemes=0, CreatedById=1, CategoryId=3},
-                new ()  { Id = 2,  Name="course", CountOfThemes=0, CreatedById=1, CategoryId=4},
+                new ()  { Id = 1, Name="course1", CountOfThemes=2, CreatedById=1, CategoryId=3},
+                new ()  { Id = 2,  Name="course2", CountOfThemes=0, CreatedById=1, CategoryId=4},
             };
-
 
             context.Memberships.AddRange(memberships);
             context.Courses.AddRange(courses);
@@ -87,6 +86,16 @@ namespace UnitTests.Services
 
             // Assert
             Assert.Equal(1, data.Count);
+        }
+
+        [Fact]
+        public async Task ShouldNotReturnAllMembershipsForUser()
+        {
+            // Act
+            var data = await membershipService.GetAllMembershipsForUserAsync(5);
+
+            // Assert
+            Assert.Null(data);
         }
 
         [Fact]
@@ -151,14 +160,5 @@ namespace UnitTests.Services
             Assert.NotNull(actual);
         }
     }
-    
-
-
 }
 
-//Task<List<Membership>> GetAllMembershipsAsync();
-//Task<List<MembershipDTO>> GetAllMembershipsForUserAsync(int userId);
-//Task<MembershipWithThemesDTO> GetMembershipWithThemesForUserAsync(int membershipId);
-
-//Task<Membership> CreateNewMembershipAsync(int courseId, int userId);
-//Task<Membership> DeleteMembershipAsync(int id);
