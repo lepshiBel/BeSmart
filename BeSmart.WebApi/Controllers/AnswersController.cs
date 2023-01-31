@@ -18,7 +18,7 @@ namespace BeSmart.WebApi.Controllers
         }
 
         //[Authorize(Roles ="user")]
-        [HttpPost("GiveTheAnswerToTheQuestion/{answerId, statusTestId}")]
+        [HttpPost("GiveTheAnswerToTheQuestion/{answerId}, {statusTestId}")]
         public async Task<ActionResult> GiveTheAnswerToTheQuestion(int answerId, int statusTestId)
         {
             var passedAnswer = await serviceAnswer.FindAnswerByIdAsync(answerId);

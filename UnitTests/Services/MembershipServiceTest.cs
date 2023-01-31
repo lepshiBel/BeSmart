@@ -24,7 +24,7 @@ namespace UnitTests.Services
                .Options;
 
             var dbContext = new BeSmartDbContext(options);
-            this.context = dbContext;
+            context = dbContext;
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
@@ -79,7 +79,7 @@ namespace UnitTests.Services
         }
 
         [Fact]
-        public async Task ShouldReturnAllMembershipsForUser()
+        public async Task ShouldReturnAllMembershipsForUser()// returns null
         {
             // Act
             var data = await membershipService.GetAllMembershipsForUserAsync(1);
