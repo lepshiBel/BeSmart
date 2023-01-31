@@ -71,7 +71,7 @@ namespace UnitTests.Services
         [Fact]
         public void ShouldCalculateTheMark()
         {
-            // Arrange
+            // Arrange 
             int total = 10;
             int faithfull = 8;
             int incorrect = 2;
