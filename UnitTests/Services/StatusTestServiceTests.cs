@@ -58,5 +58,39 @@ namespace UnitTests.Services
             };
         }
 
+        [Fact]
+        public async Task ShouldStartTestAsync()
+        {
+            // Act
+            var created = await service.StartTestAsync(1, 1);
+
+            //Assert
+            Assert.NotNull(created);
+        }
+
+        [Fact]
+        public void ShouldCalculateTheMark()
+        {
+            // Arrange
+            int total = 10;
+            int faithfull = 8;
+            int incorrect = 2;
+
+            // Act
+            var result = service.CalculateTheMark(total, faithfull, incorrect);
+
+            //Assert
+            Assert.Equal(8, result);
+        }
+
+        [Fact]
+        public async Task ShouldFihishTheAttemptAsync()
+        {
+            // Act
+            var finishTheAttempt = await service.FihishTheAttemptAsync(1);
+
+            //Assert
+            Assert.Null(finishTheAttempt);
+        }
     }
 }
