@@ -59,12 +59,27 @@ namespace UnitTests.Services
 
             var courses = new List<Course>()
             {
-                new ()  { Id = 1, Name="course1", CountOfThemes=2, CreatedById=1, CategoryId=3},
-                new ()  { Id = 2,  Name="course2", CountOfThemes=0, CreatedById=1, CategoryId=4},
+                new ()  { Id = 1, Name="course1", CountOfThemes=2, CreatedById=1, CategoryId=1 },
+                new ()  { Id = 2,  Name="course2", CountOfThemes=0, CreatedById=1, CategoryId=2 },
+            };
+
+            var categories = new List<Category>()
+            {
+                new ()  { Id = 1, Name="category1" },
+                new ()  { Id = 2, Name="category2" },
+            };
+
+            var users = new List<User>()
+            {
+                new ()  { Id = 1, Username = "kiko1", Email = "kikomail1@gmail.com", PasswordHash = new byte[10], PasswordSalt = new byte[10], Role = "user" },
+                new ()  { Id = 2, Username = "kiko2", Email = "kikomail2@gmail.com", PasswordHash = new byte[10], PasswordSalt = new byte[10], Role = "user" },
+                new ()  { Id = 3, Username = "kiko3", Email = "kikomail3@gmail.com", PasswordHash = new byte[10], PasswordSalt = new byte[10], Role = "user" },
             };
 
             context.Memberships.AddRange(memberships);
             context.Courses.AddRange(courses);
+            context.Categories.AddRange(categories);
+            context.Users.AddRange(users);
             context.SaveChanges();
         }
 
