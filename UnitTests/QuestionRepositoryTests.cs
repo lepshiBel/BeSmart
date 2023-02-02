@@ -92,7 +92,7 @@ public class QuestionRepositoryUnitTests
         data.Text = newValue;
         
         // Act
-        await _sut.UpdateAsync(data);
+        await _sut.UpdateAsync(data.Id, data);
 
         // Assert
         var actual = _context.Questions.First(e => e.Id == 1);
