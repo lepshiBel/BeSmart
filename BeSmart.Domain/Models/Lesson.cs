@@ -13,4 +13,5 @@ public class Lesson : EntityBase
     public Theme Theme { get; set; }
 
     public List<Card> Cards { get; set; }
+    public List<StatusLesson> StatusLessons { get; set; }
 }

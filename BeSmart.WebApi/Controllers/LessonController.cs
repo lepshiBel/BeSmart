@@ -61,13 +61,8 @@ namespace BeSmart.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult<Lesson>> Update(int id, LessonDTO lessonDto)
+        public async Task<ActionResult<Lesson>> Update(int id, LessonCreationDTO lessonDto)
         {
-            if (id != lessonDto.Id)
-            {
-                return BadRequest("Lesson object is invalid");
-            }
-
             var updated = await serviceLesson.UpdateLessonAsync(id, lessonDto);
 
             if (updated is null)

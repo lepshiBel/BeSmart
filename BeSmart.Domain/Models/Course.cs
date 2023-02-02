@@ -15,5 +15,6 @@ public class Course : EntityBase
 
     public Category Category { get; set; }
     public List<Theme> CourseThemes { get; set; }
+    public List<Membership> Memberships { get; set; }
 
 }

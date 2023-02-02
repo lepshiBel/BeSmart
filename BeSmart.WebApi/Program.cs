@@ -15,6 +15,7 @@ using BeSmart.Application;
 using BeSmart.WebApi.Middleware;
 using BeSmart.Persistence.Data;
 
+
 var builder = WebApplication.CreateBuilder(args);
 var key = SomeOptions.GenerateBytes();
 
@@ -26,6 +27,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSwaggerGen(swagger =>
 {
+    // AuthorizationUrl = "https://accounts.google.com/o/oauth2/v2/auth"
+    // TokenUrl = "https://www.googleapis.com/oauth2/v4/token"
+    // ClientId = "1093291377089-eu4kbk7loa9tsvhdf1jrpubk2spgoqj7.apps.googleusercontent.com"
+    // ClientSecret = "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"
+
     // To Enable authorization using Swagger (JWT)
     swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
@@ -81,7 +87,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 
-//builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceAnswer, AnswerService>();
 builder.Services.AddScoped<IServiceCategory, CategoryService>();
 builder.Services.AddScoped<IServiceTest, TestService>();
@@ -92,10 +98,12 @@ builder.Services.AddScoped<IServiceCourse, CourseService>();
 builder.Services.AddScoped<IServiceTheme, ThemeService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.Services.AddScoped<IServiceMembership, MembershipService>();
+builder.Services.AddScoped<IServiceStatusTheme, StatusThemeService>();
+builder.Services.AddScoped<IServiceStatusLesson, StatusLessonService>();
+builder.Services.AddScoped<IServiceStatusTest, StatusTestService>();
 
 builder.Services.ConfigureServices(builder.Configuration);
-
 
 var app = builder.Build();
 

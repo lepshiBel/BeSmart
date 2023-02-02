@@ -7,7 +7,7 @@ namespace BeSmart.Application.Validators.Category
     {
         public CategoryCreateValidator()
         {
-            RuleFor(a=>a.Text).Length(3, 200);
+            RuleFor(a=>a.Name).Length(3, 200);
         }
     }
 }

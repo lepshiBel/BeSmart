@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BeSmart.Application.Interfaces;
+using BeSmart.Domain.DTOs;
 using BeSmart.Domain.DTOs.Theme;
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
@@ -20,9 +21,10 @@ namespace BeSmart.Application.Service
             var themes = await repoManager.Theme.GetAllAsync();
             return themes == null ? null : mapper.Map<List<ThemeDTO>>(themes);
         }
-        public Task<ThemeDTO> FindThemeByIdAsync(int id)
+        public async Task<ThemeDTO> FindThemeByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var theme = await repoManager.Theme.GetAsync(id);
+            return theme == null ? null : mapper.Map<ThemeDTO>(theme);
         }
         public async Task<ThemeWithLessonsDTO> GetThemeWithLessonsAsync(int id)
         {

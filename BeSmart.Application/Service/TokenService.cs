@@ -1,29 +1,40 @@
-﻿using BeSmart.Application.Interfaces;
+﻿using AutoMapper;
+using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.User;
+using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
+using Google.Apis.Auth;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace BeSmart.Application.Service
 {
     public class TokenService : ITokenService
     {
-        private readonly IUserService userService;
-        public TokenService(IUserService userService)
+        private readonly IConfiguration configuration;
+
+        public TokenService(IConfiguration configuration)
         {
-            this.userService = userService;
+            this.configuration = configuration;
         }
 
-        public async Task<UserLoginResponseDTO> Authenticate(UserLoginRequestDTO userDto)
+        public async Task<GoogleJsonWebSignature.Payload> GoogleTokenValidateAsync(string tokenUrl)
         {
-            var user = await userService.FindUserByNameAsync(userDto);
+            var settings = new GoogleJsonWebSignature.ValidationSettings
+            {
+                Audience = new List<string>
+                {
+                    configuration["Authentication:Google:ClientId"]
+                }
+            };
 
-            if (user == null) return null;
+            var payload = await GoogleJsonWebSignature.ValidateAsync(tokenUrl, settings);
 
-            var token = GenerateToken(user);
-            var response = new UserLoginResponseDTO(user, token);
-            return response;
+            return payload;
         }
 
         public string GenerateToken(User user)
