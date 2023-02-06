@@ -141,7 +141,7 @@ app.Run();
 
 
 
-static void ConfigureLogging()
+void ConfigureLogging()
 {
     var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
     var configuration = new ConfigurationBuilder()
@@ -153,10 +153,11 @@ static void ConfigureLogging()
 
     Log.Logger = new LoggerConfiguration()
         .Enrich.FromLogContext()
+        .Enrich.WithEnvironmentName()
         .WriteTo.Debug()
         .WriteTo.Console()
-        .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
-        .Enrich.WithProperty("Environment", environment)
+        .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment!))
+        .Enrich.WithProperty("Environment", environment!)
         .ReadFrom.Configuration(configuration)
         .CreateLogger();
 }
@@ -166,6 +167,6 @@ ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, 
     return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
     {
         AutoRegisterTemplate = true,
-        IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+        IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name?.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
     };
 }

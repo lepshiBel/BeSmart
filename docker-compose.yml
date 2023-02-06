@@ -7,10 +7,14 @@ services:
     build:
       context: .
       dockerfile: BeSmart.WebApi/Dockerfile
+    networks:
+    - besmart
 
   postgres.db:
     image: postgres:latest
     container_name: postgres.db.container
+    networks:
+    - besmart
 
   elasticsearch:
    container_name: elasticsearch
@@ -24,6 +28,8 @@ services:
     - xpack.watcher.enabled=false
     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     - discovery.type=single-node
+   networks:
+    - besmart
      
   kibana:
    container_name: kibana
@@ -34,6 +40,12 @@ services:
     - elasticsearch
    environment:
     - ELASTICSEARCH_URL=http://localhost:9200
+   networks:
+    - besmart
 
 volumes:
   elasticsearch-data:
+
+networks:
+  besmart:
+    driver: bridge
