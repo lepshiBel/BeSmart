@@ -34,6 +34,15 @@ services:
       - customer_data:/var/lib/postgresql/data/ 
     networks:
       - dev
+      
+  redis:
+    image: 'bitnami/redis:latest'
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - dev
 
 volumes:
   customer_data:
