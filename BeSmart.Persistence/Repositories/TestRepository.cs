@@ -2,6 +2,7 @@
 using BeSmart.Domain.Interfaces;
 using BeSmart.Domain.Models;
 using BeSmart.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeSmart.Persistence.Repositories
 {
@@ -11,8 +12,7 @@ namespace BeSmart.Persistence.Repositories
 
         public async Task<Test> GetTestWithQuestionsAsync(int id)
         {
-            var test = await context.Tests.FindAsync(id);
-            await context.Entry(test).Collection(q => q.Questsions).LoadAsync();
+            var test = await context.Tests.Include(t => t.Questsions).ThenInclude(q => q.Answers).FirstOrDefaultAsync(t => t.Id == id);
             return test;
         }
         public override async Task<Test> UpdateAsync(int id, Test test)

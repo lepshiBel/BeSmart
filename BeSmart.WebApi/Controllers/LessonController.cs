@@ -1,6 +1,7 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Lesson;
 using BeSmart.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -16,6 +17,7 @@ namespace BeSmart.WebApi.Controllers
             this.serviceLesson = serviceLesson;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<LessonDTO>>> GetAll()
         {
@@ -29,6 +31,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(lessonsDto.OrderBy(a => a.Id));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<LessonDTO>> Get(int id)
         {
@@ -42,6 +45,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(lessonDto);
         }
 
+        [AllowAnonymous]
         [HttpGet("withCards/{id}")]
         public async Task<ActionResult<LessonWithCardsDTO>> GetLessonWithCards(int id)
         {
@@ -55,14 +59,10 @@ namespace BeSmart.WebApi.Controllers
             return Ok(lessonWithCardsDto);
         }
 
+        [AllowAnonymous]
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult<Lesson>> Update(int id, LessonDTO lessonDto)
+        public async Task<ActionResult<Lesson>> Update(int id, LessonCreationDTO lessonDto)
         {
-            if (id != lessonDto.Id)
-            {
-                return BadRequest("Lesson object is invalid");
-            }
-
             var updated = await serviceLesson.UpdateLessonAsync(id, lessonDto);
 
             if (updated is null)
@@ -73,7 +73,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(updated);
         }
 
-
+        [AllowAnonymous]
         [HttpPost("Create/{themeId}")]
         public async Task<ActionResult<Lesson>> Post(int themeId, LessonCreationDTO lessonCreationDto)
         {
@@ -88,6 +88,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdLesson);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {

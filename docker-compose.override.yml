@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  besmart.webapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres.db
+    networks:
+      - besmart-network
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  postgres.db:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=besmart
+    ports:
+      - 5432:5432
+    networks:
+      - besmart-network
+
+networks:
+  besmart-network:
+    driver: bridge

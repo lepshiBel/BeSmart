@@ -42,7 +42,7 @@ namespace BeSmart.Application.Service
             return createdLesson == null ? null : mapper.Map<LessonDTO>(createdLesson);
         }
 
-        public async Task<LessonDTO> UpdateLessonAsync(int id, LessonDTO lessonDto)
+        public async Task<LessonDTO> UpdateLessonAsync(int id, LessonCreationDTO lessonDto)
         {
             var lesson = mapper.Map<Lesson>(lessonDto);
             var updated = await repoManager.Lesson.UpdateAsync(id, lesson);

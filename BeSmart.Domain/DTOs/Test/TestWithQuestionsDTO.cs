@@ -6,6 +6,6 @@ namespace BeSmart.Domain.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<QuestionDTO> Questions { get; set; }
+        public ICollection<QuestionWithAnswersDTO> QuestionsWithAnswers { get; set; }
     }
 }

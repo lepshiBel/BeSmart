@@ -10,5 +10,6 @@ namespace BeSmart.Application.Interfaces
         Task<AnswerDTO> AddAnswerAsync(AnswerCreationDTO answer);
         Task<AnswerDTO> UpdateAnswerAsync(int id, AnswerUpdateDTO answerUpdateDto);
         Task<Answer> DeleteAnswerAsync(int id);
+        Task<StatusTest> CheckAnswerAndUpdateStatusTest(bool fidelity, int statusTestId);
     }
 }

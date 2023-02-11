@@ -16,4 +16,5 @@ public class Theme : EntityBase
 
     public List<Lesson> Lessons { get; set; }
     public List<Test> Tests { get; set; }
+    public List<StatusTheme> StatusThemes { get; set; }
 }

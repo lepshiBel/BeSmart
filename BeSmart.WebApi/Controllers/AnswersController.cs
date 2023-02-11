@@ -1,6 +1,9 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Answer;
+using BeSmart.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace BeSmart.WebApi.Controllers
 {
@@ -9,13 +12,31 @@ namespace BeSmart.WebApi.Controllers
     public class AnswersController : ControllerBase
     {
         private readonly IServiceAnswer serviceAnswer;
+        private readonly ILogger<AnswersController> logger;
 
-        public AnswersController(IServiceAnswer serviceAnswer)
+        public AnswersController(IServiceAnswer serviceAnswer, ILogger<AnswersController> logger)
         {
             this.serviceAnswer = serviceAnswer;
+            this.logger = logger;
+        }
+
+        //[Authorize(Roles ="user")]
+        [HttpPost("GiveTheAnswerToTheQuestion/{answerId}, {statusTestId}")]
+        public async Task<ActionResult> GiveTheAnswerToTheQuestion(int answerId, int statusTestId)
+        {
+            var passedAnswer = await serviceAnswer.FindAnswerByIdAsync(answerId);
+
+            if (passedAnswer == null) return BadRequest("Passed answerId is invalid");
+
+            var updatedStatusTest = await serviceAnswer.CheckAnswerAndUpdateStatusTest(passedAnswer.Fidelity, statusTestId);
+
+            if (updatedStatusTest == null) return BadRequest("Passed statusTestId is invalid");
+
+            return Ok(updatedStatusTest);
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<AnswerDTO>>> GetAll()
         {
             var answersDto = await serviceAnswer.GetAllAnswersAsync();
@@ -25,9 +46,11 @@ namespace BeSmart.WebApi.Controllers
                 return NoContent();
             }
 
-            return Ok(answersDto.OrderBy(a => a.Id));
+            logger.LogInformation("Method GetAll worked");
+            return Ok(answersDto);
         }
-
+     
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<AnswerDTO>> Get(int id)
         {
@@ -38,9 +61,11 @@ namespace BeSmart.WebApi.Controllers
                 return NoContent();
             }
 
+            logger.LogInformation("Method Get worked");
             return Ok(answerDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Create/{questionId}")]
         public async Task<ActionResult> Post(int questionId, [FromBody]AnswerCreationDTO answerDto)
         {
@@ -49,12 +74,15 @@ namespace BeSmart.WebApi.Controllers
 
             if (createdAnswer is null)
             {
+                logger.LogError("Something went wrong in method Create answer");
                 return BadRequest("Answer object is invalid");
             }
 
+            logger.LogInformation("Method Create answer worked");
             return Ok(createdAnswer);
         }
 
+        [AllowAnonymous]
         [HttpPut("Update/{id}")]
         public async Task<ActionResult<AnswerDTO>> Update(int id, [FromBody]AnswerUpdateDTO answerUpdateDTO)
         {
@@ -62,12 +90,15 @@ namespace BeSmart.WebApi.Controllers
 
             if (updated is null)
             {
+                logger.LogError("Something went wrong in method Update answer");
                 return BadRequest("Answer object is invalid");
             }
 
+            logger.LogInformation("Method Create answer worked");
             return Ok(updated);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -75,9 +106,11 @@ namespace BeSmart.WebApi.Controllers
             
             if (entity == null)
             {
+                logger.LogError("Something went wrong in method Delete answer");
                 return BadRequest();
             }
 
+            logger.LogInformation("Method Delete answer worked");
             return Ok();
         }
     }

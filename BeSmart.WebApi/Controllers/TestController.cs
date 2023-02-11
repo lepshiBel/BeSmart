@@ -3,6 +3,7 @@ using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs;
 using BeSmart.Domain.DTOs.Test;
 using BeSmart.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeSmart.WebApi.Controllers
@@ -18,6 +19,7 @@ namespace BeSmart.WebApi.Controllers
             this.serviceTest = serviceTest;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<TestDTO>>> GetAll()
         {
@@ -31,6 +33,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(testsDto.OrderBy(a => a.Id));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<TestDTO>> Get(int id)
         {
@@ -44,10 +47,11 @@ namespace BeSmart.WebApi.Controllers
             return Ok(testDto);
         }
 
-        [HttpGet("withQuestions/{id}")]
-        public async Task<ActionResult<TestWithQuestionsDTO>> GetTestWithQuestions(int id)
+        [AllowAnonymous]
+        [HttpGet("withQuestionsWithAnswers/{testId}")]
+        public async Task<ActionResult<TestWithQuestionsDTO>> GetTestWithQuestionsWithAnswers(int testId)
         {
-            var testWithQuestionsDto = await serviceTest.GetTestWithQuestionsAsync(id);
+            var testWithQuestionsDto = await serviceTest.GetTestWithQuestionsAsync(testId);
 
             if (testWithQuestionsDto is null)
             {
@@ -57,6 +61,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(testWithQuestionsDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Create/{themeId}")]
         public async Task<ActionResult<Test>> Post(int themeId, TestCreationDTO testCreationDto)
         {
@@ -71,8 +76,9 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdTest);
         }
 
+        [AllowAnonymous]
         [HttpPost("Update/{id}")]
-        public async Task<ActionResult<Test>> Update(int id, TestUpdateDTO testUpdateDto)
+        public async Task<ActionResult<Test>> Update(int id, TestUpdateDTO testUpdateDto) 
         {
             var updatedTest = await serviceTest.UpdateTestAsync(id, testUpdateDto);
 
@@ -84,6 +90,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(updatedTest);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {

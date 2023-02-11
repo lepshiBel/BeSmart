@@ -5,19 +5,19 @@ using BeSmart.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace UnitTests;
+namespace UnitTests.Repositories;
 
 public class AnswerRepositoryUnitTests
 {
     private readonly IAnswerRepository _sut;
     private readonly BeSmartDbContext _context;
-    
+
     public AnswerRepositoryUnitTests()
     {
         var options = new DbContextOptionsBuilder()
             .UseInMemoryDatabase("test")
             .Options;
-        
+
         var context = new BeSmartDbContext(options);
         _context = context;
         _sut = new AnswerRepository(context);
@@ -35,18 +35,18 @@ public class AnswerRepositoryUnitTests
             new() {Id = 1, Text = "test", QuestionId = 1, Fidelity = true},
             new() {Id = 2, Text = "test2", QuestionId = 2, Fidelity = true},
         };
-        
+
         context.Answers.AddRange(data);
         context.SaveChanges();
     }
 
-    
+
     [Fact]
     public async Task ShouldAddAnswer()
     {
         // Arrange
-        var data = new Answer() {Id = 3, Fidelity = true, QuestionId = 1, Text = "asd"};
-        
+        var data = new Answer() { Id = 3, Fidelity = true, QuestionId = 1, Text = "asd" };
+
         // Act
         await _sut.AddAsync(data);
 
@@ -71,17 +71,17 @@ public class AnswerRepositoryUnitTests
     {
         // Act
         var data = await _sut.GetAsync(1);
-        
+
         // Assert
         Assert.NotNull(data);
     }
-    
+
     [Fact]
     public async Task ShouldNotGetAnswer()
     {
         // Act
         var data = await _sut.GetAsync(5);
-        
+
         // Assert
         Assert.Null(data);
     }
@@ -92,9 +92,9 @@ public class AnswerRepositoryUnitTests
         var data = _context.Answers.FirstOrDefault(e => e.Id == 1);
         var newValue = "newTestValue";
         data.Text = newValue;
-        
+
         // Act
-        await _sut.UpdateAsync(data);
+        await _sut.UpdateAsync(data.Id, data);
 
         // Assert
         var actual = _context.Answers.First(e => e.Id == 1);

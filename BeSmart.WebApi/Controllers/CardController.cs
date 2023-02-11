@@ -1,6 +1,8 @@
 ﻿using BeSmart.Application.Interfaces;
 using BeSmart.Domain.DTOs.Card;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BeSmart.WebApi.Controllers
 {
@@ -15,6 +17,7 @@ namespace BeSmart.WebApi.Controllers
             this.serviceCard = serviceCard;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<CardDTO>>> GetAll()
         {
@@ -28,6 +31,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(cardsDto.OrderBy(a => a.Id));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<CardDTO>> Get(int id)
         {
@@ -41,6 +45,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(cardDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Create/{lessonId}")]
         public async Task<ActionResult> Post(int lessonId, [FromBody]CardCreationDTO cardDto)
         {
@@ -55,6 +60,7 @@ namespace BeSmart.WebApi.Controllers
             return Ok(createdCard);
         }
 
+        [AllowAnonymous]
         [HttpPut("Update/{id}")]
         public async Task<ActionResult<CardDTO>> Update(int id, [FromBody]CardUpdateDTO cardUpdateDTO)
         {
@@ -68,6 +74,7 @@ namespace BeSmart.WebApi.Controllers
             return RedirectToAction("Get", "Cards", updated.Id);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -79,6 +86,19 @@ namespace BeSmart.WebApi.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet(nameof(GetRole))]
+        [Authorize(Roles = "user, admin")]
+        public ActionResult GetRole()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                var userClaims = identity.Claims;
+                return Ok(userClaims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value);
+            }
+            return BadRequest();
         }
     }
 }
